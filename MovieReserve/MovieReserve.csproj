@@ -87,8 +87,19 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="LoginForm.cs" />
+    <Compile Include="MovieInfoView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MoviesListPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReceiptView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ReservationData.cs" />
     <Compile Include="Resources\CornerPanel.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -102,8 +113,14 @@
     <Compile Include="Resources\RoundPanel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="SeatSelectionView.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MoviesListPanel.resx">
+      <DependentUpon>MoviesListPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
