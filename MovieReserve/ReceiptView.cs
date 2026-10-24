@@ -17,7 +17,64 @@ namespace MovieReserve
         private readonly Label _title, _capName, _capContact, _seatsKey, _seatsVal, _totalKey, _totalVal, _perSeat;
         private readonly TextBox _txtName, _txtContact;
         private readonly Button _btnPay;
+        // Small popup that asks for the cash received. Returns false if cancelled.
+        private bool AskCash(decimal total, out decimal cash)
+        {
+            cash = 0m;
+            using (var f = new Form())
+            {
+                f.Text = "Payment";
+                f.FormBorderStyle = FormBorderStyle.FixedDialog;
+                f.StartPosition = FormStartPosition.CenterParent;
+                f.MaximizeBox = false;
+                f.MinimizeBox = false;
+                f.ClientSize = new Size(320, 170);
+                f.Font = UiKit.FontBody;
 
+                var lblTotal = new Label { Text = "Total: " + UiKit.Money(total), AutoSize = true, Left = 16, Top = 16, Font = UiKit.FontBold };
+                var lblCash = new Label { Text = "Cash received", AutoSize = true, Left = 16, Top = 50 };
+                var txt = new TextBox { Left = 16, Top = 70, Width = 288 };
+                var lblChange = new Label { Text = "Change: -", AutoSize = true, Left = 16, Top = 104, Font = UiKit.FontBold };
+                var ok = new Button { Text = "Confirm", Left = 148, Top = 130, Width = 75, DialogResult = DialogResult.OK };
+                var cancel = new Button { Text = "Cancel", Left = 229, Top = 130, Width = 75, DialogResult = DialogResult.Cancel };
+
+                Func<string, decimal?> parse = t =>
+                {
+                    decimal v;
+                    return decimal.TryParse(t.Replace("\u20B1", "").Replace(",", "").Trim(), out v) ? (decimal?)v : null;
+                };
+
+                txt.TextChanged += (s, e) =>
+                {
+                    var v = parse(txt.Text);
+                    lblChange.Text = v.HasValue && v.Value >= total
+                        ? "Change: " + UiKit.Money(v.Value - total)
+                        : "Change: -";
+                };
+
+                f.Controls.AddRange(new Control[] { lblTotal, lblCash, txt, lblChange, ok, cancel });
+                f.AcceptButton = ok;
+                f.CancelButton = cancel;
+
+                while (f.ShowDialog(this) == DialogResult.OK)
+                {
+                    var v = parse(txt.Text);
+                    if (!v.HasValue)
+                    {
+                        MessageBox.Show("Enter the cash amount received.", "MovieReserve");
+                        continue;
+                    }
+                    if (v.Value < total)
+                    {
+                        MessageBox.Show("Cash is less than the total (" + UiKit.Money(total) + ").", "MovieReserve");
+                        continue;
+                    }
+                    cash = v.Value;
+                    return true;
+                }
+                return false;
+            }
+        }
         public ReceiptView(ReservationSession s)
         {
             _s = s;
@@ -149,11 +206,12 @@ namespace MovieReserve
                 _txtContact.Focus();
                 return;
             }
-
+            decimal cash;
+            if (!AskCash(_s.Total, out cash)) return;   // cancelled: nothing is saved
             string path;
             try
             {
-                path = ReceiptWriter.Append(_s, name, contact);
+                path = ReceiptWriter.Append(_s, name, contact, cash);
             }
             catch (Exception ex)
             {
@@ -168,8 +226,7 @@ namespace MovieReserve
             _txtName.Clear();
             _txtContact.Clear();
 
-            MessageBox.Show("Payment complete.\n\nSeats: " + seats + "\nTotal: " + UiKit.Money(total) +
-                            "\n\nReceipt saved to:\n" + path,
+            MessageBox.Show("Payment complete.\n\nSeats: " + seats + "\nTotal: " + UiKit.Money(total),
                 "MovieReserve", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }

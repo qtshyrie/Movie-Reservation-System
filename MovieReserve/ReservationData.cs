@@ -1,9 +1,11 @@
+using MySqlConnector;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Drawing.Printing;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -12,7 +14,6 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MySqlConnector;
 
 namespace MovieReserve
 {
@@ -456,18 +457,22 @@ namespace MovieReserve
     {
         private static string Row(string key, string value) { return key.PadRight(12) + ": " + value; }
 
-        // Appends one receipt to file.txt (next to the .exe) and returns the full path used.
-        public static string Append(ReservationSession s, string customer, string contact)
+        // cash = amount the customer handed over. change = cash - subtotal.
+        public static string Append(ReservationSession s, string customer, string contact, decimal cash)
         {
             var now = DateTime.Now;
+            string receiptNo = "MR-" + now.ToString("yyyyMMdd-HHmmss");
             string heavy = new string('=', 52);
             string thin = new string('-', 52);
+
+            decimal subTotal = s.Total;              // price per seat x number of seats
+            decimal change = cash - subTotal;
 
             var sb = new StringBuilder();
             sb.AppendLine(heavy);
             sb.AppendLine("  MOVIERESERVE  -  RECEIPT");
             sb.AppendLine(heavy);
-            sb.AppendLine(Row("Receipt no", "MR-" + now.ToString("yyyyMMdd-HHmmss")));
+            sb.AppendLine(Row("Receipt no", receiptNo));
             sb.AppendLine(Row("Date", now.ToString("yyyy-MM-dd hh:mm:ss tt")));
             sb.AppendLine(Row("Served by", s.User == null ? "-" : s.User.Name + " (" + s.User.Role + ")"));
             sb.AppendLine(thin);
@@ -477,28 +482,68 @@ namespace MovieReserve
             sb.AppendLine(Row("Show time", s.Showtime.Start.ToString("yyyy-MM-dd hh:mm tt")));
             sb.AppendLine(Row("Seats (" + s.SelectedSeats.Count + ")", string.Join(", ", s.SelectedSeats)));
             sb.AppendLine(Row("Price/seat", UiKit.Money(s.Showtime.Price)));
-            sb.AppendLine(Row("TOTAL", UiKit.Money(s.Total)));
+            sb.AppendLine(Row("Computation", s.SelectedSeats.Count + " x " + UiKit.Money(s.Showtime.Price)));
+            sb.AppendLine(thin);
+            sb.AppendLine(Row("SubTotal", UiKit.Money(subTotal)));
+            sb.AppendLine(Row("Cash", UiKit.Money(cash)));
+            sb.AppendLine(Row("CHANGE", UiKit.Money(change)));
             sb.AppendLine(thin);
             sb.AppendLine(Row("Customer", customer));
             sb.AppendLine(Row("Contact", contact));
             sb.AppendLine(heavy);
-            sb.AppendLine();
 
             string text = sb.ToString();
-            string path = Path.Combine(Application.StartupPath, "file.txt");
+            string fileName = receiptNo + ".pdf";
+
             try
             {
-                File.AppendAllText(path, text, new UTF8Encoding(true));
+                return WritePdf(Path.Combine(Application.StartupPath, "Receipts"), fileName, text);
             }
             catch (Exception ex)
             {
                 if (!(ex is UnauthorizedAccessException) && !(ex is IOException)) throw;
                 // exe folder not writable (e.g. Program Files): fall back to %AppData%
-                string dir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "MovieReserve");
-                Directory.CreateDirectory(dir);
-                path = Path.Combine(dir, "file.txt");
-                File.AppendAllText(path, text, new UTF8Encoding(true));
+                string dir = Path.Combine(
+                    Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                    "MovieReserve", "Receipts");
+                return WritePdf(dir, fileName, text);
             }
+        }
+
+        private static string WritePdf(string dir, string fileName, string text)
+        {
+            Directory.CreateDirectory(dir);
+            string path = Path.Combine(dir, fileName);
+            string[] lines = text.TrimEnd().Replace("\r\n", "\n").Split('\n');
+
+            var pd = new PrintDocument();
+            pd.PrinterSettings.PrinterName = "Microsoft Print to PDF";
+            if (!pd.PrinterSettings.IsValid)
+                throw new InvalidOperationException(
+                    "The 'Microsoft Print to PDF' printer is not installed. Enable it in Windows Features / Printers.");
+
+            pd.PrinterSettings.PrintToFile = true;
+            pd.PrinterSettings.PrintFileName = path;
+            pd.DocumentName = "MovieReserve Receipt";
+            pd.PrintController = new StandardPrintController();      // no "printing..." popup
+            pd.DefaultPageSettings.Margins = new Margins(50, 50, 50, 50);
+
+            pd.PrintPage += (s, e) =>
+            {
+                using (var font = new Font("Courier New", 10f))
+                {
+                    float lineH = font.GetHeight(e.Graphics) + 1;
+                    float y = e.MarginBounds.Top;
+                    foreach (string line in lines)
+                    {
+                        e.Graphics.DrawString(line, font, Brushes.Black, e.MarginBounds.Left, y);
+                        y += lineH;
+                    }
+                }
+                e.HasMorePages = false;
+            };
+
+            pd.Print();
             return path;
         }
     }

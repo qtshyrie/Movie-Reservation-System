@@ -66,6 +66,10 @@ namespace MovieReserve
 
             // Show the user in the sidebar (use your real label names)
             // lblUserName.Text = _user.Name;
+            roundLabel1.Text = _user.Initials;
+            roundLabel2.Text = _user.Initials;
+            label4.Text = _user.Name;
+            label8.Text = "Good Day, " + _user.Name;
             // lblInitials.Text = _user.Initials;
         }
         private Panel[] _panels;
