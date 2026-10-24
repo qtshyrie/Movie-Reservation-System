@@ -16,7 +16,16 @@ namespace MovieReserve
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            while (true)
+            {
+                using (var login = new LoginForm())
+                {
+                    if (login.ShowDialog() != DialogResult.OK) break;
+
+                    using (var main = new Form1(login.User))
+                        main.ShowDialog();                         
+                }
+            }
         }
     }
 }
