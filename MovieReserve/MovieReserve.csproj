@@ -88,6 +88,7 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="LoginForm.cs" />
+    <Compile Include="Movie.cs" />
     <Compile Include="MovieInfoView.cs">
       <SubType>UserControl</SubType>
     </Compile>

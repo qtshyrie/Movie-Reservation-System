@@ -110,6 +110,39 @@
         private RoundButton roundButton51;
         private RoundButton roundButton50;
         private RoundButton roundButton49;
+        private RoundPanel roundPanel1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ComboBox cmbGenre;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox txtTitle;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.NumericUpDown numDuration;
+        private System.Windows.Forms.Button btnUpdateMovie;
+        private System.Windows.Forms.Button btnAddMovie;
+        private System.Windows.Forms.TextBox txtShowtime;
+        private System.Windows.Forms.DataGridView dgvMovies;
+        private System.Windows.Forms.Button btnClear;
+        private System.Windows.Forms.Button btnRemoveMovie;
+        private CornerPanel pnlSettingsContent;
+        private CornerPanel pnlManageMovies;
+        private CornerPanel pnlSettingsNav;
+        private System.Windows.Forms.Button btnManageMovies;
+        private System.Windows.Forms.Button btnDevelopers;
+        private System.Windows.Forms.Button btnSystemInfo;
+        private System.Windows.Forms.Button btnDocumentation;
+        private CornerPanel pnlSystemInfo;
+        private CornerPanel pnlDocumentation;
+        private CornerPanel pnlDevelopers;
+        private System.Windows.Forms.Label lblAscii1;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label lblAscii2;
+        private System.Windows.Forms.Label lblAscii3;
+        private System.Windows.Forms.Label lblAscii4;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Label label16;
     }
 }
 
