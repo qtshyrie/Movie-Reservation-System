@@ -245,6 +245,53 @@ namespace MovieReserve
             }
             return set;
         }
+
+        // Saves the booking to MySQL. Returns booking id, or throws with the DB message.
+        public static int BookSeats(string customer, int showtimeId, int screenId, List<string> seatCodes)
+        {
+            using (var con = new MySqlConnection(MovieRepository.ConnectionString))
+            {
+                con.Open();
+
+                // 1. Convert codes like "E7" into seat_id values for this room
+                var ids = new List<string>();
+                foreach (string code in seatCodes)
+                {
+                    using (var cmd = new MySqlCommand(
+                        "SELECT seat_id FROM seats WHERE screen_id=@sc AND row_label=@r AND seat_number=@n", con))
+                    {
+                        cmd.Parameters.AddWithValue("@sc", screenId);
+                        cmd.Parameters.AddWithValue("@r", code.Substring(0, 1));
+                        cmd.Parameters.AddWithValue("@n", int.Parse(code.Substring(1)));
+                        object o = cmd.ExecuteScalar();
+                        if (o == null)
+                            throw new InvalidOperationException(
+                                "Seat " + code + " does not exist in the database for this room.");
+                        ids.Add(Convert.ToString(o));
+                    }
+                }
+
+                // 2. Call the stored procedure
+                using (var cmd = new MySqlCommand("book_seats", con))
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("p_customer", customer);
+                    cmd.Parameters.AddWithValue("p_showtime", showtimeId);
+                    cmd.Parameters.AddWithValue("p_seat_ids", string.Join(",", ids));
+                    var outId = new MySqlParameter("p_booking_id", MySqlDbType.Int32)
+                    { Direction = System.Data.ParameterDirection.Output };
+                    var outMsg = new MySqlParameter("p_message", MySqlDbType.VarChar, 255)
+                    { Direction = System.Data.ParameterDirection.Output };
+                    cmd.Parameters.Add(outId);
+                    cmd.Parameters.Add(outMsg);
+                    cmd.ExecuteNonQuery();
+
+                    string msg = Convert.ToString(outMsg.Value);
+                    if (msg != "OK") throw new InvalidOperationException(msg);
+                    return Convert.ToInt32(outId.Value);
+                }
+            }
+        }
     }
 
     // =====================================================================
@@ -447,6 +494,13 @@ namespace MovieReserve
             foreach (string c in SelectedSeats) { set.Add(c); Occupied.Add(c); }
             SelectedSeats.Clear();
             Raise(SessionChange.Seats);
+        }
+
+        public int SaveBooking(string customer)
+        {
+            if (Showtime == null || SelectedSeats.Count == 0)
+                throw new InvalidOperationException("Nothing to book.");
+            return ReservationRepository.BookSeats(customer, Showtime.ShowtimeId, Showtime.ScreenId, SelectedSeats);
         }
     }
 

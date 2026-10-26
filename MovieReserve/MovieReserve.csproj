@@ -87,7 +87,11 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="GitHubProfileApp.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="LoginForm.cs" />
+    <Compile Include="Movie.cs" />
     <Compile Include="MovieInfoView.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -116,8 +120,12 @@
     <Compile Include="SeatSelectionView.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="SettingsPage.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GitHubProfileApp.resx">
+      <DependentUpon>GitHubProfileApp.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MoviesListPanel.resx">
       <DependentUpon>MoviesListPanel.cs</DependentUpon>
@@ -132,6 +140,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="ReceiptView.resx">
+      <DependentUpon>ReceiptView.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

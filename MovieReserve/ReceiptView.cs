@@ -16,6 +16,24 @@ namespace MovieReserve
         private readonly ReservationSession _s;
         private readonly Label _title, _capName, _capContact, _seatsKey, _seatsVal, _totalKey, _totalVal, _perSeat;
         private readonly TextBox _txtName, _txtContact;
+
+        private void InitializeComponent()
+        {
+            this.SuspendLayout();
+            // 
+            // ReceiptView
+            // 
+            this.Name = "ReceiptView";
+            this.Load += new System.EventHandler(this.ReceiptView_Load);
+            this.ResumeLayout(false);
+
+        }
+
+        private void ReceiptView_Load(object sender, EventArgs e)
+        {
+
+        }
+
         private readonly Button _btnPay;
         // Small popup that asks for the cash received. Returns false if cancelled.
         private bool AskCash(decimal total, out decimal cash)
@@ -208,26 +226,43 @@ namespace MovieReserve
             }
             decimal cash;
             if (!AskCash(_s.Total, out cash)) return;   // cancelled: nothing is saved
-            string path;
+                                                        // 1) Save to the database first
             try
             {
-                path = ReceiptWriter.Append(_s, name, contact, cash);
+                _s.SaveBooking(name);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Could not save the receipt:\n" + ex.Message, "MovieReserve",
+                MessageBox.Show("Booking failed:\n" + ex.Message, "MovieReserve",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // seats may have just been taken by another cashier: refresh them
+                _s.SelectShowtime(_s.Showtime);
                 return;
             }
 
+            // 2) Receipt (uses the still-selected seats)
             string seats = string.Join(", ", _s.SelectedSeats);
             decimal total = _s.Total;
-            _s.MarkPaid();          // seats turn gray, selection clears
+            string receiptError = null;
+            try
+            {
+                ReceiptWriter.Append(_s, name, contact, cash);
+            }
+            catch (Exception ex)
+            {
+                receiptError = ex.Message;   // booking is already saved, so don't undo it
+            }
+
+            // 3) Mark seats as taken in the UI
+            _s.MarkPaid();
             _txtName.Clear();
             _txtContact.Clear();
 
-            MessageBox.Show("Payment complete.\n\nSeats: " + seats + "\nTotal: " + UiKit.Money(total),
-                "MovieReserve", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            string msg = "Payment complete.\n\nSeats: " + seats + "\nTotal: " + UiKit.Money(total);
+            if (receiptError != null)
+                msg += "\n\nWarning: the booking was saved but the receipt PDF could not be created:\n" + receiptError;
+            MessageBox.Show(msg, "MovieReserve", MessageBoxButtons.OK,
+                receiptError == null ? MessageBoxIcon.Information : MessageBoxIcon.Warning);
         }
     }
 }
