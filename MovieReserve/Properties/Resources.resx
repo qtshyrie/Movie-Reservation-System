@@ -121,7 +121,19 @@
   <data name="89f6ef09-76b4-4ac9-bc6d-3b971bbad00f" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\89f6ef09-76b4-4ac9-bc6d-3b971bbad00f.jfif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="gab" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\gab.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="juls" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\juls.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ram" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ram.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="SysLogo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SysLogo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="tim" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\tim.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

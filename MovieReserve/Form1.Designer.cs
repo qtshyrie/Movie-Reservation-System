@@ -17,7 +17,6 @@
         private System.Windows.Forms.Panel panel7;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Panel panel8;
@@ -110,6 +109,16 @@
         private RoundButton roundButton51;
         private RoundButton roundButton50;
         private RoundButton roundButton49;
+        private System.Windows.Forms.Button btnManageMovies;
+        private System.Windows.Forms.Button btnDevelopers;
+        private System.Windows.Forms.Button btnSystemInfo;
+        private System.Windows.Forms.Button btnDocumentation;
+        private System.Windows.Forms.Label label15;
+        private CornerPanel SettingsPanelchild;
+        private CornerPanel cornerPanel2;
+        private RoundButton roundButton64;
+        private RoundButton roundButton63;
+        private RoundButton roundButton62;
     }
 }
 
