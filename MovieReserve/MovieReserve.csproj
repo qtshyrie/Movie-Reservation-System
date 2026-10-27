@@ -127,6 +127,9 @@
     <EmbeddedResource Include="GitHubProfileApp.resx">
       <DependentUpon>GitHubProfileApp.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="MovieInfoView.resx">
+      <DependentUpon>MovieInfoView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MoviesListPanel.resx">
       <DependentUpon>MoviesListPanel.cs</DependentUpon>
     </EmbeddedResource>

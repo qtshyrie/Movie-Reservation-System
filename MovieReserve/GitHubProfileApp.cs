@@ -39,34 +39,12 @@ public class GitHubProfilePanel : Panel
         this.BackColor = Color.FromArgb(13, 17, 23);
         this.DoubleBuffered = true;
     }
-    public string[] CustomAsciiArt { get; set; } = new string[]
-            {
-                @"         g@M%@%%@N%Nw,,        ",
-                @"      ,M*`||*%gNM=]mM%g||%N,   ",
-                @"      p!`` '! |```''|||jhlj%w  ",
-                @"    ,@L `  ,,       ''!`|j%M]%M",
-                @"   ]j`  .,wp@pw,    `.  ''''|%Wg",
-                @"  /{||]@NNNNNNNN@pp.        |||||",
-                @"  `  ']@NNNNNNNNNNNNN@p    ,   ",
-                @"  ,  :]%@@@@@@%%%%%k%h  '*||mkr   *",
-                @"  `  j%M`    |jkk'   ~nrn=|i   ;` ",
-                @"  !  jrr*^`          `""! L'':! ",
-                @"     j lp;,.  / @@   ,;\nmy  ~ ",
-                @"  i r @@@@mmHM @@@@  ^*****M*,p ;, ",
-                @"  |  ]@NNNNHHH]g@M%%%%H,jmgpmb% j ",
-                @"  ;;%%%%%k%@[,.n|;.;j%%k|k%%',[ ",
-                @"   H|%%k%%%j%k||,;;j;!!'|ij}]@",
-                @"   ""djjmkL,""]] [,,,,wwxw;|#kjk`",
-                @"   %;%km%%%%M%M|%%jkkii|||[ ",
-                @"     kjj%kkkl|!||||||j|||""",
-                @"      |jm%H@@b%%kkmk%i!,[ ",
-                @"      @p|j%%%%jkk|||j*``;j[",
-                @"     ]@@@g|'```''...,j%k",
-                @"     @@@@@mgmp;,,,,;jj%%k%",
-                @"    @@@@@@@@%%kgki!|jjjj%k%@ .",
-                @" .^[`` %@@@@HH%b%k{illljkjj%%%% ; `.",
-                @"=[' ` . %HH%%%%%H@gkilljjj%kk""." , "i"
-            };
+    // Optional ASCII art (empty by default)
+    public string[] CustomAsciiArt { get; set; } = new string[0];
+
+    // Optional profile photo, drawn on the left with an orange frame
+    public Image Photo { get; set; }
+
     protected override void OnPaint(PaintEventArgs e)
     {
         base.OnPaint(e);
@@ -114,6 +92,18 @@ public class GitHubProfilePanel : Panel
                 $". Commits: ................... {CommitCount} | Followers: ....... {FollowersCount}",
                 $". Lines of Code on GitHub:. {TotalLoc} ( {AddedLoc},  {DeletedLoc} )"
             };
+
+            // Draw photo (cropped to fill the frame)
+            if (Photo != null)
+            {
+                var frame = new Rectangle(startX, startY, 315, 425);
+                float scale = Math.Max(frame.Width / (float)Photo.Width, frame.Height / (float)Photo.Height);
+                float sw = frame.Width / scale, sh = frame.Height / scale;
+                var src = new RectangleF((Photo.Width - sw) / 2f, (Photo.Height - sh) / 2f, sw, sh);
+                g.DrawImage(Photo, frame, src.X, src.Y, src.Width, src.Height, GraphicsUnit.Pixel);
+                using (var pen = new Pen(Color.FromArgb(247, 148, 84), 3))
+                    g.DrawRectangle(pen, frame);
+            }
 
             // Draw ASCII Art
             for (int i = 0; i < asciiArt.Length; i++)

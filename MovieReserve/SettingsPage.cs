@@ -4,9 +4,10 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
+using MySqlConnector;
 
 namespace MovieReserve
-{   
+{
     /// <summary>Data carried by the Manage Movies form / events.</summary>
     public class MovieInput
     {
@@ -15,7 +16,13 @@ namespace MovieReserve
         public string Genre { get; set; }
         public int Duration { get; set; }
         public DateTime Showtime { get; set; }
-        public string ShowtimeText { get { return Showtime.ToString("hh:mm tt"); } }
+        public string Description { get; set; }   // movieslist.synopsis
+        public string PosterUrl { get; set; }     // movieslist.poster_url
+        public int ShowtimeId { get; set; }       // showtimes.showtime_id (0 = none)
+        public int ScreenId { get; set; }
+        public decimal Price { get; set; }
+        public string RoomName { get; set; }
+        public string ShowtimeText { get { return ShowtimeId > 0 ? Showtime.ToString("MMM dd, hh:mm tt") : "No showtime"; } }
     }
 
     /// <summary>
@@ -53,6 +60,14 @@ namespace MovieReserve
             ShowTab(0);
         }
 
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+            if (DesignMode) return;
+            LoadRooms();
+            LoadMoviesFromDb();
+        }
+
         public void SetMovies(IEnumerable<MovieInput> movies)
         {
             _movies.Clear();
@@ -60,14 +75,13 @@ namespace MovieReserve
             UpdateCount();
         }
 
-      
+
         // ---- state ----
         private readonly BindingList<MovieInput> _movies = new BindingList<MovieInput>();
-        private int _nextId = 1;
         private Panel _tabMovies, _tabSystem, _TabDev;
         private TabButton _btnTabMovies, _btnTabSystem, _btnTabDev;
-        private TextBox txtTitle;
-        private ComboBox cboGenre;
+        private TextBox txtTitle, txtUrl, txtDescription;
+        private ComboBox cboGenre, cboRoom;
         private NumericUpDown numDuration;
         private DateTimePicker dtpShowtime;
         private FlatButton btnAdd, btnUpdate, btnRemove, btnClear;
@@ -119,7 +133,7 @@ namespace MovieReserve
             Controls.Add(_TabDev);   // <--- Add the dev tab to the form controls
             Controls.Add(strip);
             Controls.Add(header);
-        }   
+        }
 
         private void ShowTab(int index)
         {
@@ -157,13 +171,25 @@ namespace MovieReserve
             cboGenre = new ComboBox { DropDownStyle = ComboBoxStyle.DropDownList, FlatStyle = FlatStyle.Flat, BackColor = Field, ForeColor = TextMain };
             cboGenre.Items.AddRange(new object[] { "Action", "Adventure", "Animation", "Comedy", "Drama", "Fantasy", "Horror", "Romance", "Sci-Fi", "Thriller" });
             cboGenre.SelectedIndex = 0;
-            AddField(form, "Genre", cboGenre, ref y);
+            AddFieldAt(form, "Genre", cboGenre, 24, y, 188, 28);
 
             numDuration = new NumericUpDown { Minimum = 1, Maximum = 400, Value = 120, BackColor = Field, ForeColor = TextMain, BorderStyle = BorderStyle.FixedSingle };
-            AddField(form, "Duration (minutes)", numDuration, ref y);
+            AddFieldAt(form, "Duration (min)", numDuration, 224, y, 108, 28);
+            y += 60;
 
             dtpShowtime = new DateTimePicker { Format = DateTimePickerFormat.Custom, CustomFormat = "hh:mm tt", ShowUpDown = true };
-            AddField(form, "Showtime", dtpShowtime, ref y);
+            AddFieldAt(form, "Showtime", dtpShowtime, 24, y, 148, 28);
+
+            cboRoom = new ComboBox { DropDownStyle = ComboBoxStyle.DropDownList, FlatStyle = FlatStyle.Flat, BackColor = Field, ForeColor = TextMain };
+            AddFieldAt(form, "Room", cboRoom, 184, y, 148, 28);
+            y += 60;
+
+            txtUrl = new TextBox { BackColor = Field, ForeColor = TextMain, BorderStyle = BorderStyle.FixedSingle, MaxLength = 255 };
+            AddField(form, "Poster URL", txtUrl, ref y);
+
+            txtDescription = new TextBox { BackColor = Field, ForeColor = TextMain, BorderStyle = BorderStyle.FixedSingle, Multiline = true, ScrollBars = ScrollBars.Vertical };
+            AddFieldAt(form, "Description", txtDescription, 24, y, 308, 48);
+            y += 80;
 
             y += 8;
             btnAdd = new FlatButton { Text = "Add", Primary = true, Location = new Point(24, y), Size = new Size(148, 40) };
@@ -239,10 +265,11 @@ namespace MovieReserve
             g.DefaultCellStyle.SelectionForeColor = Color.White;
             g.DefaultCellStyle.Padding = new Padding(8, 0, 0, 0);
 
-            g.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Title", DataPropertyName = "Title", FillWeight = 40 });
-            g.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Genre", DataPropertyName = "Genre", FillWeight = 20 });
-            g.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Duration", DataPropertyName = "Duration", FillWeight = 15 });
-            g.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Showtime", DataPropertyName = "ShowtimeText", FillWeight = 25 });
+            g.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Title", DataPropertyName = "Title", FillWeight = 30 });
+            g.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Genre", DataPropertyName = "Genre", FillWeight = 17 });
+            g.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Duration", DataPropertyName = "Duration", FillWeight = 12 });
+            g.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Showtime", DataPropertyName = "ShowtimeText", FillWeight = 24 });
+            g.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Room", DataPropertyName = "RoomName", FillWeight = 17 });
 
             g.DataSource = _movies;
             g.SelectionChanged += (s, e) => LoadSelectedIntoForm();
@@ -253,8 +280,11 @@ namespace MovieReserve
 
         private void UpdateCount()
         {
-            if (lblCount != null)
-                lblCount.Text = _movies.Count + (_movies.Count == 1 ? " movie" : " movies") + " scheduled today";
+            if (lblCount == null) return;
+            var ids = new HashSet<int>();
+            int shows = 0;
+            foreach (var m in _movies) { ids.Add(m.Id); if (m.ShowtimeId > 0) shows++; }
+            lblCount.Text = ids.Count + (ids.Count == 1 ? " movie, " : " movies, ") + shows + (shows == 1 ? " showtime" : " showtimes");
         }
 
         private MovieInput Selected
@@ -272,9 +302,13 @@ namespace MovieReserve
             SetSelectionState(m != null);
             if (m == null) return;
             txtTitle.Text = m.Title;
+            if (!string.IsNullOrEmpty(m.Genre) && !cboGenre.Items.Contains(m.Genre)) cboGenre.Items.Add(m.Genre);
             cboGenre.SelectedItem = m.Genre;
+            txtUrl.Text = m.PosterUrl;
+            txtDescription.Text = m.Description;
             numDuration.Value = Math.Max(numDuration.Minimum, Math.Min(numDuration.Maximum, m.Duration));
             dtpShowtime.Value = m.Showtime;
+            foreach (ScreenItem sc in cboRoom.Items) if (sc.ScreenId == m.ScreenId) { cboRoom.SelectedItem = sc; break; }
         }
 
         private void SetSelectionState(bool hasSelection)
@@ -291,12 +325,22 @@ namespace MovieReserve
                 txtTitle.Focus();
                 return null;
             }
+            var room = cboRoom.SelectedItem as ScreenItem;
+            if (room == null)
+            {
+                MessageBox.Show("Please choose a room.", "Missing room", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return null;
+            }
             return new MovieInput
             {
+                ScreenId = room.ScreenId,
+                RoomName = room.Name,
                 Title = txtTitle.Text.Trim(),
                 Genre = cboGenre.SelectedItem as string ?? "",
                 Duration = (int)numDuration.Value,
-                Showtime = dtpShowtime.Value
+                Showtime = DateTime.Today.Add(dtpShowtime.Value.TimeOfDay),
+                PosterUrl = txtUrl.Text.Trim(),
+                Description = txtDescription.Text.Trim()
             };
         }
 
@@ -304,8 +348,9 @@ namespace MovieReserve
         {
             var m = ReadForm();
             if (m == null) return;
-            m.Id = _nextId++;
-            _movies.Add(m);
+            m.Price = DefaultPrice;
+            try { DbAdd(m); } catch (Exception ex) { DbError("add", ex); return; }
+            LoadMoviesFromDb();
             var h = MovieAdded; if (h != null) h(this, m);
             ClearForm();
         }
@@ -316,17 +361,36 @@ namespace MovieReserve
             if (cur == null) return;
             var m = ReadForm();
             if (m == null) return;
-            cur.Title = m.Title; cur.Genre = m.Genre; cur.Duration = m.Duration; cur.Showtime = m.Showtime;
-            _movies.ResetBindings();
-            var h = MovieUpdated; if (h != null) h(this, cur);
+            m.Id = cur.Id;
+            m.ShowtimeId = cur.ShowtimeId;
+            m.Price = cur.ShowtimeId > 0 ? cur.Price : DefaultPrice;
+            if (cur.ShowtimeId > 0) m.Showtime = cur.Showtime.Date.Add(m.Showtime.TimeOfDay); // keep the original date
+            try { DbUpdate(m); } catch (Exception ex) { DbError("update", ex); return; }
+            LoadMoviesFromDb();
+            foreach (DataGridViewRow row in grid.Rows)
+            {
+                var item = row.DataBoundItem as MovieInput;
+                if (item != null && item.Id == m.Id && item.ShowtimeId == m.ShowtimeId) { grid.ClearSelection(); row.Selected = true; break; }
+            }
+            var h = MovieUpdated; if (h != null) h(this, m);
         }
 
         private void RemoveMovie()
         {
             var cur = Selected;
             if (cur == null) return;
-            if (MessageBox.Show("Remove \"" + cur.Title + "\"?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes) return;
-            _movies.Remove(cur);
+            if (MessageBox.Show(cur.ShowtimeId > 0 ? "Remove the " + cur.ShowtimeText + " showtime (" + cur.RoomName + ") of \"" + cur.Title + "\"?\n\nThe movie is deleted too if it has no other showtimes." : "Remove \"" + cur.Title + "\"?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes) return;
+            try { DbRemove(cur); }
+            catch (Exception ex)
+            {
+                var my = ex as MySqlException;
+                if (my != null && my.Number == 1451)
+                    MessageBox.Show("This showtime has booked seats, so it can't be removed.", "Cannot remove", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                else
+                    DbError("remove", ex);
+                return;
+            }
+            LoadMoviesFromDb();
             var h = MovieRemoved; if (h != null) h(this, cur);
             ClearForm();
         }
@@ -338,8 +402,209 @@ namespace MovieReserve
             cboGenre.SelectedIndex = 0;
             numDuration.Value = 120;
             dtpShowtime.Value = DateTime.Now;
+            if (cboRoom.Items.Count > 0) cboRoom.SelectedIndex = 0;
+            txtUrl.Clear();
+            txtDescription.Clear();
             SetSelectionState(false);
             txtTitle.Focus();
+        }
+
+        // ---------- Database (movieslist + showtimes) ----------
+        private const decimal DefaultPrice = 200m;  // price used for new showtimes
+
+        private static MySqlConnection Open()
+        {
+            var conn = new MySqlConnection(MovieRepository.ConnectionString);
+            conn.Open();
+            return conn;
+        }
+
+        private static object Nz(string s) { return string.IsNullOrWhiteSpace(s) ? (object)DBNull.Value : s; }
+
+        private void DbError(string action, Exception ex)
+        {
+            string hint = "";
+            var my = ex as MySqlException;
+            if (my != null && my.Number == 1364) hint = "\n\nmovieslist.movie_id is not AUTO_INCREMENT - run movieslist_fix.sql.";
+            MessageBox.Show("Could not " + action + " the movie.\n\n" + ex.Message + hint, "Database error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        private void LoadRooms()
+        {
+            try
+            {
+                cboRoom.Items.Clear();
+                foreach (var sc in ReservationRepository.GetScreens()) cboRoom.Items.Add(sc);
+                if (cboRoom.Items.Count > 0) cboRoom.SelectedIndex = 0;
+            }
+            catch (Exception ex) { DbError("load the rooms for", ex); }
+        }
+
+        /// <summary>One row per showtime (a movie with no showtime still appears once).</summary>
+        public void LoadMoviesFromDb()
+        {
+            const string sql =
+                "SELECT m.movie_id, m.movie_title, m.genre, m.duration, m.synopsis, m.poster_url, " +
+                "       s.showtime_id, s.screen_id, sc.screen_name, s.price, s.start_time " +
+                "FROM movieslist m " +
+                "LEFT JOIN showtimes s ON s.movie_id = m.movie_id " +
+                "LEFT JOIN screens sc ON sc.screen_id = s.screen_id " +
+                "ORDER BY m.movie_title, s.start_time";
+            try
+            {
+                var rows = new List<MovieInput>();
+                using (var conn = Open())
+                using (var cmd = new MySqlCommand(sql, conn))
+                using (var r = cmd.ExecuteReader())
+                {
+                    while (r.Read())
+                    {
+                        var m = new MovieInput
+                        {
+                            Id = Convert.ToInt32(r["movie_id"]),
+                            Title = Convert.ToString(r["movie_title"]),
+                            Genre = r["genre"] as string ?? "",
+                            Duration = r["duration"] == DBNull.Value ? 0 : Convert.ToInt32(r["duration"]),
+                            Description = r["synopsis"] as string ?? "",
+                            PosterUrl = r["poster_url"] as string ?? "",
+                            Showtime = DateTime.Today
+                        };
+                        if (r["showtime_id"] != DBNull.Value)
+                        {
+                            m.ShowtimeId = Convert.ToInt32(r["showtime_id"]);
+                            m.ScreenId = Convert.ToInt32(r["screen_id"]);
+                            m.RoomName = Convert.ToString(r["screen_name"]);
+                            m.Price = Convert.ToDecimal(r["price"]);
+                            m.Showtime = Convert.ToDateTime(r["start_time"]);
+                        }
+                        rows.Add(m);
+                    }
+                }
+                SetMovies(rows);
+            }
+            catch (Exception ex) { DbError("load", ex); }
+        }
+
+        private static void BindMovie(MySqlCommand cmd, MovieInput m)
+        {
+            cmd.Parameters.AddWithValue("@t", m.Title);
+            cmd.Parameters.AddWithValue("@g", Nz(m.Genre));
+            cmd.Parameters.AddWithValue("@d", m.Duration);
+            cmd.Parameters.AddWithValue("@s", Nz(m.Description));
+            cmd.Parameters.AddWithValue("@u", Nz(m.PosterUrl));
+        }
+
+        private void DbAdd(MovieInput m)
+        {
+            using (var conn = Open())
+            using (var tx = conn.BeginTransaction())
+            {
+                // same title -> add another showtime (e.g. another room) to the existing movie
+                object found;
+                using (var find = new MySqlCommand("SELECT movie_id FROM movieslist WHERE movie_title=@t LIMIT 1", conn, tx))
+                {
+                    find.Parameters.AddWithValue("@t", m.Title);
+                    found = find.ExecuteScalar();
+                }
+
+                if (found != null && found != DBNull.Value)
+                {
+                    m.Id = Convert.ToInt32(found);
+                    using (var cmd = new MySqlCommand(
+                        "UPDATE movieslist SET genre=@g, duration=@d, synopsis=@s, poster_url=@u WHERE movie_id=@id", conn, tx))
+                    {
+                        BindMovie(cmd, m);
+                        cmd.Parameters.AddWithValue("@id", m.Id);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                else
+                {
+                    using (var cmd = new MySqlCommand(
+                        "INSERT INTO movieslist (movie_title, genre, duration, synopsis, poster_url) VALUES (@t, @g, @d, @s, @u)", conn, tx))
+                    {
+                        BindMovie(cmd, m);
+                        cmd.ExecuteNonQuery();
+                        if (cmd.LastInsertedId == 0)
+                            throw new InvalidOperationException("movieslist.movie_id is not AUTO_INCREMENT - run movieslist_fix.sql.");
+                        m.Id = (int)cmd.LastInsertedId;
+                    }
+                }
+                DbInsertShowtime(conn, tx, m);
+                tx.Commit();
+            }
+        }
+
+        private void DbUpdate(MovieInput m)
+        {
+            using (var conn = Open())
+            using (var tx = conn.BeginTransaction())
+            {
+                using (var cmd = new MySqlCommand(
+                    "UPDATE movieslist SET movie_title=@t, genre=@g, duration=@d, synopsis=@s, poster_url=@u WHERE movie_id=@id", conn, tx))
+                {
+                    BindMovie(cmd, m);
+                    cmd.Parameters.AddWithValue("@id", m.Id);
+                    cmd.ExecuteNonQuery();
+                }
+                if (m.ShowtimeId > 0)
+                {
+                    using (var cmd = new MySqlCommand("UPDATE showtimes SET start_time=@st, screen_id=@sc WHERE showtime_id=@sid", conn, tx))
+                    {
+                        cmd.Parameters.AddWithValue("@st", m.Showtime);
+                        cmd.Parameters.AddWithValue("@sc", m.ScreenId);
+                        cmd.Parameters.AddWithValue("@sid", m.ShowtimeId);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                else DbInsertShowtime(conn, tx, m);
+                tx.Commit();
+            }
+        }
+
+        private void DbRemove(MovieInput m)
+        {
+            using (var conn = Open())
+            using (var tx = conn.BeginTransaction())
+            {
+                if (m.ShowtimeId > 0)
+                {
+                    using (var cmd = new MySqlCommand("DELETE FROM showtimes WHERE showtime_id=@sid", conn, tx))
+                    {
+                        cmd.Parameters.AddWithValue("@sid", m.ShowtimeId);
+                        cmd.ExecuteNonQuery();      // fails (1451) if seats are already booked
+                    }
+                }
+                long left;
+                using (var cmd = new MySqlCommand("SELECT COUNT(*) FROM showtimes WHERE movie_id=@id", conn, tx))
+                {
+                    cmd.Parameters.AddWithValue("@id", m.Id);
+                    left = Convert.ToInt64(cmd.ExecuteScalar());
+                }
+                if (left == 0)
+                {
+                    using (var cmd = new MySqlCommand("DELETE FROM movieslist WHERE movie_id=@id", conn, tx))
+                    {
+                        cmd.Parameters.AddWithValue("@id", m.Id);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                tx.Commit();
+            }
+        }
+
+        private static void DbInsertShowtime(MySqlConnection conn, MySqlTransaction tx, MovieInput m)
+        {
+            using (var cmd = new MySqlCommand(
+                "INSERT INTO showtimes (movie_id, screen_id, start_time, price) VALUES (@id, @sc, @st, @p)", conn, tx))
+            {
+                cmd.Parameters.AddWithValue("@id", m.Id);
+                cmd.Parameters.AddWithValue("@sc", m.ScreenId);
+                cmd.Parameters.AddWithValue("@st", m.Showtime);
+                cmd.Parameters.AddWithValue("@p", m.Price);
+                cmd.ExecuteNonQuery();
+                m.ShowtimeId = (int)cmd.LastInsertedId;
+            }
         }
 
         // ---------- System Information ----------
@@ -425,35 +690,7 @@ namespace MovieReserve
                 AddedLoc = "4,000",
                 DeletedLoc = "3,800",
                 Margin = new Padding(0, 0, 0, 20), // Adds a clean 20px gap between each profile card!
-
-                CustomAsciiArt = new string[]
-                {
-                @"         g@M%@%%@N%Nw,,        ",
-                @"      ,M*`||*%gNM=]mM%g||%N,   ",
-                @"      p!`` '! |```''|||jhlj%w  ",
-                @"    ,@L `  ,,       ''!`|j%M]%M",
-                @"   ]j`  .,wp@pw,    `.  ''''|%Wg",
-                @"  /{||]@NNNNNNNN@pp.        |||||",
-                @"  `  ']@NNNNNNNNNNNNN@p    ,   ",
-                @"  ,  :]%@@@@@@%%%%%k%h  '*||mkr   *",
-                @"  `  j%M`    |jkk'   ~nrn=|i   ;` ",
-                @"  !  jrr*^`          `""! L'':! ",
-                @"     j lp;,.  / @@   ,;\nmy  ~ ",
-                @"  i r @@@@mmHM @@@@  ^*****M*,p ;, ",
-                @"  |  ]@NNNNHHH]g@M%%%%H,jmgpmb% j ",
-                @"  ;;%%%%%k%@[,.n|;.;j%%k|k%%',[ ",
-                @"   H|%%k%%%j%k||,;;j;!!'|ij}]@",
-                @"   ""djjmkL,""]] [,,,,wwxw;|#kjk`",
-                @"   %;%km%%%%M%M|%%jkkii|||[ ",
-                @"     kjj%kkkl|!||||||j|||""",
-                @"      |jm%H@@b%%kkmk%i!,[ ",
-                @"      @p|j%%%%jkk|||j*``;j[",
-                @"     ]@@@g|'```''...,j%k",
-                @"     @@@@@mgmp;,,,,;jj%%k%",
-                @"    @@@@@@@@%%kgki!|jjjj%k%@ .",
-                @" .^[`` %@@@@HH%b%k{illljkjj%%%% ; `.",
-                @"=[' ` . %HH%%%%%H@gkilljjj%kk""." , "i"
-                }
+                Photo = Properties.Resources.ram,
             };
 
             var dev2 = new GitHubProfilePanel
@@ -481,35 +718,7 @@ namespace MovieReserve
                 AddedLoc = "4,000",
                 DeletedLoc = "3,800",
                 Margin = new Padding(0, 0, 0, 20),
-
-                CustomAsciiArt = new string[]
-                {
-                @"         g@M%@%%@N%Nw,,        ",
-                @"      ,M*`||*%gNM=]mM%g||%N,   ",
-                @"      p!`` '! |```''|||jhlj%w  ",
-                @"    ,@L `  ,,       ''!`|j%M]%M",
-                @"   ]j`  .,wp@pw,    `.  ''''|%Wg",
-                @"  /{||]@NNNNNNNN@pp.        |||||",
-                @"  `  ']@NNNNNNNNNNNNN@p    ,   ",
-                @"  ,  :]%@@@@@@%%%%%k%h  '*||mkr   *",
-                @"  `  j%M`    |jkk'   ~nrn=|i   ;` ",
-                @"  !  jrr*^`          `""! L'':! ",
-                @"     j lp;,.  / @@   ,;\nmy  ~ ",
-                @"  i r @@@@mmHM @@@@  ^*****M*,p ;, ",
-                @"  |  ]@NNNNHHH]g@M%%%%H,jmgpmb% j ",
-                @"  ;;%%%%%k%@[,.n|;.;j%%k|k%%',[ ",
-                @"   H|%%k%%%j%k||,;;j;!!'|ij}]@",
-                @"   ""djjmkL,""]] [,,,,wwxw;|#kjk`",
-                @"   %;%km%%%%M%M|%%jkkii|||[ ",
-                @"     kjj%kkkl|!||||||j|||""",
-                @"      |jm%H@@b%%kkmk%i!,[ ",
-                @"      @p|j%%%%jkk|||j*``;j[",
-                @"     ]@@@g|'```''...,j%k",
-                @"     @@@@@mgmp;,,,,;jj%%k%",
-                @"    @@@@@@@@%%kgki!|jjjj%k%@ .",
-                @" .^[`` %@@@@HH%b%k{illljkjj%%%% ; `.",
-                @"=[' ` . %HH%%%%%H@gkilljjj%kk""." , "i"
-                }
+                Photo = Properties.Resources.gab,
             };
 
             // --- Developer 3 ---
@@ -538,35 +747,7 @@ namespace MovieReserve
                 AddedLoc = "800",
                 DeletedLoc = "0",
                 Margin = new Padding(0, 0, 0, 20),
-
-                CustomAsciiArt = new string[]
-                {
-                @"         g@M%@%%@N%Nw,,        ",
-                @"      ,M*`||*%gNM=]mM%g||%N,   ",
-                @"      p!`` '! |```''|||jhlj%w  ",
-                @"    ,@L `  ,,       ''!`|j%M]%M",
-                @"   ]j`  .,wp@pw,    `.  ''''|%Wg",
-                @"  /{||]@NNNNNNNN@pp.        |||||",
-                @"  `  ']@NNNNNNNNNNNNN@p    ,   ",
-                @"  ,  :]%@@@@@@%%%%%k%h  '*||mkr   *",
-                @"  `  j%M`    |jkk'   ~nrn=|i   ;` ",
-                @"  !  jrr*^`          `""! L'':! ",
-                @"     j lp;,.  / @@   ,;\nmy  ~ ",
-                @"  i r @@@@mmHM @@@@  ^*****M*,p ;, ",
-                @"  |  ]@NNNNHHH]g@M%%%%H,jmgpmb% j ",
-                @"  ;;%%%%%k%@[,.n|;.;j%%k|k%%',[ ",
-                @"   H|%%k%%%j%k||,;;j;!!'|ij}]@",
-                @"   ""djjmkL,""]] [,,,,wwxw;|#kjk`",
-                @"   %;%km%%%%M%M|%%jkkii|||[ ",
-                @"     kjj%kkkl|!||||||j|||""",
-                @"      |jm%H@@b%%kkmk%i!,[ ",
-                @"      @p|j%%%%jkk|||j*``;j[",
-                @"     ]@@@g|'```''...,j%k",
-                @"     @@@@@mgmp;,,,,;jj%%k%",
-                @"    @@@@@@@@%%kgki!|jjjj%k%@ .",
-                @" .^[`` %@@@@HH%b%k{illljkjj%%%% ; `.",
-                @"=[' ` . %HH%%%%%H@gkilljjj%kk""." , "i"
-                }
+                Photo = Properties.Resources.tim,
             };
 
             // --- Developer 4 ---
@@ -595,35 +776,7 @@ namespace MovieReserve
                 AddedLoc = "500",
                 DeletedLoc = "0",
                 Margin = new Padding(0, 0, 0, 20),
-
-                CustomAsciiArt = new string[]
-                {
-                @"         g@M%@%%@N%Nw,,        ",
-                @"      ,M*`||*%gNM=]mM%g||%N,   ",
-                @"      p!`` '! |```''|||jhlj%w  ",
-                @"    ,@L `  ,,       ''!`|j%M]%M",
-                @"   ]j`  .,wp@pw,    `.  ''''|%Wg",
-                @"  /{||]@NNNNNNNN@pp.        |||||",
-                @"  `  ']@NNNNNNNNNNNNN@p    ,   ",
-                @"  ,  :]%@@@@@@%%%%%k%h  '*||mkr   *",
-                @"  `  j%M`    |jkk'   ~nrn=|i   ;` ",
-                @"  !  jrr*^`          `""! L'':! ",
-                @"     j lp;,.  / @@   ,;\nmy  ~ ",
-                @"  i r @@@@mmHM @@@@  ^*****M*,p ;, ",
-                @"  |  ]@NNNNHHH]g@M%%%%H,jmgpmb% j ",
-                @"  ;;%%%%%k%@[,.n|;.;j%%k|k%%',[ ",
-                @"   H|%%k%%%j%k||,;;j;!!'|ij}]@",
-                @"   ""djjmkL,""]] [,,,,wwxw;|#kjk`",
-                @"   %;%km%%%%M%M|%%jkkii|||[ ",
-                @"     kjj%kkkl|!||||||j|||""",
-                @"      |jm%H@@b%%kkmk%i!,[ ",
-                @"      @p|j%%%%jkk|||j*``;j[",
-                @"     ]@@@g|'```''...,j%k",
-                @"     @@@@@mgmp;,,,,;jj%%k%",
-                @"    @@@@@@@@%%kgki!|jjjj%k%@ .",
-                @" .^[`` %@@@@HH%b%k{illljkjj%%%% ; `.",
-                @"=[' ` . %HH%%%%%H@gkilljjj%kk""." , "i"
-                }
+                Photo = Properties.Resources.juls,
             };
 
             void ShowDev(GitHubProfilePanel panelToShow)
@@ -679,7 +832,16 @@ namespace MovieReserve
             input.Size = new Size(308, 28);
             input.Font = new Font("Segoe UI", 10F);
             parent.Controls.Add(input);
-            y += 66;
+            y += 60;
+        }
+
+        private void AddFieldAt(Control parent, string caption, Control input, int x, int y, int width, int height)
+        {
+            parent.Controls.Add(new Label { Text = caption, ForeColor = TextMuted, AutoSize = true, Location = new Point(x, y) });
+            input.Location = new Point(x, y + 22);
+            input.Size = new Size(width, height);
+            input.Font = new Font("Segoe UI", 10F);
+            parent.Controls.Add(input);
         }
 
         // ================= custom controls =================

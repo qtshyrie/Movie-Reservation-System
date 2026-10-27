@@ -146,41 +146,21 @@ namespace MovieReserve
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.roundLabel2 = new RoundLabel();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.panel8 = new System.Windows.Forms.Panel();
+            this.New_Reserve = new RoundButton();
             this.label9 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.RightMotherPanel = new System.Windows.Forms.Panel();
             this.SettingsPanel = new System.Windows.Forms.Panel();
-            this.ReservationPanel = new System.Windows.Forms.Panel();
-            this.MoviesPanel = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.panel22 = new System.Windows.Forms.Panel();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.panel4 = new System.Windows.Forms.Panel();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.panel5 = new System.Windows.Forms.Panel();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.panel6 = new System.Windows.Forms.Panel();
-            this.label10 = new System.Windows.Forms.Label();
-            this.panel7 = new System.Windows.Forms.Panel();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
-            this.btnManageMovies = new System.Windows.Forms.Button();
-            this.btnDevelopers = new System.Windows.Forms.Button();
-            this.btnSystemInfo = new System.Windows.Forms.Button();
-            this.btnDocumentation = new System.Windows.Forms.Button();
-            this.roundLabel2 = new RoundLabel();
-            this.New_Reserve = new RoundButton();
             this.cornerPanel2 = new CornerPanel();
             this.roundButton64 = new RoundButton();
             this.roundButton63 = new RoundButton();
             this.roundButton62 = new RoundButton();
             this.SettingsPanelchild = new CornerPanel();
+            this.ReservationPanel = new System.Windows.Forms.Panel();
             this.RecieptPanel = new CornerPanel();
             this.SelectedMoviePanel = new CornerPanel();
             this.SeatPanel = new CornerPanel();
@@ -248,11 +228,31 @@ namespace MovieReserve
             this.roundButton2 = new RoundButton();
             this.roundButton1 = new RoundButton();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.MoviesPanel = new System.Windows.Forms.Panel();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.panel22 = new System.Windows.Forms.Panel();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.panel5 = new System.Windows.Forms.Panel();
             this.roundLabel1 = new RoundLabel();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.panel6 = new System.Windows.Forms.Panel();
             this.btnSettings = new RoundButton();
             this.btnMovies = new RoundButton();
             this.btnReservation = new RoundButton();
+            this.label10 = new System.Windows.Forms.Label();
+            this.panel7 = new System.Windows.Forms.Panel();
             this.roundButton5 = new RoundButton();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.btnManageMovies = new System.Windows.Forms.Button();
+            this.btnDevelopers = new System.Windows.Forms.Button();
+            this.btnSystemInfo = new System.Windows.Forms.Button();
+            this.btnDocumentation = new System.Windows.Forms.Button();
             this.roundPanel5 = new RoundPanel();
             this.cornerPanel1 = new CornerPanel();
             this.label24 = new System.Windows.Forms.Label();
@@ -262,7 +262,11 @@ namespace MovieReserve
             this.panel8.SuspendLayout();
             this.RightMotherPanel.SuspendLayout();
             this.SettingsPanel.SuspendLayout();
+            this.cornerPanel2.SuspendLayout();
             this.ReservationPanel.SuspendLayout();
+            this.SeatPanel.SuspendLayout();
+            this.panel11.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.panel2.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -270,10 +274,6 @@ namespace MovieReserve
             this.panel5.SuspendLayout();
             this.panel6.SuspendLayout();
             this.panel7.SuspendLayout();
-            this.cornerPanel2.SuspendLayout();
-            this.SeatPanel.SuspendLayout();
-            this.panel11.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.roundPanel5.SuspendLayout();
             this.cornerPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -301,6 +301,16 @@ namespace MovieReserve
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(1170, 899);
             this.panel3.TabIndex = 1;
+            // 
+            // roundLabel2
+            // 
+            this.roundLabel2.BackColor = System.Drawing.SystemColors.ButtonShadow;
+            this.roundLabel2.Font = new System.Drawing.Font("Microsoft YaHei UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.roundLabel2.Location = new System.Drawing.Point(1071, 31);
+            this.roundLabel2.Name = "roundLabel2";
+            this.roundLabel2.Size = new System.Drawing.Size(51, 44);
+            this.roundLabel2.TabIndex = 6;
+            this.roundLabel2.Text = "RC";
             // 
             // label6
             // 
@@ -334,6 +344,26 @@ namespace MovieReserve
             this.panel8.Name = "panel8";
             this.panel8.Size = new System.Drawing.Size(1170, 823);
             this.panel8.TabIndex = 0;
+            // 
+            // New_Reserve
+            // 
+            this.New_Reserve.BackColor = System.Drawing.Color.Red;
+            this.New_Reserve.BorderColor = System.Drawing.Color.Gray;
+            this.New_Reserve.CornerRadius = 10;
+            this.New_Reserve.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.New_Reserve.FlatAppearance.BorderSize = 0;
+            this.New_Reserve.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.New_Reserve.Font = new System.Drawing.Font("Microsoft YaHei UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.New_Reserve.ForeColor = System.Drawing.Color.White;
+            this.New_Reserve.HoverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.New_Reserve.Location = new System.Drawing.Point(953, 35);
+            this.New_Reserve.Name = "New_Reserve";
+            this.New_Reserve.PressedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
+            this.New_Reserve.Size = new System.Drawing.Size(169, 41);
+            this.New_Reserve.TabIndex = 7;
+            this.New_Reserve.Text = "+ New Reserve";
+            this.New_Reserve.UseVisualStyleBackColor = false;
+            this.New_Reserve.Click += new System.EventHandler(this.New_Reserve_Click);
             // 
             // label9
             // 
@@ -377,308 +407,6 @@ namespace MovieReserve
             this.SettingsPanel.Name = "SettingsPanel";
             this.SettingsPanel.Size = new System.Drawing.Size(1167, 707);
             this.SettingsPanel.TabIndex = 3;
-            // 
-            // ReservationPanel
-            // 
-            this.ReservationPanel.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ReservationPanel.Controls.Add(this.RecieptPanel);
-            this.ReservationPanel.Controls.Add(this.SelectedMoviePanel);
-            this.ReservationPanel.Controls.Add(this.SeatPanel);
-            this.ReservationPanel.Location = new System.Drawing.Point(0, 0);
-            this.ReservationPanel.Name = "ReservationPanel";
-            this.ReservationPanel.Size = new System.Drawing.Size(1164, 689);
-            this.ReservationPanel.TabIndex = 1;
-            // 
-            // MoviesPanel
-            // 
-            this.MoviesPanel.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.MoviesPanel.Location = new System.Drawing.Point(0, 0);
-            this.MoviesPanel.Name = "MoviesPanel";
-            this.MoviesPanel.Size = new System.Drawing.Size(1164, 689);
-            this.MoviesPanel.TabIndex = 2;
-            this.MoviesPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.MoviesPanel_Paint);
-            // 
-            // panel2
-            // 
-            this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel2.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.panel2.Controls.Add(this.panel22);
-            this.panel2.Controls.Add(this.tableLayoutPanel1);
-            this.panel2.Location = new System.Drawing.Point(0, 3);
-            this.panel2.Margin = new System.Windows.Forms.Padding(0);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(701, 897);
-            this.panel2.TabIndex = 0;
-            // 
-            // panel22
-            // 
-            this.panel22.Location = new System.Drawing.Point(273, 202);
-            this.panel22.Name = "panel22";
-            this.panel22.Size = new System.Drawing.Size(381, 426);
-            this.panel22.TabIndex = 6;
-            // 
-            // tableLayoutPanel1
-            // 
-            this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.tableLayoutPanel1.ColumnCount = 1;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Controls.Add(this.panel4, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.panel5, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.panel6, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.panel7, 0, 3);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 0);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 4;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 58.72483F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.44295F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(267, 894);
-            this.tableLayoutPanel1.TabIndex = 0;
-            // 
-            // panel4
-            // 
-            this.panel4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel4.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.panel4.Controls.Add(this.pictureBox1);
-            this.panel4.Controls.Add(this.label2);
-            this.panel4.ForeColor = System.Drawing.SystemColors.ActiveCaption;
-            this.panel4.Location = new System.Drawing.Point(3, 10);
-            this.panel4.Margin = new System.Windows.Forms.Padding(3, 10, 3, 3);
-            this.panel4.Name = "panel4";
-            this.panel4.Padding = new System.Windows.Forms.Padding(0, 200, 0, 0);
-            this.panel4.Size = new System.Drawing.Size(261, 98);
-            this.panel4.TabIndex = 0;
-            this.panel4.Paint += new System.Windows.Forms.PaintEventHandler(this.panel4_Paint);
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.ErrorImage = global::MovieReserve.Properties.Resources.SysLogo;
-            this.pictureBox1.Image = global::MovieReserve.Properties.Resources.SysLogo;
-            this.pictureBox1.InitialImage = global::MovieReserve.Properties.Resources.SysLogo;
-            this.pictureBox1.Location = new System.Drawing.Point(20, 15);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(50, 50);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
-            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
-            // 
-            // label2
-            // 
-            this.label2.Font = new System.Drawing.Font("Microsoft YaHei", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.label2.Location = new System.Drawing.Point(76, 29);
-            this.label2.MaximumSize = new System.Drawing.Size(500, 500);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(171, 20);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "MovieReserve";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.label2.Click += new System.EventHandler(this.label2_Click);
-            // 
-            // panel5
-            // 
-            this.panel5.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel5.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.panel5.Controls.Add(this.roundLabel1);
-            this.panel5.Controls.Add(this.label4);
-            this.panel5.Controls.Add(this.label3);
-            this.panel5.Location = new System.Drawing.Point(3, 114);
-            this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(261, 105);
-            this.panel5.TabIndex = 1;
-            this.panel5.Paint += new System.Windows.Forms.PaintEventHandler(this.panel5_Paint);
-            // 
-            // label4
-            // 
-            this.label4.Font = new System.Drawing.Font("Microsoft YaHei UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.label4.Location = new System.Drawing.Point(73, 21);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(121, 23);
-            this.label4.TabIndex = 2;
-            this.label4.Text = "Ramirez Cristopher\r\n";
-            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.label4.Click += new System.EventHandler(this.label4_Click);
-            // 
-            // label3
-            // 
-            this.label3.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.label3.Location = new System.Drawing.Point(78, 8);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(100, 13);
-            this.label3.TabIndex = 1;
-            this.label3.Text = "signed as";
-            this.label3.Click += new System.EventHandler(this.label3_Click);
-            // 
-            // panel6
-            // 
-            this.panel6.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel6.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.panel6.Controls.Add(this.btnSettings);
-            this.panel6.Controls.Add(this.btnMovies);
-            this.panel6.Controls.Add(this.btnReservation);
-            this.panel6.Controls.Add(this.label10);
-            this.panel6.Location = new System.Drawing.Point(3, 225);
-            this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(261, 518);
-            this.panel6.TabIndex = 2;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.ForeColor = System.Drawing.SystemColors.WindowFrame;
-            this.label10.Location = new System.Drawing.Point(43, 12);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(116, 13);
-            this.label10.TabIndex = 0;
-            this.label10.Text = "Counter workspace";
-            // 
-            // panel7
-            // 
-            this.panel7.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel7.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.panel7.Controls.Add(this.roundButton5);
-            this.panel7.Controls.Add(this.label12);
-            this.panel7.Controls.Add(this.label11);
-            this.panel7.Location = new System.Drawing.Point(3, 749);
-            this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(261, 142);
-            this.panel7.TabIndex = 3;
-            // 
-            // label12
-            // 
-            this.label12.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.label12.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.label12.Location = new System.Drawing.Point(27, 10);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(28, 29);
-            this.label12.TabIndex = 1;
-            this.label12.Text = "•";
-            this.label12.Click += new System.EventHandler(this.label12_Click);
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.BackColor = System.Drawing.SystemColors.WindowText;
-            this.label11.Font = new System.Drawing.Font("Microsoft YaHei UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.ForeColor = System.Drawing.SystemColors.HighlightText;
-            this.label11.Location = new System.Drawing.Point(52, 20);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(158, 19);
-            this.label11.TabIndex = 0;
-            this.label11.Text = "Grand Avenue Cinema";
-            this.label11.Click += new System.EventHandler(this.label11_Click);
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(0, 0);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(41, 13);
-            this.label15.TabIndex = 1;
-            this.label15.Text = "label15";
-            // 
-            // btnManageMovies
-            // 
-            this.btnManageMovies.BackColor = System.Drawing.Color.Black;
-            this.btnManageMovies.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnManageMovies.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnManageMovies.Location = new System.Drawing.Point(38, 9);
-            this.btnManageMovies.Margin = new System.Windows.Forms.Padding(0);
-            this.btnManageMovies.Name = "btnManageMovies";
-            this.btnManageMovies.Size = new System.Drawing.Size(150, 40);
-            this.btnManageMovies.TabIndex = 0;
-            this.btnManageMovies.Text = "Manage Movies";
-            this.btnManageMovies.UseVisualStyleBackColor = false;
-            this.btnManageMovies.Click += new System.EventHandler(this.btnManageMovies_Click);
-            // 
-            // btnDevelopers
-            // 
-            this.btnDevelopers.BackColor = System.Drawing.Color.Black;
-            this.btnDevelopers.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnDevelopers.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDevelopers.Location = new System.Drawing.Point(215, 9);
-            this.btnDevelopers.Margin = new System.Windows.Forms.Padding(0);
-            this.btnDevelopers.Name = "btnDevelopers";
-            this.btnDevelopers.Size = new System.Drawing.Size(150, 40);
-            this.btnDevelopers.TabIndex = 3;
-            this.btnDevelopers.Text = "Developers";
-            this.btnDevelopers.UseVisualStyleBackColor = false;
-            this.btnDevelopers.Click += new System.EventHandler(this.btnDevelopers_Click);
-            // 
-            // btnSystemInfo
-            // 
-            this.btnSystemInfo.BackColor = System.Drawing.Color.Black;
-            this.btnSystemInfo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSystemInfo.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSystemInfo.Location = new System.Drawing.Point(571, 9);
-            this.btnSystemInfo.Margin = new System.Windows.Forms.Padding(0);
-            this.btnSystemInfo.Name = "btnSystemInfo";
-            this.btnSystemInfo.Size = new System.Drawing.Size(150, 40);
-            this.btnSystemInfo.TabIndex = 1;
-            this.btnSystemInfo.Text = "System Information";
-            this.btnSystemInfo.UseVisualStyleBackColor = false;
-            this.btnSystemInfo.Click += new System.EventHandler(this.btnSystemInfo_Click);
-            // 
-            // btnDocumentation
-            // 
-            this.btnDocumentation.BackColor = System.Drawing.Color.Black;
-            this.btnDocumentation.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnDocumentation.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDocumentation.Location = new System.Drawing.Point(395, 9);
-            this.btnDocumentation.Margin = new System.Windows.Forms.Padding(0);
-            this.btnDocumentation.Name = "btnDocumentation";
-            this.btnDocumentation.Size = new System.Drawing.Size(150, 40);
-            this.btnDocumentation.TabIndex = 2;
-            this.btnDocumentation.Text = "Documentation";
-            this.btnDocumentation.UseVisualStyleBackColor = false;
-            this.btnDocumentation.Click += new System.EventHandler(this.btnDocumentation_Click);
-            // 
-            // roundLabel2
-            // 
-            this.roundLabel2.BackColor = System.Drawing.SystemColors.ButtonShadow;
-            this.roundLabel2.Font = new System.Drawing.Font("Microsoft YaHei UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.roundLabel2.Location = new System.Drawing.Point(1071, 31);
-            this.roundLabel2.Name = "roundLabel2";
-            this.roundLabel2.Size = new System.Drawing.Size(51, 44);
-            this.roundLabel2.TabIndex = 6;
-            this.roundLabel2.Text = "RC";
-            // 
-            // New_Reserve
-            // 
-            this.New_Reserve.BackColor = System.Drawing.Color.Red;
-            this.New_Reserve.BorderColor = System.Drawing.Color.Gray;
-            this.New_Reserve.CornerRadius = 10;
-            this.New_Reserve.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.New_Reserve.FlatAppearance.BorderSize = 0;
-            this.New_Reserve.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.New_Reserve.Font = new System.Drawing.Font("Microsoft YaHei UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.New_Reserve.ForeColor = System.Drawing.Color.White;
-            this.New_Reserve.HoverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.New_Reserve.Location = new System.Drawing.Point(953, 35);
-            this.New_Reserve.Name = "New_Reserve";
-            this.New_Reserve.PressedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
-            this.New_Reserve.Size = new System.Drawing.Size(169, 41);
-            this.New_Reserve.TabIndex = 7;
-            this.New_Reserve.Text = "+ New Reserve";
-            this.New_Reserve.UseVisualStyleBackColor = false;
-            this.New_Reserve.Click += new System.EventHandler(this.New_Reserve_Click);
             // 
             // cornerPanel2
             // 
@@ -749,11 +477,26 @@ namespace MovieReserve
             // SettingsPanelchild
             // 
             this.SettingsPanelchild.BackColor = System.Drawing.Color.Black;
+            this.SettingsPanelchild.BottomLeftRadius = 0;
+            this.SettingsPanelchild.BottomRightRadius = 0;
             this.SettingsPanelchild.Location = new System.Drawing.Point(0, 87);
             this.SettingsPanelchild.Margin = new System.Windows.Forms.Padding(0);
             this.SettingsPanelchild.Name = "SettingsPanelchild";
             this.SettingsPanelchild.Size = new System.Drawing.Size(1167, 653);
             this.SettingsPanelchild.TabIndex = 6;
+            this.SettingsPanelchild.TopLeftRadius = 0;
+            this.SettingsPanelchild.TopRightRadius = 0;
+            // 
+            // ReservationPanel
+            // 
+            this.ReservationPanel.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ReservationPanel.Controls.Add(this.RecieptPanel);
+            this.ReservationPanel.Controls.Add(this.SelectedMoviePanel);
+            this.ReservationPanel.Controls.Add(this.SeatPanel);
+            this.ReservationPanel.Location = new System.Drawing.Point(0, 0);
+            this.ReservationPanel.Name = "ReservationPanel";
+            this.ReservationPanel.Size = new System.Drawing.Size(1164, 689);
+            this.ReservationPanel.TabIndex = 1;
             // 
             // RecieptPanel
             // 
@@ -1971,6 +1714,114 @@ namespace MovieReserve
             this.pictureBox2.TabIndex = 0;
             this.pictureBox2.TabStop = false;
             // 
+            // MoviesPanel
+            // 
+            this.MoviesPanel.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.MoviesPanel.Location = new System.Drawing.Point(0, 0);
+            this.MoviesPanel.Name = "MoviesPanel";
+            this.MoviesPanel.Size = new System.Drawing.Size(1164, 689);
+            this.MoviesPanel.TabIndex = 2;
+            this.MoviesPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.MoviesPanel_Paint);
+            // 
+            // panel2
+            // 
+            this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel2.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.panel2.Controls.Add(this.panel22);
+            this.panel2.Controls.Add(this.tableLayoutPanel1);
+            this.panel2.Location = new System.Drawing.Point(0, 3);
+            this.panel2.Margin = new System.Windows.Forms.Padding(0);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(701, 897);
+            this.panel2.TabIndex = 0;
+            // 
+            // panel22
+            // 
+            this.panel22.Location = new System.Drawing.Point(273, 202);
+            this.panel22.Name = "panel22";
+            this.panel22.Size = new System.Drawing.Size(381, 426);
+            this.panel22.TabIndex = 6;
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.tableLayoutPanel1.ColumnCount = 1;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Controls.Add(this.panel4, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.panel5, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.panel6, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.panel7, 0, 3);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 0);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 4;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 58.72483F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.44295F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(267, 894);
+            this.tableLayoutPanel1.TabIndex = 0;
+            // 
+            // panel4
+            // 
+            this.panel4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel4.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.panel4.Controls.Add(this.pictureBox1);
+            this.panel4.Controls.Add(this.label2);
+            this.panel4.ForeColor = System.Drawing.SystemColors.ActiveCaption;
+            this.panel4.Location = new System.Drawing.Point(3, 10);
+            this.panel4.Margin = new System.Windows.Forms.Padding(3, 10, 3, 3);
+            this.panel4.Name = "panel4";
+            this.panel4.Padding = new System.Windows.Forms.Padding(0, 200, 0, 0);
+            this.panel4.Size = new System.Drawing.Size(261, 98);
+            this.panel4.TabIndex = 0;
+            this.panel4.Paint += new System.Windows.Forms.PaintEventHandler(this.panel4_Paint);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.ErrorImage = global::MovieReserve.Properties.Resources.SysLogo;
+            this.pictureBox1.Image = global::MovieReserve.Properties.Resources.SysLogo;
+            this.pictureBox1.InitialImage = global::MovieReserve.Properties.Resources.SysLogo;
+            this.pictureBox1.Location = new System.Drawing.Point(20, 15);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(50, 50);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
+            // 
+            // label2
+            // 
+            this.label2.Font = new System.Drawing.Font("Microsoft YaHei", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.label2.Location = new System.Drawing.Point(76, 29);
+            this.label2.MaximumSize = new System.Drawing.Size(500, 500);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(171, 20);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "MovieReserve";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label2.Click += new System.EventHandler(this.label2_Click);
+            // 
+            // panel5
+            // 
+            this.panel5.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel5.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.panel5.Controls.Add(this.roundLabel1);
+            this.panel5.Controls.Add(this.label4);
+            this.panel5.Controls.Add(this.label3);
+            this.panel5.Location = new System.Drawing.Point(3, 114);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(261, 105);
+            this.panel5.TabIndex = 1;
+            this.panel5.Paint += new System.Windows.Forms.PaintEventHandler(this.panel5_Paint);
+            // 
             // roundLabel1
             // 
             this.roundLabel1.BackColor = System.Drawing.SystemColors.ButtonShadow;
@@ -1980,6 +1831,43 @@ namespace MovieReserve
             this.roundLabel1.Size = new System.Drawing.Size(51, 44);
             this.roundLabel1.TabIndex = 5;
             this.roundLabel1.Text = "RC";
+            // 
+            // label4
+            // 
+            this.label4.Font = new System.Drawing.Font("Microsoft YaHei UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.label4.Location = new System.Drawing.Point(73, 21);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(121, 23);
+            this.label4.TabIndex = 2;
+            this.label4.Text = "Ramirez Cristopher\r\n";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label4.Click += new System.EventHandler(this.label4_Click);
+            // 
+            // label3
+            // 
+            this.label3.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.label3.Location = new System.Drawing.Point(78, 8);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(100, 13);
+            this.label3.TabIndex = 1;
+            this.label3.Text = "signed as";
+            this.label3.Click += new System.EventHandler(this.label3_Click);
+            // 
+            // panel6
+            // 
+            this.panel6.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel6.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.panel6.Controls.Add(this.btnSettings);
+            this.panel6.Controls.Add(this.btnMovies);
+            this.panel6.Controls.Add(this.btnReservation);
+            this.panel6.Controls.Add(this.label10);
+            this.panel6.Location = new System.Drawing.Point(3, 225);
+            this.panel6.Name = "panel6";
+            this.panel6.Size = new System.Drawing.Size(261, 518);
+            this.panel6.TabIndex = 2;
             // 
             // btnSettings
             // 
@@ -2044,6 +1932,31 @@ namespace MovieReserve
             this.btnReservation.UseVisualStyleBackColor = false;
             this.btnReservation.Click += new System.EventHandler(this.roundButton2_Click);
             // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.ForeColor = System.Drawing.SystemColors.WindowFrame;
+            this.label10.Location = new System.Drawing.Point(43, 12);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(116, 13);
+            this.label10.TabIndex = 0;
+            this.label10.Text = "Counter workspace";
+            // 
+            // panel7
+            // 
+            this.panel7.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel7.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.panel7.Controls.Add(this.roundButton5);
+            this.panel7.Controls.Add(this.label12);
+            this.panel7.Controls.Add(this.label11);
+            this.panel7.Location = new System.Drawing.Point(3, 749);
+            this.panel7.Name = "panel7";
+            this.panel7.Size = new System.Drawing.Size(261, 142);
+            this.panel7.TabIndex = 3;
+            // 
             // roundButton5
             // 
             this.roundButton5.BackColor = System.Drawing.Color.Black;
@@ -2064,6 +1977,97 @@ namespace MovieReserve
             this.roundButton5.Text = "LogOut";
             this.roundButton5.UseVisualStyleBackColor = false;
             this.roundButton5.Click += new System.EventHandler(this.roundButton5_Click);
+            // 
+            // label12
+            // 
+            this.label12.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label12.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.label12.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label12.Location = new System.Drawing.Point(27, 10);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(28, 29);
+            this.label12.TabIndex = 1;
+            this.label12.Text = "•";
+            this.label12.Click += new System.EventHandler(this.label12_Click);
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.BackColor = System.Drawing.SystemColors.WindowText;
+            this.label11.Font = new System.Drawing.Font("Microsoft YaHei UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.ForeColor = System.Drawing.SystemColors.HighlightText;
+            this.label11.Location = new System.Drawing.Point(52, 20);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(158, 19);
+            this.label11.TabIndex = 0;
+            this.label11.Text = "Grand Avenue Cinema";
+            this.label11.Click += new System.EventHandler(this.label11_Click);
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(0, 0);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(41, 13);
+            this.label15.TabIndex = 1;
+            this.label15.Text = "label15";
+            // 
+            // btnManageMovies
+            // 
+            this.btnManageMovies.BackColor = System.Drawing.Color.Black;
+            this.btnManageMovies.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnManageMovies.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnManageMovies.Location = new System.Drawing.Point(38, 9);
+            this.btnManageMovies.Margin = new System.Windows.Forms.Padding(0);
+            this.btnManageMovies.Name = "btnManageMovies";
+            this.btnManageMovies.Size = new System.Drawing.Size(150, 40);
+            this.btnManageMovies.TabIndex = 0;
+            this.btnManageMovies.Text = "Manage Movies";
+            this.btnManageMovies.UseVisualStyleBackColor = false;
+            this.btnManageMovies.Click += new System.EventHandler(this.btnManageMovies_Click);
+            // 
+            // btnDevelopers
+            // 
+            this.btnDevelopers.BackColor = System.Drawing.Color.Black;
+            this.btnDevelopers.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDevelopers.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDevelopers.Location = new System.Drawing.Point(215, 9);
+            this.btnDevelopers.Margin = new System.Windows.Forms.Padding(0);
+            this.btnDevelopers.Name = "btnDevelopers";
+            this.btnDevelopers.Size = new System.Drawing.Size(150, 40);
+            this.btnDevelopers.TabIndex = 3;
+            this.btnDevelopers.Text = "Developers";
+            this.btnDevelopers.UseVisualStyleBackColor = false;
+            this.btnDevelopers.Click += new System.EventHandler(this.btnDevelopers_Click);
+            // 
+            // btnSystemInfo
+            // 
+            this.btnSystemInfo.BackColor = System.Drawing.Color.Black;
+            this.btnSystemInfo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSystemInfo.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSystemInfo.Location = new System.Drawing.Point(571, 9);
+            this.btnSystemInfo.Margin = new System.Windows.Forms.Padding(0);
+            this.btnSystemInfo.Name = "btnSystemInfo";
+            this.btnSystemInfo.Size = new System.Drawing.Size(150, 40);
+            this.btnSystemInfo.TabIndex = 1;
+            this.btnSystemInfo.Text = "System Information";
+            this.btnSystemInfo.UseVisualStyleBackColor = false;
+            this.btnSystemInfo.Click += new System.EventHandler(this.btnSystemInfo_Click);
+            // 
+            // btnDocumentation
+            // 
+            this.btnDocumentation.BackColor = System.Drawing.Color.Black;
+            this.btnDocumentation.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDocumentation.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDocumentation.Location = new System.Drawing.Point(395, 9);
+            this.btnDocumentation.Margin = new System.Windows.Forms.Padding(0);
+            this.btnDocumentation.Name = "btnDocumentation";
+            this.btnDocumentation.Size = new System.Drawing.Size(150, 40);
+            this.btnDocumentation.TabIndex = 2;
+            this.btnDocumentation.Text = "Documentation";
+            this.btnDocumentation.UseVisualStyleBackColor = false;
+            this.btnDocumentation.Click += new System.EventHandler(this.btnDocumentation_Click);
             // 
             // roundPanel5
             // 
@@ -2134,7 +2138,11 @@ namespace MovieReserve
             this.panel8.PerformLayout();
             this.RightMotherPanel.ResumeLayout(false);
             this.SettingsPanel.ResumeLayout(false);
+            this.cornerPanel2.ResumeLayout(false);
             this.ReservationPanel.ResumeLayout(false);
+            this.SeatPanel.ResumeLayout(false);
+            this.panel11.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.panel2.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
@@ -2144,10 +2152,6 @@ namespace MovieReserve
             this.panel6.PerformLayout();
             this.panel7.ResumeLayout(false);
             this.panel7.PerformLayout();
-            this.cornerPanel2.ResumeLayout(false);
-            this.SeatPanel.ResumeLayout(false);
-            this.panel11.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.roundPanel5.ResumeLayout(false);
             this.cornerPanel1.ResumeLayout(false);
             this.cornerPanel1.PerformLayout();
