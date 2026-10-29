@@ -464,6 +464,24 @@ namespace MovieReserve
         private EyeButton _eye;
         private ToolTip _tip;
 
+        // Failed attempts with a name that doesn't exist: 3 tries, then a 30-second wait.
+        // static = survives closing/reopening the login form while the app is running.
+        private const int UnknownMaxAttempts = 3;
+        private const int CooldownSeconds = 30;
+        private static int _unknownFails;
+        private static DateTime _lockUntil = DateTime.MinValue;
+        private System.Windows.Forms.Timer _cooldownTimer;
+
+        private static bool InCooldown { get { return DateTime.UtcNow < _lockUntil; } }
+        private static int RemainingSeconds
+        {
+            get
+            {
+                int sec = (int)Math.Ceiling((_lockUntil - DateTime.UtcNow).TotalSeconds);
+                return sec < 0 ? 0 : sec;
+            }
+        }
+
         private static readonly HttpClient _http = CreateClient();
         private static HttpClient CreateClient()
         {
@@ -508,6 +526,7 @@ namespace MovieReserve
             Resize += (s, e) => { LayoutUi(); BuildBackground(); };
             Shown += async (s, e) =>
             {
+                if (InCooldown) { ApplyCooldownUi(); _cooldownTimer.Start(); }
                 LoadRemembered();
                 (_txtUser.Text.Length > 0 ? _txtPass : _txtUser).Focus();
                 await LoadPosterBackgroundAsync();
@@ -551,7 +570,7 @@ namespace MovieReserve
             };
             _btnSignIn.FlatAppearance.BorderSize = 0;
             _btnSignIn.MouseEnter += (s, e) => { if (_btnSignIn.Enabled) _btnSignIn.BackColor = RedHover; };
-            _btnSignIn.MouseLeave += (s, e) => _btnSignIn.BackColor = Red;
+            _btnSignIn.MouseLeave += (s, e) => _btnSignIn.BackColor = _btnSignIn.Enabled ? Red : RedHover;
             _btnSignIn.Click += BtnSignIn_Click;
 
             _chkRemember = new CheckBox
@@ -576,6 +595,9 @@ namespace MovieReserve
             {
                 _logo, _title, _userBox, _passBox, _error, _btnSignIn, _chkRemember, _help
             });
+
+            _cooldownTimer = new System.Windows.Forms.Timer { Interval = 1000 };
+            _cooldownTimer.Tick += CooldownTick;
         }
 
         private void TogglePassword()
@@ -844,6 +866,8 @@ namespace MovieReserve
         // ---------- sign in ----------
         private async void BtnSignIn_Click(object sender, EventArgs e)
         {
+            if (InCooldown) { ApplyCooldownUi(); return; }
+
             string login = _txtUser.Text.Trim();
             string pass = _txtPass.Text;
 
@@ -867,6 +891,7 @@ namespace MovieReserve
                 switch (res.Status)
                 {
                     case LoginStatus.Success:
+                        _unknownFails = 0;
                         SaveRemembered(res.User.Name);
                         User = res.User;
                         DialogResult = DialogResult.OK;
@@ -889,10 +914,20 @@ namespace MovieReserve
                         _txtPass.Focus();
                         break;
 
-                    default:   // NotFound
-                        ShowError("Incorrect name or password. Please try again.");
+                    default:   // NotFound (name doesn't exist)
+                        _unknownFails++;
+                        if (_unknownFails >= UnknownMaxAttempts)
+                        {
+                            StartCooldown();
+                        }
+                        else
+                        {
+                            int left = UnknownMaxAttempts - _unknownFails;
+                            ShowError("Incorrect name or password. " + left +
+                                      (left == 1 ? " attempt" : " attempts") + " left.");
+                        }
                         _txtPass.Clear();
-                        _txtPass.Focus();
+                        if (!InCooldown) _txtPass.Focus();
                         break;
                 }
             }
@@ -908,10 +943,44 @@ namespace MovieReserve
 
         private void SetBusy(bool busy)
         {
+            if (!busy && InCooldown) { ApplyCooldownUi(); return; }   // stay disabled during the countdown
+
             _btnSignIn.Enabled = !busy;
             _btnSignIn.Text = busy ? "Signing in..." : "Sign In";
             _btnSignIn.BackColor = busy ? RedHover : Red;
             if (busy) _error.Text = "";
+        }
+
+        // ---------- 30-second countdown ----------
+        private void StartCooldown()
+        {
+            _lockUntil = DateTime.UtcNow.AddSeconds(CooldownSeconds);
+            ApplyCooldownUi();
+            _cooldownTimer.Start();
+        }
+
+        private void CooldownTick(object sender, EventArgs e)
+        {
+            if (!InCooldown)
+            {
+                _cooldownTimer.Stop();
+                _unknownFails = 0;
+                _error.Text = "";
+                SetBusy(false);
+                _txtUser.Focus();
+                return;
+            }
+            ApplyCooldownUi();
+        }
+
+        private void ApplyCooldownUi()
+        {
+            int sec = RemainingSeconds;
+            _btnSignIn.Enabled = false;
+            _btnSignIn.Text = "Try again in " + sec + "s";
+            _btnSignIn.BackColor = RedHover;
+            _error.Text = "Too many failed attempts. Please wait " + sec +
+                          (sec == 1 ? " second" : " seconds") + " before trying again.";
         }
 
         // ---------- remember me ----------
@@ -942,6 +1011,7 @@ namespace MovieReserve
                 foreach (var p in _posters) p.Dispose();
                 if (_bg != null) _bg.Dispose();
                 if (_tip != null) _tip.Dispose();
+                if (_cooldownTimer != null) _cooldownTimer.Dispose();
             }
             base.Dispose(disposing);
         }
