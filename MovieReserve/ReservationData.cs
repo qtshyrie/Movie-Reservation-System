@@ -519,7 +519,6 @@ namespace MovieReserve
             sb.AppendLine(heavy);
             sb.AppendLine(Row("Receipt no", receiptNo));
             sb.AppendLine(Row("Date", now.ToString("yyyy-MM-dd hh:mm:ss tt")));
-            sb.AppendLine(Row("Served by", s.User == null ? "-" : s.User.Name + " (" + s.User.Role + ")"));
             sb.AppendLine(thin);
             sb.AppendLine(Row("Movie", s.Movie == null ? "-" : s.Movie.Title));
             sb.AppendLine(Row("Genre", s.Movie == null ? "-" : s.Movie.Genre));
