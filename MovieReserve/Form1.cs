@@ -150,7 +150,6 @@ namespace MovieReserve
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.panel8 = new System.Windows.Forms.Panel();
-            this.New_Reserve = new RoundButton();
             this.label9 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.RightMotherPanel = new System.Windows.Forms.Panel();
@@ -284,8 +283,9 @@ namespace MovieReserve
             this.panel1.Controls.Add(this.panel3);
             this.panel1.Controls.Add(this.panel2);
             this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1446, 900);
+            this.panel1.Size = new System.Drawing.Size(1928, 1108);
             this.panel1.TabIndex = 0;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint_1);
             // 
@@ -296,19 +296,20 @@ namespace MovieReserve
             this.panel3.Controls.Add(this.label6);
             this.panel3.Controls.Add(this.label5);
             this.panel3.Controls.Add(this.panel8);
-            this.panel3.Location = new System.Drawing.Point(273, 3);
+            this.panel3.Location = new System.Drawing.Point(364, 4);
             this.panel3.Margin = new System.Windows.Forms.Padding(0);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(1170, 899);
+            this.panel3.Size = new System.Drawing.Size(1560, 1106);
             this.panel3.TabIndex = 1;
             // 
             // roundLabel2
             // 
             this.roundLabel2.BackColor = System.Drawing.SystemColors.ButtonShadow;
             this.roundLabel2.Font = new System.Drawing.Font("Microsoft YaHei UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.roundLabel2.Location = new System.Drawing.Point(1071, 31);
+            this.roundLabel2.Location = new System.Drawing.Point(1428, 38);
+            this.roundLabel2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.roundLabel2.Name = "roundLabel2";
-            this.roundLabel2.Size = new System.Drawing.Size(51, 44);
+            this.roundLabel2.Size = new System.Drawing.Size(68, 54);
             this.roundLabel2.TabIndex = 6;
             this.roundLabel2.Text = "RC";
             // 
@@ -316,9 +317,10 @@ namespace MovieReserve
             // 
             this.label6.Font = new System.Drawing.Font("Microsoft YaHei UI", 14.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.ForeColor = System.Drawing.SystemColors.WindowFrame;
-            this.label6.Location = new System.Drawing.Point(47, 52);
+            this.label6.Location = new System.Drawing.Point(63, 64);
+            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(147, 23);
+            this.label6.Size = new System.Drawing.Size(196, 28);
             this.label6.TabIndex = 2;
             this.label6.Text = "OVERVIEW";
             // 
@@ -326,52 +328,34 @@ namespace MovieReserve
             // 
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.SystemColors.ScrollBar;
-            this.label5.Location = new System.Drawing.Point(62, 39);
+            this.label5.Location = new System.Drawing.Point(83, 48);
+            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(242, 16);
+            this.label5.Size = new System.Drawing.Size(323, 20);
             this.label5.TabIndex = 1;
             this.label5.Text = "Thursday October 16";
             // 
             // panel8
             // 
             this.panel8.BackColor = System.Drawing.Color.Silver;
-            this.panel8.Controls.Add(this.New_Reserve);
             this.panel8.Controls.Add(this.label9);
             this.panel8.Controls.Add(this.label8);
             this.panel8.Controls.Add(this.RightMotherPanel);
             this.panel8.ForeColor = System.Drawing.Color.White;
-            this.panel8.Location = new System.Drawing.Point(0, 86);
+            this.panel8.Location = new System.Drawing.Point(0, 106);
+            this.panel8.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panel8.Name = "panel8";
-            this.panel8.Size = new System.Drawing.Size(1170, 823);
+            this.panel8.Size = new System.Drawing.Size(1560, 1013);
             this.panel8.TabIndex = 0;
-            // 
-            // New_Reserve
-            // 
-            this.New_Reserve.BackColor = System.Drawing.Color.Red;
-            this.New_Reserve.BorderColor = System.Drawing.Color.Gray;
-            this.New_Reserve.CornerRadius = 10;
-            this.New_Reserve.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.New_Reserve.FlatAppearance.BorderSize = 0;
-            this.New_Reserve.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.New_Reserve.Font = new System.Drawing.Font("Microsoft YaHei UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.New_Reserve.ForeColor = System.Drawing.Color.White;
-            this.New_Reserve.HoverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.New_Reserve.Location = new System.Drawing.Point(953, 35);
-            this.New_Reserve.Name = "New_Reserve";
-            this.New_Reserve.PressedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
-            this.New_Reserve.Size = new System.Drawing.Size(169, 41);
-            this.New_Reserve.TabIndex = 7;
-            this.New_Reserve.Text = "+ New Reserve";
-            this.New_Reserve.UseVisualStyleBackColor = false;
-            this.New_Reserve.Click += new System.EventHandler(this.New_Reserve_Click);
             // 
             // label9
             // 
             this.label9.AutoSize = true;
             this.label9.ForeColor = System.Drawing.SystemColors.WindowFrame;
-            this.label9.Location = new System.Drawing.Point(52, 63);
+            this.label9.Location = new System.Drawing.Point(69, 78);
+            this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(279, 13);
+            this.label9.Size = new System.Drawing.Size(344, 16);
             this.label9.TabIndex = 6;
             this.label9.Text = "Your counter is ready. Here’s a quick look at today’s shift.";
             this.label9.Click += new System.EventHandler(this.label9_Click);
@@ -379,9 +363,10 @@ namespace MovieReserve
             // label8
             // 
             this.label8.Font = new System.Drawing.Font("Microsoft YaHei UI", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(48, 19);
+            this.label8.Location = new System.Drawing.Point(64, 23);
+            this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(316, 44);
+            this.label8.Size = new System.Drawing.Size(421, 54);
             this.label8.TabIndex = 5;
             this.label8.Text = "Good Day, Staff";
             // 
@@ -391,9 +376,10 @@ namespace MovieReserve
             this.RightMotherPanel.Controls.Add(this.SettingsPanel);
             this.RightMotherPanel.Controls.Add(this.ReservationPanel);
             this.RightMotherPanel.Controls.Add(this.MoviesPanel);
-            this.RightMotherPanel.Location = new System.Drawing.Point(0, 102);
+            this.RightMotherPanel.Location = new System.Drawing.Point(0, 126);
+            this.RightMotherPanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.RightMotherPanel.Name = "RightMotherPanel";
-            this.RightMotherPanel.Size = new System.Drawing.Size(1167, 707);
+            this.RightMotherPanel.Size = new System.Drawing.Size(1556, 870);
             this.RightMotherPanel.TabIndex = 8;
             this.RightMotherPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.panel5_Paint);
             // 
@@ -404,8 +390,9 @@ namespace MovieReserve
             this.SettingsPanel.Controls.Add(this.SettingsPanelchild);
             this.SettingsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.SettingsPanel.Location = new System.Drawing.Point(0, 0);
+            this.SettingsPanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.SettingsPanel.Name = "SettingsPanel";
-            this.SettingsPanel.Size = new System.Drawing.Size(1167, 707);
+            this.SettingsPanel.Size = new System.Drawing.Size(1556, 870);
             this.SettingsPanel.TabIndex = 3;
             // 
             // cornerPanel2
@@ -414,10 +401,10 @@ namespace MovieReserve
             this.cornerPanel2.Controls.Add(this.roundButton64);
             this.cornerPanel2.Controls.Add(this.roundButton63);
             this.cornerPanel2.Controls.Add(this.roundButton62);
-            this.cornerPanel2.Location = new System.Drawing.Point(31, 14);
+            this.cornerPanel2.Location = new System.Drawing.Point(41, 17);
             this.cornerPanel2.Margin = new System.Windows.Forms.Padding(0);
             this.cornerPanel2.Name = "cornerPanel2";
-            this.cornerPanel2.Size = new System.Drawing.Size(1091, 58);
+            this.cornerPanel2.Size = new System.Drawing.Size(1455, 71);
             this.cornerPanel2.TabIndex = 8;
             // 
             // roundButton64
@@ -430,10 +417,11 @@ namespace MovieReserve
             this.roundButton64.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.roundButton64.ForeColor = System.Drawing.Color.White;
             this.roundButton64.HoverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
-            this.roundButton64.Location = new System.Drawing.Point(500, 10);
+            this.roundButton64.Location = new System.Drawing.Point(667, 12);
+            this.roundButton64.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.roundButton64.Name = "roundButton64";
             this.roundButton64.PressedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.roundButton64.Size = new System.Drawing.Size(146, 41);
+            this.roundButton64.Size = new System.Drawing.Size(195, 50);
             this.roundButton64.TabIndex = 2;
             this.roundButton64.Text = "System Information";
             this.roundButton64.UseVisualStyleBackColor = false;
@@ -448,10 +436,11 @@ namespace MovieReserve
             this.roundButton63.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.roundButton63.ForeColor = System.Drawing.Color.White;
             this.roundButton63.HoverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
-            this.roundButton63.Location = new System.Drawing.Point(284, 10);
+            this.roundButton63.Location = new System.Drawing.Point(379, 12);
+            this.roundButton63.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.roundButton63.Name = "roundButton63";
             this.roundButton63.PressedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.roundButton63.Size = new System.Drawing.Size(146, 41);
+            this.roundButton63.Size = new System.Drawing.Size(195, 50);
             this.roundButton63.TabIndex = 1;
             this.roundButton63.Text = "Developers";
             this.roundButton63.UseVisualStyleBackColor = false;
@@ -466,10 +455,11 @@ namespace MovieReserve
             this.roundButton62.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.roundButton62.ForeColor = System.Drawing.Color.White;
             this.roundButton62.HoverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
-            this.roundButton62.Location = new System.Drawing.Point(75, 10);
+            this.roundButton62.Location = new System.Drawing.Point(100, 12);
+            this.roundButton62.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.roundButton62.Name = "roundButton62";
             this.roundButton62.PressedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.roundButton62.Size = new System.Drawing.Size(146, 41);
+            this.roundButton62.Size = new System.Drawing.Size(195, 50);
             this.roundButton62.TabIndex = 0;
             this.roundButton62.Text = "Manage  Movies";
             this.roundButton62.UseVisualStyleBackColor = false;
@@ -479,10 +469,10 @@ namespace MovieReserve
             this.SettingsPanelchild.BackColor = System.Drawing.Color.Black;
             this.SettingsPanelchild.BottomLeftRadius = 0;
             this.SettingsPanelchild.BottomRightRadius = 0;
-            this.SettingsPanelchild.Location = new System.Drawing.Point(0, 87);
+            this.SettingsPanelchild.Location = new System.Drawing.Point(0, 107);
             this.SettingsPanelchild.Margin = new System.Windows.Forms.Padding(0);
             this.SettingsPanelchild.Name = "SettingsPanelchild";
-            this.SettingsPanelchild.Size = new System.Drawing.Size(1167, 653);
+            this.SettingsPanelchild.Size = new System.Drawing.Size(1556, 804);
             this.SettingsPanelchild.TabIndex = 6;
             this.SettingsPanelchild.TopLeftRadius = 0;
             this.SettingsPanelchild.TopRightRadius = 0;
@@ -494,8 +484,9 @@ namespace MovieReserve
             this.ReservationPanel.Controls.Add(this.SelectedMoviePanel);
             this.ReservationPanel.Controls.Add(this.SeatPanel);
             this.ReservationPanel.Location = new System.Drawing.Point(0, 0);
+            this.ReservationPanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.ReservationPanel.Name = "ReservationPanel";
-            this.ReservationPanel.Size = new System.Drawing.Size(1164, 689);
+            this.ReservationPanel.Size = new System.Drawing.Size(1552, 848);
             this.ReservationPanel.TabIndex = 1;
             // 
             // RecieptPanel
@@ -503,9 +494,10 @@ namespace MovieReserve
             this.RecieptPanel.BackColor = System.Drawing.SystemColors.ControlLight;
             this.RecieptPanel.BottomLeftRadius = 10;
             this.RecieptPanel.BottomRightRadius = 10;
-            this.RecieptPanel.Location = new System.Drawing.Point(838, 260);
+            this.RecieptPanel.Location = new System.Drawing.Point(1117, 320);
+            this.RecieptPanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.RecieptPanel.Name = "RecieptPanel";
-            this.RecieptPanel.Size = new System.Drawing.Size(284, 402);
+            this.RecieptPanel.Size = new System.Drawing.Size(379, 495);
             this.RecieptPanel.TabIndex = 2;
             this.RecieptPanel.TopLeftRadius = 10;
             this.RecieptPanel.TopRightRadius = 10;
@@ -515,9 +507,10 @@ namespace MovieReserve
             this.SelectedMoviePanel.BackColor = System.Drawing.SystemColors.ControlLight;
             this.SelectedMoviePanel.BottomLeftRadius = 10;
             this.SelectedMoviePanel.BottomRightRadius = 10;
-            this.SelectedMoviePanel.Location = new System.Drawing.Point(838, 35);
+            this.SelectedMoviePanel.Location = new System.Drawing.Point(1117, 43);
+            this.SelectedMoviePanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.SelectedMoviePanel.Name = "SelectedMoviePanel";
-            this.SelectedMoviePanel.Size = new System.Drawing.Size(284, 202);
+            this.SelectedMoviePanel.Size = new System.Drawing.Size(379, 249);
             this.SelectedMoviePanel.TabIndex = 1;
             this.SelectedMoviePanel.TopLeftRadius = 10;
             this.SelectedMoviePanel.TopRightRadius = 10;
@@ -590,9 +583,10 @@ namespace MovieReserve
             this.SeatPanel.Controls.Add(this.roundButton2);
             this.SeatPanel.Controls.Add(this.roundButton1);
             this.SeatPanel.Controls.Add(this.pictureBox2);
-            this.SeatPanel.Location = new System.Drawing.Point(41, 35);
+            this.SeatPanel.Location = new System.Drawing.Point(55, 43);
+            this.SeatPanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.SeatPanel.Name = "SeatPanel";
-            this.SeatPanel.Size = new System.Drawing.Size(780, 627);
+            this.SeatPanel.Size = new System.Drawing.Size(1040, 772);
             this.SeatPanel.TabIndex = 0;
             this.SeatPanel.TopLeftRadius = 10;
             this.SeatPanel.TopRightRadius = 10;
@@ -608,10 +602,11 @@ namespace MovieReserve
             this.roundButton61.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.roundButton61.ForeColor = System.Drawing.Color.White;
             this.roundButton61.HoverBackColor = System.Drawing.Color.Empty;
-            this.roundButton61.Location = new System.Drawing.Point(62, 432);
+            this.roundButton61.Location = new System.Drawing.Point(83, 532);
+            this.roundButton61.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.roundButton61.Name = "roundButton61";
             this.roundButton61.PressedBackColor = System.Drawing.Color.Empty;
-            this.roundButton61.Size = new System.Drawing.Size(51, 46);
+            this.roundButton61.Size = new System.Drawing.Size(68, 57);
             this.roundButton61.TabIndex = 66;
             this.roundButton61.Text = "1";
             this.roundButton61.UseVisualStyleBackColor = false;
@@ -626,10 +621,11 @@ namespace MovieReserve
             this.roundButton60.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.roundButton60.ForeColor = System.Drawing.Color.White;
             this.roundButton60.HoverBackColor = System.Drawing.Color.Empty;
-            this.roundButton60.Location = new System.Drawing.Point(119, 432);
+            this.roundButton60.Location = new System.Drawing.Point(159, 532);
+            this.roundButton60.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.roundButton60.Name = "roundButton60";
             this.roundButton60.PressedBackColor = System.Drawing.Color.Empty;
-            this.roundButton60.Size = new System.Drawing.Size(51, 46);
+            this.roundButton60.Size = new System.Drawing.Size(68, 57);
             this.roundButton60.TabIndex = 65;
             this.roundButton60.Text = "1";
             this.roundButton60.UseVisualStyleBackColor = false;
@@ -644,10 +640,11 @@ namespace MovieReserve
             this.roundButton59.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.roundButton59.ForeColor = System.Drawing.Color.White;
             this.roundButton59.HoverBackColor = System.Drawing.Color.Empty;
-            this.roundButton59.Location = new System.Drawing.Point(176, 432);
+            this.roundButton59.Location = new System.Drawing.Point(235, 532);
+            this.roundButton59.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.roundButton59.Name = "roundButton59";
             this.roundButton59.PressedBackColor = System.Drawing.Color.Empty;
-            this.roundButton59.Size = new System.Drawing.Size(51, 46);
+            this.roundButton59.Size = new System.Drawing.Size(68, 57);
             this.roundButton59.TabIndex = 64;
             this.roundButton59.Text = "1";
             this.roundButton59.UseVisualStyleBackColor = false;
@@ -662,10 +659,11 @@ namespace MovieReserve
             this.roundButton58.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.roundButton58.ForeColor = System.Drawing.Color.White;
             this.roundButton58.HoverBackColor = System.Drawing.Color.Empty;
-            this.roundButton58.Location = new System.Drawing.Point(233, 432);
+            this.roundButton58.Location = new System.Drawing.Point(311, 532);
+            this.roundButton58.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.roundButton58.Name = "roundButton58";
             this.roundButton58.PressedBackColor = System.Drawing.Color.Empty;
-            this.roundButton58.Size = new System.Drawing.Size(51, 46);
+            this.roundButton58.Size = new System.Drawing.Size(68, 57);
             this.roundButton58.TabIndex = 63;
             this.roundButton58.Text = "1";
             this.roundButton58.UseVisualStyleBackColor = false;
@@ -680,10 +678,11 @@ namespace MovieReserve
             this.roundButton57.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.roundButton57.ForeColor = System.Drawing.Color.White;
             this.roundButton57.HoverBackColor = System.Drawing.Color.Empty;
-            this.roundButton57.Location = new System.Drawing.Point(290, 432);
+            this.roundButton57.Location = new System.Drawing.Point(387, 532);
+            this.roundButton57.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.roundButton57.Name = "roundButton57";
             this.roundButton57.PressedBackColor = System.Drawing.Color.Empty;
-            this.roundButton57.Size = new System.Drawing.Size(51, 46);
+            this.roundButton57.Size = new System.Drawing.Size(68, 57);
             this.roundButton57.TabIndex = 62;
             this.roundButton57.Text = "1";
             this.roundButton57.UseVisualStyleBackColor = false;
@@ -698,10 +697,11 @@ namespace MovieReserve
             this.roundButton56.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.roundButton56.ForeColor = System.Drawing.Color.White;
             this.roundButton56.HoverBackColor = System.Drawing.Color.Empty;
-            this.roundButton56.Location = new System.Drawing.Point(433, 432);
+            this.roundButton56.Location = new System.Drawing.Point(577, 532);
+            this.roundButton56.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.roundButton56.Name = "roundButton56";
             this.roundButton56.PressedBackColor = System.Drawing.Color.Empty;
-            this.roundButton56.Size = new System.Drawing.Size(51, 46);
+            this.roundButton56.Size = new System.Drawing.Size(68, 57);
             this.roundButton56.TabIndex = 61;
             this.roundButton56.Text = "1";
             this.roundButton56.UseVisualStyleBackColor = false;
@@ -716,10 +716,11 @@ namespace MovieReserve
             this.roundButton55.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.roundButton55.ForeColor = System.Drawing.Color.White;
             this.roundButton55.HoverBackColor = System.Drawing.Color.Empty;
-            this.roundButton55.Location = new System.Drawing.Point(490, 432);
+            this.roundButton55.Location = new System.Drawing.Point(653, 532);
+            this.roundButton55.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.roundButton55.Name = "roundButton55";
             this.roundButton55.PressedBackColor = System.Drawing.Color.Empty;
-            this.roundButton55.Size = new System.Drawing.Size(51, 46);
+            this.roundButton55.Size = new System.Drawing.Size(68, 57);
             this.roundButton55.TabIndex = 60;
             this.roundButton55.Text = "1";
             this.roundButton55.UseVisualStyleBackColor = false;
@@ -734,10 +735,11 @@ namespace MovieReserve
             this.roundButton54.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.roundButton54.ForeColor = System.Drawing.Color.White;
             this.roundButton54.HoverBackColor = System.Drawing.Color.Empty;
-            this.roundButton54.Location = new System.Drawing.Point(547, 432);
+            this.roundButton54.Location = new System.Drawing.Point(729, 532);
+            this.roundButton54.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.roundButton54.Name = "roundButton54";
             this.roundButton54.PressedBackColor = System.Drawing.Color.Empty;
-            this.roundButton54.Size = new System.Drawing.Size(51, 46);
+            this.roundButton54.Size = new System.Drawing.Size(68, 57);
             this.roundButton54.TabIndex = 59;
             this.roundButton54.Text = "1";
             this.roundButton54.UseVisualStyleBackColor = false;
@@ -752,10 +754,11 @@ namespace MovieReserve
             this.roundButton53.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.roundButton53.ForeColor = System.Drawing.Color.White;
             this.roundButton53.HoverBackColor = System.Drawing.Color.Empty;
-            this.roundButton53.Location = new System.Drawing.Point(604, 432);
+            this.roundButton53.Location = new System.Drawing.Point(805, 532);
+            this.roundButton53.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.roundButton53.Name = "roundButton53";
             this.roundButton53.PressedBackColor = System.Drawing.Color.Empty;
-            this.roundButton53.Size = new System.Drawing.Size(51, 46);
+            this.roundButton53.Size = new System.Drawing.Size(68, 57);
             this.roundButton53.TabIndex = 58;
             this.roundButton53.Text = "1";
             this.roundButton53.UseVisualStyleBackColor = false;
@@ -770,10 +773,11 @@ namespace MovieReserve
             this.roundButton52.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.roundButton52.ForeColor = System.Drawing.Color.White;
             this.roundButton52.HoverBackColor = System.Drawing.Color.Empty;
-            this.roundButton52.Location = new System.Drawing.Point(661, 432);
+            this.roundButton52.Location = new System.Drawing.Point(881, 532);
+            this.roundButton52.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.roundButton52.Name = "roundButton52";
             this.roundButton52.PressedBackColor = System.Drawing.Color.Empty;
-            this.roundButton52.Size = new System.Drawing.Size(51, 46);
+            this.roundButton52.Size = new System.Drawing.Size(68, 57);
             this.roundButton52.TabIndex = 57;
             this.roundButton52.Text = "1";
             this.roundButton52.UseVisualStyleBackColor = false;
@@ -788,10 +792,11 @@ namespace MovieReserve
             this.roundButton51.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.roundButton51.ForeColor = System.Drawing.Color.White;
             this.roundButton51.HoverBackColor = System.Drawing.Color.Empty;
-            this.roundButton51.Location = new System.Drawing.Point(119, 380);
+            this.roundButton51.Location = new System.Drawing.Point(159, 468);
+            this.roundButton51.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.roundButton51.Name = "roundButton51";
             this.roundButton51.PressedBackColor = System.Drawing.Color.Empty;
-            this.roundButton51.Size = new System.Drawing.Size(51, 46);
+            this.roundButton51.Size = new System.Drawing.Size(68, 57);
             this.roundButton51.TabIndex = 56;
             this.roundButton51.Text = "1";
             this.roundButton51.UseVisualStyleBackColor = false;
@@ -806,10 +811,11 @@ namespace MovieReserve
             this.roundButton50.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.roundButton50.ForeColor = System.Drawing.Color.White;
             this.roundButton50.HoverBackColor = System.Drawing.Color.Empty;
-            this.roundButton50.Location = new System.Drawing.Point(176, 380);
+            this.roundButton50.Location = new System.Drawing.Point(235, 468);
+            this.roundButton50.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.roundButton50.Name = "roundButton50";
             this.roundButton50.PressedBackColor = System.Drawing.Color.Empty;
-            this.roundButton50.Size = new System.Drawing.Size(51, 46);
+            this.roundButton50.Size = new System.Drawing.Size(68, 57);
             this.roundButton50.TabIndex = 55;
             this.roundButton50.Text = "1";
             this.roundButton50.UseVisualStyleBackColor = false;
@@ -824,10 +830,11 @@ namespace MovieReserve
             this.roundButton49.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.roundButton49.ForeColor = System.Drawing.Color.White;
             this.roundButton49.HoverBackColor = System.Drawing.Color.Empty;
-            this.roundButton49.Location = new System.Drawing.Point(233, 380);
+            this.roundButton49.Location = new System.Drawing.Point(311, 468);
+            this.roundButton49.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.roundButton49.Name = "roundButton49";
             this.roundButton49.PressedBackColor = System.Drawing.Color.Empty;
-            this.roundButton49.Size = new System.Drawing.Size(51, 46);
+            this.roundButton49.Size = new System.Drawing.Size(68, 57);
             this.roundButton49.TabIndex = 54;
             this.roundButton49.Text = "1";
             this.roundButton49.UseVisualStyleBackColor = false;
@@ -842,10 +849,11 @@ namespace MovieReserve
             this.roundButton48.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.roundButton48.ForeColor = System.Drawing.Color.White;
             this.roundButton48.HoverBackColor = System.Drawing.Color.Empty;
-            this.roundButton48.Location = new System.Drawing.Point(290, 377);
+            this.roundButton48.Location = new System.Drawing.Point(387, 464);
+            this.roundButton48.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.roundButton48.Name = "roundButton48";
             this.roundButton48.PressedBackColor = System.Drawing.Color.Empty;
-            this.roundButton48.Size = new System.Drawing.Size(51, 46);
+            this.roundButton48.Size = new System.Drawing.Size(68, 57);
             this.roundButton48.TabIndex = 53;
             this.roundButton48.Text = "1";
             this.roundButton48.UseVisualStyleBackColor = false;
@@ -861,10 +869,11 @@ namespace MovieReserve
             this.roundButton47.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.roundButton47.ForeColor = System.Drawing.Color.White;
             this.roundButton47.HoverBackColor = System.Drawing.Color.Empty;
-            this.roundButton47.Location = new System.Drawing.Point(433, 380);
+            this.roundButton47.Location = new System.Drawing.Point(577, 468);
+            this.roundButton47.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.roundButton47.Name = "roundButton47";
             this.roundButton47.PressedBackColor = System.Drawing.Color.Empty;
-            this.roundButton47.Size = new System.Drawing.Size(51, 46);
+            this.roundButton47.Size = new System.Drawing.Size(68, 57);
             this.roundButton47.TabIndex = 52;
             this.roundButton47.Text = "1";
             this.roundButton47.UseVisualStyleBackColor = false;
@@ -879,10 +888,11 @@ namespace MovieReserve
             this.roundButton46.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.roundButton46.ForeColor = System.Drawing.Color.White;
             this.roundButton46.HoverBackColor = System.Drawing.Color.Empty;
-            this.roundButton46.Location = new System.Drawing.Point(490, 380);
+            this.roundButton46.Location = new System.Drawing.Point(653, 468);
+            this.roundButton46.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.roundButton46.Name = "roundButton46";
             this.roundButton46.PressedBackColor = System.Drawing.Color.Empty;
-            this.roundButton46.Size = new System.Drawing.Size(51, 46);
+            this.roundButton46.Size = new System.Drawing.Size(68, 57);
             this.roundButton46.TabIndex = 51;
             this.roundButton46.Text = "1";
             this.roundButton46.UseVisualStyleBackColor = false;
@@ -897,10 +907,11 @@ namespace MovieReserve
             this.roundButton45.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.roundButton45.ForeColor = System.Drawing.Color.White;
             this.roundButton45.HoverBackColor = System.Drawing.Color.Empty;
-            this.roundButton45.Location = new System.Drawing.Point(547, 377);
+            this.roundButton45.Location = new System.Drawing.Point(729, 464);
+            this.roundButton45.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.roundButton45.Name = "roundButton45";
             this.roundButton45.PressedBackColor = System.Drawing.Color.Empty;
-            this.roundButton45.Size = new System.Drawing.Size(51, 46);
+            this.roundButton45.Size = new System.Drawing.Size(68, 57);
             this.roundButton45.TabIndex = 50;
             this.roundButton45.Text = "1";
             this.roundButton45.UseVisualStyleBackColor = false;
@@ -915,10 +926,11 @@ namespace MovieReserve
             this.roundButton44.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.roundButton44.ForeColor = System.Drawing.Color.White;
             this.roundButton44.HoverBackColor = System.Drawing.Color.Empty;
-            this.roundButton44.Location = new System.Drawing.Point(604, 377);
+            this.roundButton44.Location = new System.Drawing.Point(805, 464);
+            this.roundButton44.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.roundButton44.Name = "roundButton44";
             this.roundButton44.PressedBackColor = System.Drawing.Color.Empty;
-            this.roundButton44.Size = new System.Drawing.Size(51, 46);
+            this.roundButton44.Size = new System.Drawing.Size(68, 57);
             this.roundButton44.TabIndex = 49;
             this.roundButton44.Text = "1";
             this.roundButton44.UseVisualStyleBackColor = false;
@@ -933,10 +945,11 @@ namespace MovieReserve
             this.roundButton43.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.roundButton43.ForeColor = System.Drawing.Color.White;
             this.roundButton43.HoverBackColor = System.Drawing.Color.Empty;
-            this.roundButton43.Location = new System.Drawing.Point(661, 380);
+            this.roundButton43.Location = new System.Drawing.Point(881, 468);
+            this.roundButton43.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.roundButton43.Name = "roundButton43";
             this.roundButton43.PressedBackColor = System.Drawing.Color.Empty;
-            this.roundButton43.Size = new System.Drawing.Size(51, 46);
+            this.roundButton43.Size = new System.Drawing.Size(68, 57);
             this.roundButton43.TabIndex = 48;
             this.roundButton43.Text = "1";
             this.roundButton43.UseVisualStyleBackColor = false;
@@ -951,10 +964,11 @@ namespace MovieReserve
             this.roundButton42.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.roundButton42.ForeColor = System.Drawing.Color.White;
             this.roundButton42.HoverBackColor = System.Drawing.Color.Empty;
-            this.roundButton42.Location = new System.Drawing.Point(62, 380);
+            this.roundButton42.Location = new System.Drawing.Point(83, 468);
+            this.roundButton42.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.roundButton42.Name = "roundButton42";
             this.roundButton42.PressedBackColor = System.Drawing.Color.Empty;
-            this.roundButton42.Size = new System.Drawing.Size(51, 46);
+            this.roundButton42.Size = new System.Drawing.Size(68, 57);
             this.roundButton42.TabIndex = 47;
             this.roundButton42.Text = "1";
             this.roundButton42.UseVisualStyleBackColor = false;
@@ -963,17 +977,19 @@ namespace MovieReserve
             // 
             this.panel11.BackColor = System.Drawing.SystemColors.ButtonShadow;
             this.panel11.Controls.Add(this.panel10);
-            this.panel11.Location = new System.Drawing.Point(65, 358);
+            this.panel11.Location = new System.Drawing.Point(87, 441);
+            this.panel11.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panel11.Name = "panel11";
-            this.panel11.Size = new System.Drawing.Size(650, 13);
+            this.panel11.Size = new System.Drawing.Size(867, 16);
             this.panel11.TabIndex = 46;
             // 
             // panel10
             // 
             this.panel10.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.panel10.Location = new System.Drawing.Point(0, 3);
+            this.panel10.Location = new System.Drawing.Point(0, 4);
+            this.panel10.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panel10.Name = "panel10";
-            this.panel10.Size = new System.Drawing.Size(650, 13);
+            this.panel10.Size = new System.Drawing.Size(867, 16);
             this.panel10.TabIndex = 45;
             // 
             // roundButton41
@@ -986,10 +1002,11 @@ namespace MovieReserve
             this.roundButton41.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.roundButton41.ForeColor = System.Drawing.Color.White;
             this.roundButton41.HoverBackColor = System.Drawing.Color.Empty;
-            this.roundButton41.Location = new System.Drawing.Point(233, 306);
+            this.roundButton41.Location = new System.Drawing.Point(311, 377);
+            this.roundButton41.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.roundButton41.Name = "roundButton41";
             this.roundButton41.PressedBackColor = System.Drawing.Color.Empty;
-            this.roundButton41.Size = new System.Drawing.Size(51, 46);
+            this.roundButton41.Size = new System.Drawing.Size(68, 57);
             this.roundButton41.TabIndex = 44;
             this.roundButton41.Text = "1";
             this.roundButton41.UseVisualStyleBackColor = false;
@@ -1004,10 +1021,11 @@ namespace MovieReserve
             this.roundButton40.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.roundButton40.ForeColor = System.Drawing.Color.White;
             this.roundButton40.HoverBackColor = System.Drawing.Color.Empty;
-            this.roundButton40.Location = new System.Drawing.Point(289, 306);
+            this.roundButton40.Location = new System.Drawing.Point(385, 377);
+            this.roundButton40.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.roundButton40.Name = "roundButton40";
             this.roundButton40.PressedBackColor = System.Drawing.Color.Empty;
-            this.roundButton40.Size = new System.Drawing.Size(51, 46);
+            this.roundButton40.Size = new System.Drawing.Size(68, 57);
             this.roundButton40.TabIndex = 43;
             this.roundButton40.Text = "1";
             this.roundButton40.UseVisualStyleBackColor = false;
@@ -1022,10 +1040,11 @@ namespace MovieReserve
             this.roundButton39.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.roundButton39.ForeColor = System.Drawing.Color.White;
             this.roundButton39.HoverBackColor = System.Drawing.Color.Empty;
-            this.roundButton39.Location = new System.Drawing.Point(661, 306);
+            this.roundButton39.Location = new System.Drawing.Point(881, 377);
+            this.roundButton39.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.roundButton39.Name = "roundButton39";
             this.roundButton39.PressedBackColor = System.Drawing.Color.Empty;
-            this.roundButton39.Size = new System.Drawing.Size(51, 46);
+            this.roundButton39.Size = new System.Drawing.Size(68, 57);
             this.roundButton39.TabIndex = 42;
             this.roundButton39.Text = "1";
             this.roundButton39.UseVisualStyleBackColor = false;
@@ -1040,10 +1059,11 @@ namespace MovieReserve
             this.roundButton38.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.roundButton38.ForeColor = System.Drawing.Color.White;
             this.roundButton38.HoverBackColor = System.Drawing.Color.Empty;
-            this.roundButton38.Location = new System.Drawing.Point(604, 306);
+            this.roundButton38.Location = new System.Drawing.Point(805, 377);
+            this.roundButton38.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.roundButton38.Name = "roundButton38";
             this.roundButton38.PressedBackColor = System.Drawing.Color.Empty;
-            this.roundButton38.Size = new System.Drawing.Size(51, 46);
+            this.roundButton38.Size = new System.Drawing.Size(68, 57);
             this.roundButton38.TabIndex = 41;
             this.roundButton38.Text = "1";
             this.roundButton38.UseVisualStyleBackColor = false;
@@ -1058,10 +1078,11 @@ namespace MovieReserve
             this.roundButton37.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.roundButton37.ForeColor = System.Drawing.Color.White;
             this.roundButton37.HoverBackColor = System.Drawing.Color.Empty;
-            this.roundButton37.Location = new System.Drawing.Point(547, 306);
+            this.roundButton37.Location = new System.Drawing.Point(729, 377);
+            this.roundButton37.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.roundButton37.Name = "roundButton37";
             this.roundButton37.PressedBackColor = System.Drawing.Color.Empty;
-            this.roundButton37.Size = new System.Drawing.Size(51, 46);
+            this.roundButton37.Size = new System.Drawing.Size(68, 57);
             this.roundButton37.TabIndex = 40;
             this.roundButton37.Text = "1";
             this.roundButton37.UseVisualStyleBackColor = false;
@@ -1076,10 +1097,11 @@ namespace MovieReserve
             this.roundButton36.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.roundButton36.ForeColor = System.Drawing.Color.White;
             this.roundButton36.HoverBackColor = System.Drawing.Color.Empty;
-            this.roundButton36.Location = new System.Drawing.Point(490, 306);
+            this.roundButton36.Location = new System.Drawing.Point(653, 377);
+            this.roundButton36.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.roundButton36.Name = "roundButton36";
             this.roundButton36.PressedBackColor = System.Drawing.Color.Empty;
-            this.roundButton36.Size = new System.Drawing.Size(51, 46);
+            this.roundButton36.Size = new System.Drawing.Size(68, 57);
             this.roundButton36.TabIndex = 39;
             this.roundButton36.Text = "1";
             this.roundButton36.UseVisualStyleBackColor = false;
@@ -1095,10 +1117,11 @@ namespace MovieReserve
             this.roundButton35.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.roundButton35.ForeColor = System.Drawing.Color.White;
             this.roundButton35.HoverBackColor = System.Drawing.Color.Empty;
-            this.roundButton35.Location = new System.Drawing.Point(433, 306);
+            this.roundButton35.Location = new System.Drawing.Point(577, 377);
+            this.roundButton35.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.roundButton35.Name = "roundButton35";
             this.roundButton35.PressedBackColor = System.Drawing.Color.Empty;
-            this.roundButton35.Size = new System.Drawing.Size(51, 46);
+            this.roundButton35.Size = new System.Drawing.Size(68, 57);
             this.roundButton35.TabIndex = 38;
             this.roundButton35.Text = "1";
             this.roundButton35.UseVisualStyleBackColor = false;
@@ -1113,10 +1136,11 @@ namespace MovieReserve
             this.roundButton34.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.roundButton34.ForeColor = System.Drawing.Color.White;
             this.roundButton34.HoverBackColor = System.Drawing.Color.Empty;
-            this.roundButton34.Location = new System.Drawing.Point(119, 306);
+            this.roundButton34.Location = new System.Drawing.Point(159, 377);
+            this.roundButton34.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.roundButton34.Name = "roundButton34";
             this.roundButton34.PressedBackColor = System.Drawing.Color.Empty;
-            this.roundButton34.Size = new System.Drawing.Size(51, 46);
+            this.roundButton34.Size = new System.Drawing.Size(68, 57);
             this.roundButton34.TabIndex = 37;
             this.roundButton34.Text = "1";
             this.roundButton34.UseVisualStyleBackColor = false;
@@ -1131,10 +1155,11 @@ namespace MovieReserve
             this.roundButton33.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.roundButton33.ForeColor = System.Drawing.Color.White;
             this.roundButton33.HoverBackColor = System.Drawing.Color.Empty;
-            this.roundButton33.Location = new System.Drawing.Point(176, 306);
+            this.roundButton33.Location = new System.Drawing.Point(235, 377);
+            this.roundButton33.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.roundButton33.Name = "roundButton33";
             this.roundButton33.PressedBackColor = System.Drawing.Color.Empty;
-            this.roundButton33.Size = new System.Drawing.Size(51, 46);
+            this.roundButton33.Size = new System.Drawing.Size(68, 57);
             this.roundButton33.TabIndex = 36;
             this.roundButton33.Text = "1";
             this.roundButton33.UseVisualStyleBackColor = false;
@@ -1149,10 +1174,11 @@ namespace MovieReserve
             this.roundButton32.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.roundButton32.ForeColor = System.Drawing.Color.White;
             this.roundButton32.HoverBackColor = System.Drawing.Color.Empty;
-            this.roundButton32.Location = new System.Drawing.Point(119, 254);
+            this.roundButton32.Location = new System.Drawing.Point(159, 313);
+            this.roundButton32.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.roundButton32.Name = "roundButton32";
             this.roundButton32.PressedBackColor = System.Drawing.Color.Empty;
-            this.roundButton32.Size = new System.Drawing.Size(51, 46);
+            this.roundButton32.Size = new System.Drawing.Size(68, 57);
             this.roundButton32.TabIndex = 35;
             this.roundButton32.Text = "1";
             this.roundButton32.UseVisualStyleBackColor = false;
@@ -1167,10 +1193,11 @@ namespace MovieReserve
             this.roundButton31.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.roundButton31.ForeColor = System.Drawing.Color.White;
             this.roundButton31.HoverBackColor = System.Drawing.Color.Empty;
-            this.roundButton31.Location = new System.Drawing.Point(176, 254);
+            this.roundButton31.Location = new System.Drawing.Point(235, 313);
+            this.roundButton31.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.roundButton31.Name = "roundButton31";
             this.roundButton31.PressedBackColor = System.Drawing.Color.Empty;
-            this.roundButton31.Size = new System.Drawing.Size(51, 46);
+            this.roundButton31.Size = new System.Drawing.Size(68, 57);
             this.roundButton31.TabIndex = 34;
             this.roundButton31.Text = "1";
             this.roundButton31.UseVisualStyleBackColor = false;
@@ -1185,10 +1212,11 @@ namespace MovieReserve
             this.roundButton30.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.roundButton30.ForeColor = System.Drawing.Color.White;
             this.roundButton30.HoverBackColor = System.Drawing.Color.Empty;
-            this.roundButton30.Location = new System.Drawing.Point(233, 254);
+            this.roundButton30.Location = new System.Drawing.Point(311, 313);
+            this.roundButton30.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.roundButton30.Name = "roundButton30";
             this.roundButton30.PressedBackColor = System.Drawing.Color.Empty;
-            this.roundButton30.Size = new System.Drawing.Size(51, 46);
+            this.roundButton30.Size = new System.Drawing.Size(68, 57);
             this.roundButton30.TabIndex = 33;
             this.roundButton30.Text = "1";
             this.roundButton30.UseVisualStyleBackColor = false;
@@ -1203,10 +1231,11 @@ namespace MovieReserve
             this.roundButton29.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.roundButton29.ForeColor = System.Drawing.Color.White;
             this.roundButton29.HoverBackColor = System.Drawing.Color.Empty;
-            this.roundButton29.Location = new System.Drawing.Point(290, 254);
+            this.roundButton29.Location = new System.Drawing.Point(387, 313);
+            this.roundButton29.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.roundButton29.Name = "roundButton29";
             this.roundButton29.PressedBackColor = System.Drawing.Color.Empty;
-            this.roundButton29.Size = new System.Drawing.Size(51, 46);
+            this.roundButton29.Size = new System.Drawing.Size(68, 57);
             this.roundButton29.TabIndex = 32;
             this.roundButton29.Text = "1";
             this.roundButton29.UseVisualStyleBackColor = false;
@@ -1221,10 +1250,11 @@ namespace MovieReserve
             this.roundButton28.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.roundButton28.ForeColor = System.Drawing.Color.White;
             this.roundButton28.HoverBackColor = System.Drawing.Color.Empty;
-            this.roundButton28.Location = new System.Drawing.Point(433, 254);
+            this.roundButton28.Location = new System.Drawing.Point(577, 313);
+            this.roundButton28.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.roundButton28.Name = "roundButton28";
             this.roundButton28.PressedBackColor = System.Drawing.Color.Empty;
-            this.roundButton28.Size = new System.Drawing.Size(51, 46);
+            this.roundButton28.Size = new System.Drawing.Size(68, 57);
             this.roundButton28.TabIndex = 31;
             this.roundButton28.Text = "1";
             this.roundButton28.UseVisualStyleBackColor = false;
@@ -1239,10 +1269,11 @@ namespace MovieReserve
             this.roundButton27.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.roundButton27.ForeColor = System.Drawing.Color.White;
             this.roundButton27.HoverBackColor = System.Drawing.Color.Empty;
-            this.roundButton27.Location = new System.Drawing.Point(490, 254);
+            this.roundButton27.Location = new System.Drawing.Point(653, 313);
+            this.roundButton27.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.roundButton27.Name = "roundButton27";
             this.roundButton27.PressedBackColor = System.Drawing.Color.Empty;
-            this.roundButton27.Size = new System.Drawing.Size(51, 46);
+            this.roundButton27.Size = new System.Drawing.Size(68, 57);
             this.roundButton27.TabIndex = 30;
             this.roundButton27.Text = "1";
             this.roundButton27.UseVisualStyleBackColor = false;
@@ -1257,10 +1288,11 @@ namespace MovieReserve
             this.roundButton26.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.roundButton26.ForeColor = System.Drawing.Color.White;
             this.roundButton26.HoverBackColor = System.Drawing.Color.Empty;
-            this.roundButton26.Location = new System.Drawing.Point(547, 254);
+            this.roundButton26.Location = new System.Drawing.Point(729, 313);
+            this.roundButton26.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.roundButton26.Name = "roundButton26";
             this.roundButton26.PressedBackColor = System.Drawing.Color.Empty;
-            this.roundButton26.Size = new System.Drawing.Size(51, 46);
+            this.roundButton26.Size = new System.Drawing.Size(68, 57);
             this.roundButton26.TabIndex = 29;
             this.roundButton26.Text = "1";
             this.roundButton26.UseVisualStyleBackColor = false;
@@ -1275,10 +1307,11 @@ namespace MovieReserve
             this.roundButton25.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.roundButton25.ForeColor = System.Drawing.Color.White;
             this.roundButton25.HoverBackColor = System.Drawing.Color.Empty;
-            this.roundButton25.Location = new System.Drawing.Point(604, 254);
+            this.roundButton25.Location = new System.Drawing.Point(805, 313);
+            this.roundButton25.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.roundButton25.Name = "roundButton25";
             this.roundButton25.PressedBackColor = System.Drawing.Color.Empty;
-            this.roundButton25.Size = new System.Drawing.Size(51, 46);
+            this.roundButton25.Size = new System.Drawing.Size(68, 57);
             this.roundButton25.TabIndex = 28;
             this.roundButton25.Text = "1";
             this.roundButton25.UseVisualStyleBackColor = false;
@@ -1293,10 +1326,11 @@ namespace MovieReserve
             this.roundButton24.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.roundButton24.ForeColor = System.Drawing.Color.White;
             this.roundButton24.HoverBackColor = System.Drawing.Color.Empty;
-            this.roundButton24.Location = new System.Drawing.Point(661, 254);
+            this.roundButton24.Location = new System.Drawing.Point(881, 313);
+            this.roundButton24.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.roundButton24.Name = "roundButton24";
             this.roundButton24.PressedBackColor = System.Drawing.Color.Empty;
-            this.roundButton24.Size = new System.Drawing.Size(51, 46);
+            this.roundButton24.Size = new System.Drawing.Size(68, 57);
             this.roundButton24.TabIndex = 27;
             this.roundButton24.Text = "1";
             this.roundButton24.UseVisualStyleBackColor = false;
@@ -1311,10 +1345,11 @@ namespace MovieReserve
             this.roundButton14.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.roundButton14.ForeColor = System.Drawing.Color.White;
             this.roundButton14.HoverBackColor = System.Drawing.Color.Empty;
-            this.roundButton14.Location = new System.Drawing.Point(62, 306);
+            this.roundButton14.Location = new System.Drawing.Point(83, 377);
+            this.roundButton14.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.roundButton14.Name = "roundButton14";
             this.roundButton14.PressedBackColor = System.Drawing.Color.Empty;
-            this.roundButton14.Size = new System.Drawing.Size(51, 46);
+            this.roundButton14.Size = new System.Drawing.Size(68, 57);
             this.roundButton14.TabIndex = 26;
             this.roundButton14.Text = "1";
             this.roundButton14.UseVisualStyleBackColor = false;
@@ -1322,9 +1357,10 @@ namespace MovieReserve
             // panel9
             // 
             this.panel9.BackColor = System.Drawing.SystemColors.ButtonShadow;
-            this.panel9.Location = new System.Drawing.Point(62, 225);
+            this.panel9.Location = new System.Drawing.Point(83, 277);
+            this.panel9.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panel9.Name = "panel9";
-            this.panel9.Size = new System.Drawing.Size(650, 13);
+            this.panel9.Size = new System.Drawing.Size(867, 16);
             this.panel9.TabIndex = 25;
             // 
             // roundButton23
@@ -1337,10 +1373,11 @@ namespace MovieReserve
             this.roundButton23.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.roundButton23.ForeColor = System.Drawing.Color.White;
             this.roundButton23.HoverBackColor = System.Drawing.Color.Empty;
-            this.roundButton23.Location = new System.Drawing.Point(176, 168);
+            this.roundButton23.Location = new System.Drawing.Point(235, 207);
+            this.roundButton23.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.roundButton23.Name = "roundButton23";
             this.roundButton23.PressedBackColor = System.Drawing.Color.Empty;
-            this.roundButton23.Size = new System.Drawing.Size(51, 46);
+            this.roundButton23.Size = new System.Drawing.Size(68, 57);
             this.roundButton23.TabIndex = 23;
             this.roundButton23.Text = "1";
             this.roundButton23.UseVisualStyleBackColor = false;
@@ -1355,10 +1392,11 @@ namespace MovieReserve
             this.roundButton22.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.roundButton22.ForeColor = System.Drawing.Color.White;
             this.roundButton22.HoverBackColor = System.Drawing.Color.Empty;
-            this.roundButton22.Location = new System.Drawing.Point(233, 168);
+            this.roundButton22.Location = new System.Drawing.Point(311, 207);
+            this.roundButton22.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.roundButton22.Name = "roundButton22";
             this.roundButton22.PressedBackColor = System.Drawing.Color.Empty;
-            this.roundButton22.Size = new System.Drawing.Size(51, 46);
+            this.roundButton22.Size = new System.Drawing.Size(68, 57);
             this.roundButton22.TabIndex = 22;
             this.roundButton22.Text = "1";
             this.roundButton22.UseVisualStyleBackColor = false;
@@ -1373,10 +1411,11 @@ namespace MovieReserve
             this.roundButton21.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.roundButton21.ForeColor = System.Drawing.Color.White;
             this.roundButton21.HoverBackColor = System.Drawing.Color.Empty;
-            this.roundButton21.Location = new System.Drawing.Point(290, 168);
+            this.roundButton21.Location = new System.Drawing.Point(387, 207);
+            this.roundButton21.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.roundButton21.Name = "roundButton21";
             this.roundButton21.PressedBackColor = System.Drawing.Color.Empty;
-            this.roundButton21.Size = new System.Drawing.Size(51, 46);
+            this.roundButton21.Size = new System.Drawing.Size(68, 57);
             this.roundButton21.TabIndex = 21;
             this.roundButton21.Text = "1";
             this.roundButton21.UseVisualStyleBackColor = false;
@@ -1391,10 +1430,11 @@ namespace MovieReserve
             this.roundButton20.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.roundButton20.ForeColor = System.Drawing.Color.White;
             this.roundButton20.HoverBackColor = System.Drawing.Color.Empty;
-            this.roundButton20.Location = new System.Drawing.Point(433, 168);
+            this.roundButton20.Location = new System.Drawing.Point(577, 207);
+            this.roundButton20.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.roundButton20.Name = "roundButton20";
             this.roundButton20.PressedBackColor = System.Drawing.Color.Empty;
-            this.roundButton20.Size = new System.Drawing.Size(51, 46);
+            this.roundButton20.Size = new System.Drawing.Size(68, 57);
             this.roundButton20.TabIndex = 20;
             this.roundButton20.Text = "1";
             this.roundButton20.UseVisualStyleBackColor = false;
@@ -1409,10 +1449,11 @@ namespace MovieReserve
             this.roundButton19.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.roundButton19.ForeColor = System.Drawing.Color.White;
             this.roundButton19.HoverBackColor = System.Drawing.Color.Empty;
-            this.roundButton19.Location = new System.Drawing.Point(490, 168);
+            this.roundButton19.Location = new System.Drawing.Point(653, 207);
+            this.roundButton19.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.roundButton19.Name = "roundButton19";
             this.roundButton19.PressedBackColor = System.Drawing.Color.Empty;
-            this.roundButton19.Size = new System.Drawing.Size(51, 46);
+            this.roundButton19.Size = new System.Drawing.Size(68, 57);
             this.roundButton19.TabIndex = 19;
             this.roundButton19.Text = "1";
             this.roundButton19.UseVisualStyleBackColor = false;
@@ -1427,10 +1468,11 @@ namespace MovieReserve
             this.roundButton18.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.roundButton18.ForeColor = System.Drawing.Color.White;
             this.roundButton18.HoverBackColor = System.Drawing.Color.Empty;
-            this.roundButton18.Location = new System.Drawing.Point(547, 168);
+            this.roundButton18.Location = new System.Drawing.Point(729, 207);
+            this.roundButton18.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.roundButton18.Name = "roundButton18";
             this.roundButton18.PressedBackColor = System.Drawing.Color.Empty;
-            this.roundButton18.Size = new System.Drawing.Size(51, 46);
+            this.roundButton18.Size = new System.Drawing.Size(68, 57);
             this.roundButton18.TabIndex = 18;
             this.roundButton18.Text = "1";
             this.roundButton18.UseVisualStyleBackColor = false;
@@ -1445,10 +1487,11 @@ namespace MovieReserve
             this.roundButton17.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.roundButton17.ForeColor = System.Drawing.Color.White;
             this.roundButton17.HoverBackColor = System.Drawing.Color.Empty;
-            this.roundButton17.Location = new System.Drawing.Point(604, 168);
+            this.roundButton17.Location = new System.Drawing.Point(805, 207);
+            this.roundButton17.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.roundButton17.Name = "roundButton17";
             this.roundButton17.PressedBackColor = System.Drawing.Color.Empty;
-            this.roundButton17.Size = new System.Drawing.Size(51, 46);
+            this.roundButton17.Size = new System.Drawing.Size(68, 57);
             this.roundButton17.TabIndex = 17;
             this.roundButton17.Text = "1";
             this.roundButton17.UseVisualStyleBackColor = false;
@@ -1463,10 +1506,11 @@ namespace MovieReserve
             this.roundButton16.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.roundButton16.ForeColor = System.Drawing.Color.White;
             this.roundButton16.HoverBackColor = System.Drawing.Color.Empty;
-            this.roundButton16.Location = new System.Drawing.Point(661, 168);
+            this.roundButton16.Location = new System.Drawing.Point(881, 207);
+            this.roundButton16.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.roundButton16.Name = "roundButton16";
             this.roundButton16.PressedBackColor = System.Drawing.Color.Empty;
-            this.roundButton16.Size = new System.Drawing.Size(51, 46);
+            this.roundButton16.Size = new System.Drawing.Size(68, 57);
             this.roundButton16.TabIndex = 16;
             this.roundButton16.Text = "1";
             this.roundButton16.UseVisualStyleBackColor = false;
@@ -1481,10 +1525,11 @@ namespace MovieReserve
             this.roundButton15.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.roundButton15.ForeColor = System.Drawing.Color.White;
             this.roundButton15.HoverBackColor = System.Drawing.Color.Empty;
-            this.roundButton15.Location = new System.Drawing.Point(62, 254);
+            this.roundButton15.Location = new System.Drawing.Point(83, 313);
+            this.roundButton15.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.roundButton15.Name = "roundButton15";
             this.roundButton15.PressedBackColor = System.Drawing.Color.Empty;
-            this.roundButton15.Size = new System.Drawing.Size(51, 46);
+            this.roundButton15.Size = new System.Drawing.Size(68, 57);
             this.roundButton15.TabIndex = 15;
             this.roundButton15.Text = "1";
             this.roundButton15.UseVisualStyleBackColor = false;
@@ -1499,10 +1544,11 @@ namespace MovieReserve
             this.roundButton13.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.roundButton13.ForeColor = System.Drawing.Color.White;
             this.roundButton13.HoverBackColor = System.Drawing.Color.Empty;
-            this.roundButton13.Location = new System.Drawing.Point(433, 116);
+            this.roundButton13.Location = new System.Drawing.Point(577, 143);
+            this.roundButton13.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.roundButton13.Name = "roundButton13";
             this.roundButton13.PressedBackColor = System.Drawing.Color.Empty;
-            this.roundButton13.Size = new System.Drawing.Size(51, 46);
+            this.roundButton13.Size = new System.Drawing.Size(68, 57);
             this.roundButton13.TabIndex = 13;
             this.roundButton13.Text = "1";
             this.roundButton13.UseVisualStyleBackColor = false;
@@ -1517,10 +1563,11 @@ namespace MovieReserve
             this.roundButton12.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.roundButton12.ForeColor = System.Drawing.Color.White;
             this.roundButton12.HoverBackColor = System.Drawing.Color.Empty;
-            this.roundButton12.Location = new System.Drawing.Point(490, 116);
+            this.roundButton12.Location = new System.Drawing.Point(653, 143);
+            this.roundButton12.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.roundButton12.Name = "roundButton12";
             this.roundButton12.PressedBackColor = System.Drawing.Color.Empty;
-            this.roundButton12.Size = new System.Drawing.Size(51, 46);
+            this.roundButton12.Size = new System.Drawing.Size(68, 57);
             this.roundButton12.TabIndex = 12;
             this.roundButton12.Text = "1";
             this.roundButton12.UseVisualStyleBackColor = false;
@@ -1535,10 +1582,11 @@ namespace MovieReserve
             this.roundButton11.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.roundButton11.ForeColor = System.Drawing.Color.White;
             this.roundButton11.HoverBackColor = System.Drawing.Color.Empty;
-            this.roundButton11.Location = new System.Drawing.Point(547, 116);
+            this.roundButton11.Location = new System.Drawing.Point(729, 143);
+            this.roundButton11.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.roundButton11.Name = "roundButton11";
             this.roundButton11.PressedBackColor = System.Drawing.Color.Empty;
-            this.roundButton11.Size = new System.Drawing.Size(51, 46);
+            this.roundButton11.Size = new System.Drawing.Size(68, 57);
             this.roundButton11.TabIndex = 11;
             this.roundButton11.Text = "1";
             this.roundButton11.UseVisualStyleBackColor = false;
@@ -1553,10 +1601,11 @@ namespace MovieReserve
             this.roundButton10.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.roundButton10.ForeColor = System.Drawing.Color.White;
             this.roundButton10.HoverBackColor = System.Drawing.Color.Empty;
-            this.roundButton10.Location = new System.Drawing.Point(604, 116);
+            this.roundButton10.Location = new System.Drawing.Point(805, 143);
+            this.roundButton10.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.roundButton10.Name = "roundButton10";
             this.roundButton10.PressedBackColor = System.Drawing.Color.Empty;
-            this.roundButton10.Size = new System.Drawing.Size(51, 46);
+            this.roundButton10.Size = new System.Drawing.Size(68, 57);
             this.roundButton10.TabIndex = 10;
             this.roundButton10.Text = "1";
             this.roundButton10.UseVisualStyleBackColor = false;
@@ -1571,10 +1620,11 @@ namespace MovieReserve
             this.roundButton9.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.roundButton9.ForeColor = System.Drawing.Color.White;
             this.roundButton9.HoverBackColor = System.Drawing.Color.Empty;
-            this.roundButton9.Location = new System.Drawing.Point(661, 116);
+            this.roundButton9.Location = new System.Drawing.Point(881, 143);
+            this.roundButton9.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.roundButton9.Name = "roundButton9";
             this.roundButton9.PressedBackColor = System.Drawing.Color.Empty;
-            this.roundButton9.Size = new System.Drawing.Size(51, 46);
+            this.roundButton9.Size = new System.Drawing.Size(68, 57);
             this.roundButton9.TabIndex = 9;
             this.roundButton9.Text = "1";
             this.roundButton9.UseVisualStyleBackColor = false;
@@ -1589,10 +1639,11 @@ namespace MovieReserve
             this.roundButton8.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.roundButton8.ForeColor = System.Drawing.Color.White;
             this.roundButton8.HoverBackColor = System.Drawing.Color.Empty;
-            this.roundButton8.Location = new System.Drawing.Point(119, 168);
+            this.roundButton8.Location = new System.Drawing.Point(159, 207);
+            this.roundButton8.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.roundButton8.Name = "roundButton8";
             this.roundButton8.PressedBackColor = System.Drawing.Color.Empty;
-            this.roundButton8.Size = new System.Drawing.Size(51, 46);
+            this.roundButton8.Size = new System.Drawing.Size(68, 57);
             this.roundButton8.TabIndex = 8;
             this.roundButton8.Text = "1";
             this.roundButton8.UseVisualStyleBackColor = false;
@@ -1607,10 +1658,11 @@ namespace MovieReserve
             this.roundButton7.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.roundButton7.ForeColor = System.Drawing.Color.White;
             this.roundButton7.HoverBackColor = System.Drawing.Color.Empty;
-            this.roundButton7.Location = new System.Drawing.Point(62, 168);
+            this.roundButton7.Location = new System.Drawing.Point(83, 207);
+            this.roundButton7.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.roundButton7.Name = "roundButton7";
             this.roundButton7.PressedBackColor = System.Drawing.Color.Empty;
-            this.roundButton7.Size = new System.Drawing.Size(51, 46);
+            this.roundButton7.Size = new System.Drawing.Size(68, 57);
             this.roundButton7.TabIndex = 7;
             this.roundButton7.Text = "1";
             this.roundButton7.UseVisualStyleBackColor = false;
@@ -1625,10 +1677,11 @@ namespace MovieReserve
             this.roundButton6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.roundButton6.ForeColor = System.Drawing.Color.White;
             this.roundButton6.HoverBackColor = System.Drawing.Color.Empty;
-            this.roundButton6.Location = new System.Drawing.Point(290, 116);
+            this.roundButton6.Location = new System.Drawing.Point(387, 143);
+            this.roundButton6.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.roundButton6.Name = "roundButton6";
             this.roundButton6.PressedBackColor = System.Drawing.Color.Empty;
-            this.roundButton6.Size = new System.Drawing.Size(51, 46);
+            this.roundButton6.Size = new System.Drawing.Size(68, 57);
             this.roundButton6.TabIndex = 6;
             this.roundButton6.Text = "1";
             this.roundButton6.UseVisualStyleBackColor = false;
@@ -1643,10 +1696,11 @@ namespace MovieReserve
             this.roundButton4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.roundButton4.ForeColor = System.Drawing.Color.White;
             this.roundButton4.HoverBackColor = System.Drawing.Color.Empty;
-            this.roundButton4.Location = new System.Drawing.Point(233, 116);
+            this.roundButton4.Location = new System.Drawing.Point(311, 143);
+            this.roundButton4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.roundButton4.Name = "roundButton4";
             this.roundButton4.PressedBackColor = System.Drawing.Color.Empty;
-            this.roundButton4.Size = new System.Drawing.Size(51, 46);
+            this.roundButton4.Size = new System.Drawing.Size(68, 57);
             this.roundButton4.TabIndex = 5;
             this.roundButton4.Text = "1";
             this.roundButton4.UseVisualStyleBackColor = false;
@@ -1661,10 +1715,11 @@ namespace MovieReserve
             this.roundButton3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.roundButton3.ForeColor = System.Drawing.Color.White;
             this.roundButton3.HoverBackColor = System.Drawing.Color.Empty;
-            this.roundButton3.Location = new System.Drawing.Point(176, 116);
+            this.roundButton3.Location = new System.Drawing.Point(235, 143);
+            this.roundButton3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.roundButton3.Name = "roundButton3";
             this.roundButton3.PressedBackColor = System.Drawing.Color.Empty;
-            this.roundButton3.Size = new System.Drawing.Size(51, 46);
+            this.roundButton3.Size = new System.Drawing.Size(68, 57);
             this.roundButton3.TabIndex = 4;
             this.roundButton3.Text = "1";
             this.roundButton3.UseVisualStyleBackColor = false;
@@ -1679,10 +1734,11 @@ namespace MovieReserve
             this.roundButton2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.roundButton2.ForeColor = System.Drawing.Color.White;
             this.roundButton2.HoverBackColor = System.Drawing.Color.Empty;
-            this.roundButton2.Location = new System.Drawing.Point(119, 116);
+            this.roundButton2.Location = new System.Drawing.Point(159, 143);
+            this.roundButton2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.roundButton2.Name = "roundButton2";
             this.roundButton2.PressedBackColor = System.Drawing.Color.Empty;
-            this.roundButton2.Size = new System.Drawing.Size(51, 46);
+            this.roundButton2.Size = new System.Drawing.Size(68, 57);
             this.roundButton2.TabIndex = 3;
             this.roundButton2.Text = "1";
             this.roundButton2.UseVisualStyleBackColor = false;
@@ -1697,10 +1753,11 @@ namespace MovieReserve
             this.roundButton1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.roundButton1.ForeColor = System.Drawing.Color.White;
             this.roundButton1.HoverBackColor = System.Drawing.Color.Empty;
-            this.roundButton1.Location = new System.Drawing.Point(62, 116);
+            this.roundButton1.Location = new System.Drawing.Point(83, 143);
+            this.roundButton1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.roundButton1.Name = "roundButton1";
             this.roundButton1.PressedBackColor = System.Drawing.Color.Empty;
-            this.roundButton1.Size = new System.Drawing.Size(51, 46);
+            this.roundButton1.Size = new System.Drawing.Size(68, 57);
             this.roundButton1.TabIndex = 2;
             this.roundButton1.Text = "1";
             this.roundButton1.UseVisualStyleBackColor = false;
@@ -1709,8 +1766,9 @@ namespace MovieReserve
             // 
             this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
             this.pictureBox2.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(780, 30);
+            this.pictureBox2.Size = new System.Drawing.Size(1040, 37);
             this.pictureBox2.TabIndex = 0;
             this.pictureBox2.TabStop = false;
             // 
@@ -1718,8 +1776,9 @@ namespace MovieReserve
             // 
             this.MoviesPanel.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.MoviesPanel.Location = new System.Drawing.Point(0, 0);
+            this.MoviesPanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.MoviesPanel.Name = "MoviesPanel";
-            this.MoviesPanel.Size = new System.Drawing.Size(1164, 689);
+            this.MoviesPanel.Size = new System.Drawing.Size(1552, 848);
             this.MoviesPanel.TabIndex = 2;
             this.MoviesPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.MoviesPanel_Paint);
             // 
@@ -1731,17 +1790,18 @@ namespace MovieReserve
             this.panel2.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.panel2.Controls.Add(this.panel22);
             this.panel2.Controls.Add(this.tableLayoutPanel1);
-            this.panel2.Location = new System.Drawing.Point(0, 3);
+            this.panel2.Location = new System.Drawing.Point(0, 4);
             this.panel2.Margin = new System.Windows.Forms.Padding(0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(701, 897);
+            this.panel2.Size = new System.Drawing.Size(935, 1104);
             this.panel2.TabIndex = 0;
             // 
             // panel22
             // 
-            this.panel22.Location = new System.Drawing.Point(273, 202);
+            this.panel22.Location = new System.Drawing.Point(364, 249);
+            this.panel22.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panel22.Name = "panel22";
-            this.panel22.Size = new System.Drawing.Size(381, 426);
+            this.panel22.Size = new System.Drawing.Size(508, 524);
             this.panel22.TabIndex = 6;
             // 
             // tableLayoutPanel1
@@ -1754,14 +1814,15 @@ namespace MovieReserve
             this.tableLayoutPanel1.Controls.Add(this.panel5, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.panel6, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.panel7, 0, 3);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 0);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(4, 0);
+            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 4;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 58.72483F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.44295F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(267, 894);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(356, 1100);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // panel4
@@ -1773,11 +1834,11 @@ namespace MovieReserve
             this.panel4.Controls.Add(this.pictureBox1);
             this.panel4.Controls.Add(this.label2);
             this.panel4.ForeColor = System.Drawing.SystemColors.ActiveCaption;
-            this.panel4.Location = new System.Drawing.Point(3, 10);
-            this.panel4.Margin = new System.Windows.Forms.Padding(3, 10, 3, 3);
+            this.panel4.Location = new System.Drawing.Point(4, 12);
+            this.panel4.Margin = new System.Windows.Forms.Padding(4, 12, 4, 4);
             this.panel4.Name = "panel4";
-            this.panel4.Padding = new System.Windows.Forms.Padding(0, 200, 0, 0);
-            this.panel4.Size = new System.Drawing.Size(261, 98);
+            this.panel4.Padding = new System.Windows.Forms.Padding(0, 246, 0, 0);
+            this.panel4.Size = new System.Drawing.Size(348, 121);
             this.panel4.TabIndex = 0;
             this.panel4.Paint += new System.Windows.Forms.PaintEventHandler(this.panel4_Paint);
             // 
@@ -1786,9 +1847,10 @@ namespace MovieReserve
             this.pictureBox1.ErrorImage = global::MovieReserve.Properties.Resources.SysLogo;
             this.pictureBox1.Image = global::MovieReserve.Properties.Resources.SysLogo;
             this.pictureBox1.InitialImage = global::MovieReserve.Properties.Resources.SysLogo;
-            this.pictureBox1.Location = new System.Drawing.Point(20, 15);
+            this.pictureBox1.Location = new System.Drawing.Point(27, 18);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(50, 50);
+            this.pictureBox1.Size = new System.Drawing.Size(67, 62);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
@@ -1798,10 +1860,11 @@ namespace MovieReserve
             // 
             this.label2.Font = new System.Drawing.Font("Microsoft YaHei", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.label2.Location = new System.Drawing.Point(76, 29);
-            this.label2.MaximumSize = new System.Drawing.Size(500, 500);
+            this.label2.Location = new System.Drawing.Point(101, 36);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.MaximumSize = new System.Drawing.Size(667, 615);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(171, 20);
+            this.label2.Size = new System.Drawing.Size(228, 25);
             this.label2.TabIndex = 1;
             this.label2.Text = "MovieReserve";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1816,9 +1879,10 @@ namespace MovieReserve
             this.panel5.Controls.Add(this.roundLabel1);
             this.panel5.Controls.Add(this.label4);
             this.panel5.Controls.Add(this.label3);
-            this.panel5.Location = new System.Drawing.Point(3, 114);
+            this.panel5.Location = new System.Drawing.Point(4, 141);
+            this.panel5.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(261, 105);
+            this.panel5.Size = new System.Drawing.Size(348, 129);
             this.panel5.TabIndex = 1;
             this.panel5.Paint += new System.Windows.Forms.PaintEventHandler(this.panel5_Paint);
             // 
@@ -1826,9 +1890,10 @@ namespace MovieReserve
             // 
             this.roundLabel1.BackColor = System.Drawing.SystemColors.ButtonShadow;
             this.roundLabel1.Font = new System.Drawing.Font("Microsoft YaHei UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.roundLabel1.Location = new System.Drawing.Point(16, 5);
+            this.roundLabel1.Location = new System.Drawing.Point(21, 6);
+            this.roundLabel1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.roundLabel1.Name = "roundLabel1";
-            this.roundLabel1.Size = new System.Drawing.Size(51, 44);
+            this.roundLabel1.Size = new System.Drawing.Size(68, 54);
             this.roundLabel1.TabIndex = 5;
             this.roundLabel1.Text = "RC";
             // 
@@ -1836,9 +1901,10 @@ namespace MovieReserve
             // 
             this.label4.Font = new System.Drawing.Font("Microsoft YaHei UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.label4.Location = new System.Drawing.Point(73, 21);
+            this.label4.Location = new System.Drawing.Point(97, 26);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(121, 23);
+            this.label4.Size = new System.Drawing.Size(161, 28);
             this.label4.TabIndex = 2;
             this.label4.Text = "Ramirez Cristopher\r\n";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1847,9 +1913,10 @@ namespace MovieReserve
             // label3
             // 
             this.label3.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.label3.Location = new System.Drawing.Point(78, 8);
+            this.label3.Location = new System.Drawing.Point(104, 10);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(100, 13);
+            this.label3.Size = new System.Drawing.Size(133, 16);
             this.label3.TabIndex = 1;
             this.label3.Text = "signed as";
             this.label3.Click += new System.EventHandler(this.label3_Click);
@@ -1864,9 +1931,10 @@ namespace MovieReserve
             this.panel6.Controls.Add(this.btnMovies);
             this.panel6.Controls.Add(this.btnReservation);
             this.panel6.Controls.Add(this.label10);
-            this.panel6.Location = new System.Drawing.Point(3, 225);
+            this.panel6.Location = new System.Drawing.Point(4, 278);
+            this.panel6.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(261, 518);
+            this.panel6.Size = new System.Drawing.Size(348, 636);
             this.panel6.TabIndex = 2;
             // 
             // btnSettings
@@ -1881,10 +1949,11 @@ namespace MovieReserve
             this.btnSettings.Font = new System.Drawing.Font("Microsoft YaHei UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSettings.ForeColor = System.Drawing.Color.White;
             this.btnSettings.HoverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.btnSettings.Location = new System.Drawing.Point(20, 144);
+            this.btnSettings.Location = new System.Drawing.Point(27, 177);
+            this.btnSettings.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnSettings.Name = "btnSettings";
             this.btnSettings.PressedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.btnSettings.Size = new System.Drawing.Size(216, 41);
+            this.btnSettings.Size = new System.Drawing.Size(288, 50);
             this.btnSettings.TabIndex = 11;
             this.btnSettings.Text = "Settings";
             this.btnSettings.UseVisualStyleBackColor = false;
@@ -1902,10 +1971,11 @@ namespace MovieReserve
             this.btnMovies.Font = new System.Drawing.Font("Microsoft YaHei UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnMovies.ForeColor = System.Drawing.Color.White;
             this.btnMovies.HoverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.btnMovies.Location = new System.Drawing.Point(20, 50);
+            this.btnMovies.Location = new System.Drawing.Point(27, 62);
+            this.btnMovies.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnMovies.Name = "btnMovies";
             this.btnMovies.PressedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.btnMovies.Size = new System.Drawing.Size(216, 41);
+            this.btnMovies.Size = new System.Drawing.Size(288, 50);
             this.btnMovies.TabIndex = 10;
             this.btnMovies.Text = "Movies";
             this.btnMovies.UseVisualStyleBackColor = false;
@@ -1923,10 +1993,11 @@ namespace MovieReserve
             this.btnReservation.Font = new System.Drawing.Font("Microsoft YaHei UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnReservation.ForeColor = System.Drawing.Color.White;
             this.btnReservation.HoverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.btnReservation.Location = new System.Drawing.Point(20, 97);
+            this.btnReservation.Location = new System.Drawing.Point(27, 119);
+            this.btnReservation.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnReservation.Name = "btnReservation";
             this.btnReservation.PressedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.btnReservation.Size = new System.Drawing.Size(216, 41);
+            this.btnReservation.Size = new System.Drawing.Size(288, 50);
             this.btnReservation.TabIndex = 9;
             this.btnReservation.Text = "Reservation";
             this.btnReservation.UseVisualStyleBackColor = false;
@@ -1937,7 +2008,8 @@ namespace MovieReserve
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.ForeColor = System.Drawing.SystemColors.WindowFrame;
-            this.label10.Location = new System.Drawing.Point(43, 12);
+            this.label10.Location = new System.Drawing.Point(57, 15);
+            this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(116, 13);
             this.label10.TabIndex = 0;
@@ -1952,9 +2024,10 @@ namespace MovieReserve
             this.panel7.Controls.Add(this.roundButton5);
             this.panel7.Controls.Add(this.label12);
             this.panel7.Controls.Add(this.label11);
-            this.panel7.Location = new System.Drawing.Point(3, 749);
+            this.panel7.Location = new System.Drawing.Point(4, 922);
+            this.panel7.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(261, 142);
+            this.panel7.Size = new System.Drawing.Size(348, 174);
             this.panel7.TabIndex = 3;
             // 
             // roundButton5
@@ -1969,10 +2042,11 @@ namespace MovieReserve
             this.roundButton5.Font = new System.Drawing.Font("Microsoft YaHei UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.roundButton5.ForeColor = System.Drawing.Color.White;
             this.roundButton5.HoverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.roundButton5.Location = new System.Drawing.Point(20, 62);
+            this.roundButton5.Location = new System.Drawing.Point(27, 76);
+            this.roundButton5.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.roundButton5.Name = "roundButton5";
             this.roundButton5.PressedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.roundButton5.Size = new System.Drawing.Size(216, 41);
+            this.roundButton5.Size = new System.Drawing.Size(288, 50);
             this.roundButton5.TabIndex = 10;
             this.roundButton5.Text = "LogOut";
             this.roundButton5.UseVisualStyleBackColor = false;
@@ -1984,9 +2058,10 @@ namespace MovieReserve
             this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label12.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
             this.label12.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.label12.Location = new System.Drawing.Point(27, 10);
+            this.label12.Location = new System.Drawing.Point(36, 12);
+            this.label12.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(28, 29);
+            this.label12.Size = new System.Drawing.Size(37, 36);
             this.label12.TabIndex = 1;
             this.label12.Text = "•";
             this.label12.Click += new System.EventHandler(this.label12_Click);
@@ -1997,7 +2072,8 @@ namespace MovieReserve
             this.label11.BackColor = System.Drawing.SystemColors.WindowText;
             this.label11.Font = new System.Drawing.Font("Microsoft YaHei UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label11.ForeColor = System.Drawing.SystemColors.HighlightText;
-            this.label11.Location = new System.Drawing.Point(52, 20);
+            this.label11.Location = new System.Drawing.Point(69, 25);
+            this.label11.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(158, 19);
             this.label11.TabIndex = 0;
@@ -2120,11 +2196,12 @@ namespace MovieReserve
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1440, 900);
+            this.ClientSize = new System.Drawing.Size(1460, 920);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Form1";

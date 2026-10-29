@@ -6,6 +6,7 @@ using System.Drawing.Drawing2D;
 using System.IO;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySqlConnector;
@@ -56,7 +57,64 @@ namespace MovieReserve
         }
     }
 
+    // ===================== Input rules (letters + numbers only, with max length) =====================
+    public static class InputRules
+    {
+        public const int MaxName = 30;
+        public const int MaxPassword = 20;
 
+        public static bool IsAllowed(char c, bool allowSpace)
+        {
+            if (c >= 'a' && c <= 'z') return true;
+            if (c >= 'A' && c <= 'Z') return true;
+            if (c >= '0' && c <= '9') return true;
+            return allowSpace && c == ' ';
+        }
+
+        public static string Clean(string s, int max, bool allowSpace)
+        {
+            if (string.IsNullOrEmpty(s)) return "";
+            var sb = new StringBuilder();
+            foreach (char c in s)
+            {
+                if (!IsAllowed(c, allowSpace)) continue;
+                if (sb.Length >= max) break;
+                sb.Append(c);
+            }
+            return sb.ToString();
+        }
+
+        public static bool IsValid(string s, bool allowSpace)
+        {
+            if (string.IsNullOrEmpty(s)) return false;
+            foreach (char c in s)
+                if (!IsAllowed(c, allowSpace)) return false;
+            return true;
+        }
+
+        // Blocks typing AND pasting of anything that is not a letter/number (space optional) and enforces max length.
+        public static void Attach(TextBox tb, int maxLength, bool allowSpace)
+        {
+            tb.MaxLength = maxLength;
+
+            tb.KeyPress += (s, e) =>
+            {
+                if (!char.IsControl(e.KeyChar) && !IsAllowed(e.KeyChar, allowSpace))
+                    e.Handled = true;
+            };
+
+            tb.TextChanged += (s, e) =>
+            {
+                string clean = Clean(tb.Text, maxLength, allowSpace);
+                if (clean != tb.Text)
+                {
+                    int pos = tb.SelectionStart;
+                    tb.Text = clean;
+                    tb.SelectionStart = Math.Min(pos, clean.Length);
+                }
+            };
+        }
+    }
 
     // ===================== Who is logged in =====================
     public class UserSession
@@ -78,38 +136,305 @@ namespace MovieReserve
         }
     }
 
+    public enum LoginStatus { Success, WrongPassword, NotFound, Locked }
+
+    public class LoginResult
+    {
+        public LoginStatus Status { get; set; }
+        public UserSession User { get; set; }
+        public int AttemptsLeft { get; set; }   // -1 = not applicable (admin)
+    }
+
     // ===================== Database =====================
     public static class AccountRepository
     {
-
-        private const string Colrole = "role";
-        private const string Coluser = "username";
+        // Same columns your original code used:
+        //   ColName = the column the typed "Name" is matched against
+        //   ColType = the column that holds "admin" / "staff"
+        private const string ColName = "role";
+        private const string ColType = "username";
         private const string ColPass = "password";
 
+        public const int MaxAttempts = 3;
 
-        public static UserSession Authenticate(string login, string password)
+        public static LoginResult Authenticate(string login, string password)
         {
             string sql =
-                $"SELECT id, `{Colrole}`, `{Coluser}` FROM accounts " +
-                $"WHERE `{Colrole}` = @u AND BINARY `{ColPass}` = @p LIMIT 1";
+                $"SELECT id, `{ColName}`, `{ColType}`, " +
+                $"IFNULL(BINARY `{ColPass}` = @p, 0) AS pass_ok, " +
+                $"IFNULL(failed_attempts, 0) AS fails, IFNULL(is_locked, 0) AS locked " +
+                $"FROM accounts WHERE `{ColName}` = @u " +
+                $"ORDER BY pass_ok DESC LIMIT 1";
 
             using (var con = new MySqlConnection(MovieRepository.ConnectionString))
-            using (var cmd = new MySqlCommand(sql, con))
             {
-                cmd.Parameters.AddWithValue("@u", login);
-                cmd.Parameters.AddWithValue("@p", password);
                 con.Open();
-                using (var r = cmd.ExecuteReader())
+
+                int id = 0, attempts = 0;
+                string name = "", type = "";
+                bool passOk = false, locked = false;
+
+                using (var cmd = new MySqlCommand(sql, con))
                 {
-                    if (!r.Read()) return null;
-                    return new UserSession
+                    cmd.Parameters.AddWithValue("@u", login);
+                    cmd.Parameters.AddWithValue("@p", password);
+                    using (var r = cmd.ExecuteReader())
                     {
-                        Id = Convert.ToInt32(r.GetValue(0)),
-                        Name = r.GetValue(1).ToString(),
-                        Role = r.GetValue(2).ToString().Trim()
+                        if (!r.Read()) return new LoginResult { Status = LoginStatus.NotFound };
+                        id = Convert.ToInt32(r["id"]);
+                        name = r[ColName].ToString();
+                        type = r[ColType].ToString().Trim();
+                        passOk = Convert.ToInt32(r["pass_ok"]) == 1;
+                        attempts = Convert.ToInt32(r["fails"]);
+                        locked = Convert.ToInt32(r["locked"]) != 0;
+                    }
+                }
+
+                bool isAdmin = string.Equals(type, "admin", StringComparison.OrdinalIgnoreCase);
+
+                // Locked staff cannot sign in at all (even with the right password) until an admin unlocks them.
+                if (!isAdmin && locked)
+                    return new LoginResult { Status = LoginStatus.Locked, AttemptsLeft = 0 };
+
+                if (passOk)
+                {
+                    if (!isAdmin && attempts != 0)
+                    {
+                        using (var up = new MySqlCommand("UPDATE accounts SET failed_attempts = 0 WHERE id = @id", con))
+                        {
+                            up.Parameters.AddWithValue("@id", id);
+                            up.ExecuteNonQuery();
+                        }
+                    }
+                    return new LoginResult
+                    {
+                        Status = LoginStatus.Success,
+                        User = new UserSession { Id = id, Name = name, Role = type }
                     };
                 }
+
+                // Wrong password
+                if (isAdmin)   // admins are never locked out
+                    return new LoginResult { Status = LoginStatus.WrongPassword, AttemptsLeft = -1 };
+
+                attempts++;
+                bool nowLocked = attempts >= MaxAttempts;
+                using (var up = new MySqlCommand(
+                    "UPDATE accounts SET failed_attempts = @f, is_locked = @l WHERE id = @id", con))
+                {
+                    up.Parameters.AddWithValue("@f", attempts);
+                    up.Parameters.AddWithValue("@l", nowLocked ? 1 : 0);
+                    up.Parameters.AddWithValue("@id", id);
+                    up.ExecuteNonQuery();
+                }
+
+                if (nowLocked)
+                    return new LoginResult { Status = LoginStatus.Locked, AttemptsLeft = 0 };
+
+                return new LoginResult
+                {
+                    Status = LoginStatus.WrongPassword,
+                    AttemptsLeft = MaxAttempts - attempts
+                };
             }
+        }
+
+        // Admin-only: verifies the admin's credentials, then unlocks the staff account and resets its attempts.
+        // You can also call this logic from your admin panel (or use UnlockById below).
+        public static bool UnlockStaff(string adminName, string adminPass, string staffName, out string message)
+        {
+            using (var con = new MySqlConnection(MovieRepository.ConnectionString))
+            {
+                con.Open();
+
+                string chk =
+                    $"SELECT COUNT(*) FROM accounts WHERE `{ColName}` = @a AND BINARY `{ColPass}` = @p " +
+                    $"AND `{ColType}` = 'admin'";
+                using (var cmd = new MySqlCommand(chk, con))
+                {
+                    cmd.Parameters.AddWithValue("@a", adminName);
+                    cmd.Parameters.AddWithValue("@p", adminPass);
+                    if (Convert.ToInt32(cmd.ExecuteScalar()) == 0)
+                    {
+                        message = "Admin name or password is incorrect.";
+                        return false;
+                    }
+                }
+
+                string upd =
+                    $"UPDATE accounts SET failed_attempts = 0, is_locked = 0 " +
+                    $"WHERE `{ColName}` = @s AND `{ColType}` <> 'admin'";
+                using (var cmd = new MySqlCommand(upd, con))
+                {
+                    cmd.Parameters.AddWithValue("@s", staffName);
+                    int n = cmd.ExecuteNonQuery();
+                    if (n == 0)
+                    {
+                        message = "No staff account found with that name.";
+                        return false;
+                    }
+                }
+
+                message = "Account unlocked. The staff can sign in again.";
+                return true;
+            }
+        }
+
+        // For your admin panel: call this after you've confirmed the current user IsAdmin.
+        public static void UnlockById(int accountId)
+        {
+            using (var con = new MySqlConnection(MovieRepository.ConnectionString))
+            using (var cmd = new MySqlCommand(
+                "UPDATE accounts SET failed_attempts = 0, is_locked = 0 WHERE id = @id", con))
+            {
+                cmd.Parameters.AddWithValue("@id", accountId);
+                con.Open();
+                cmd.ExecuteNonQuery();
+            }
+        }
+    }
+
+    // ===================== Eye button (show / hide password) =====================
+    public class EyeButton : Control
+    {
+        private bool _revealed;
+        private bool _hover;
+
+        // true = password is visible
+        public bool Revealed
+        {
+            get { return _revealed; }
+            set { _revealed = value; Invalidate(); }
+        }
+
+        public EyeButton()
+        {
+            SetStyle(ControlStyles.UserPaint | ControlStyles.AllPaintingInWmPaint |
+                     ControlStyles.OptimizedDoubleBuffer | ControlStyles.ResizeRedraw, true);
+            Cursor = Cursors.Hand;
+            TabStop = false;
+        }
+
+        protected override void OnMouseEnter(EventArgs e) { _hover = true; Invalidate(); base.OnMouseEnter(e); }
+        protected override void OnMouseLeave(EventArgs e) { _hover = false; Invalidate(); base.OnMouseLeave(e); }
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            var g = e.Graphics;
+            g.Clear(BackColor);
+            g.SmoothingMode = SmoothingMode.AntiAlias;
+
+            Color c = _hover ? Color.White : Color.FromArgb(170, 170, 170);
+            float size = Math.Min(Width, Height);
+            float cx = Width / 2f, cy = Height / 2f;
+            float hw = size * 0.34f, hh = size * 0.16f;
+            float pw = Math.Max(1.6f, size / 26f);
+
+            using (var pen = new Pen(c, pw))
+            using (var path = new GraphicsPath())
+            {
+                // eye outline
+                path.AddBezier(cx - hw, cy, cx - hw / 2f, cy - hh * 2f, cx + hw / 2f, cy - hh * 2f, cx + hw, cy);
+                path.AddBezier(cx + hw, cy, cx + hw / 2f, cy + hh * 2f, cx - hw / 2f, cy + hh * 2f, cx - hw, cy);
+                g.DrawPath(pen, path);
+
+                // pupil
+                float pr = size * 0.10f;
+                g.DrawEllipse(pen, cx - pr, cy - pr, pr * 2f, pr * 2f);
+
+                // slash when the password is hidden
+                if (!_revealed)
+                {
+                    float sx = hw * 0.95f, sy = hw * 0.85f;
+                    using (var cut = new Pen(BackColor, pw * 3f))
+                        g.DrawLine(cut, cx - sx + pw * 2f, cy + sy + pw * 2f, cx + sx + pw * 2f, cy - sy + pw * 2f);
+                    g.DrawLine(pen, cx - sx, cy + sy, cx + sx, cy - sy);
+                }
+            }
+        }
+    }
+
+    // ===================== Admin unlock dialog =====================
+    public class AdminUnlockForm : Form
+    {
+        private readonly TextBox _admin = new TextBox();
+        private readonly TextBox _pass = new TextBox();
+        private readonly TextBox _staff = new TextBox();
+        private readonly Label _msg = new Label();
+        private readonly Button _ok = new Button();
+
+        public AdminUnlockForm()
+        {
+            AutoScaleDimensions = new SizeF(96F, 96F);
+            AutoScaleMode = AutoScaleMode.Dpi;
+            Text = "Unlock Staff Account (Admin only)";
+            FormBorderStyle = FormBorderStyle.FixedDialog;
+            StartPosition = FormStartPosition.CenterParent;
+            MaximizeBox = false;
+            MinimizeBox = false;
+            ShowInTaskbar = false;
+            Font = new Font("Segoe UI", 9.5f);
+            ClientSize = new Size(360, 290);
+
+            AddRow("Admin name", _admin, 14);
+            AddRow("Admin password", _pass, 74);
+            AddRow("Staff name to unlock", _staff, 134);
+            _pass.UseSystemPasswordChar = true;
+
+            InputRules.Attach(_admin, InputRules.MaxName, true);
+            InputRules.Attach(_pass, InputRules.MaxPassword, false);
+            InputRules.Attach(_staff, InputRules.MaxName, true);
+
+            _msg.SetBounds(20, 196, 320, 40);
+            _msg.ForeColor = Color.Firebrick;
+
+            _ok.Text = "Unlock";
+            _ok.SetBounds(150, 244, 90, 32);
+            _ok.Click += OkClick;
+
+            var close = new Button { Text = "Close", DialogResult = DialogResult.Cancel };
+            close.SetBounds(250, 244, 90, 32);
+
+            AcceptButton = _ok;
+            CancelButton = close;
+            Controls.Add(_msg);
+            Controls.Add(_ok);
+            Controls.Add(close);
+        }
+
+        private void AddRow(string caption, TextBox tb, int y)
+        {
+            Controls.Add(new Label { Text = caption, AutoSize = true, Left = 20, Top = y });
+            tb.SetBounds(20, y + 22, 320, 26);
+            Controls.Add(tb);
+        }
+
+        private async void OkClick(object sender, EventArgs e)
+        {
+            string a = _admin.Text.Trim(), p = _pass.Text, s = _staff.Text.Trim();
+            _msg.ForeColor = Color.Firebrick;
+
+            if (a.Length == 0 || p.Length == 0 || s.Length == 0)
+            {
+                _msg.Text = "Please fill in all the fields.";
+                return;
+            }
+
+            _ok.Enabled = false;
+            try
+            {
+                string message = "";
+                bool ok = await Task.Run(() => AccountRepository.UnlockStaff(a, p, s, out message));
+                _msg.ForeColor = ok ? Color.SeaGreen : Color.Firebrick;
+                _msg.Text = message;
+                if (ok) { _staff.Clear(); _pass.Clear(); }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Unlock failed: " + ex.Message);
+                _msg.Text = "Can't reach the database. Is MySQL (XAMPP) running?";
+            }
+            finally { if (!IsDisposed) _ok.Enabled = true; }
         }
     }
 
@@ -130,12 +455,14 @@ namespace MovieReserve
         private Bitmap _bg;
         private readonly List<Image> _posters = new List<Image>();
 
-        private Label _logo, _title, _error, _help, _footer;
+        private Label _logo, _title, _error, _help;
         private Panel _userBox, _passBox;
         private TextBox _txtUser, _txtPass;
         private Label _hintUser, _hintPass;
         private CheckBox _chkRemember;
         private Button _btnSignIn;
+        private EyeButton _eye;
+        private ToolTip _tip;
 
         private static readonly HttpClient _http = CreateClient();
         private static HttpClient CreateClient()
@@ -197,6 +524,18 @@ namespace MovieReserve
             CreateField("Name", false, out _userBox, out _txtUser, out _hintUser);
             CreateField("Password", true, out _passBox, out _txtPass, out _hintPass);
 
+            // letters + numbers only, with a maximum length
+            InputRules.Attach(_txtUser, InputRules.MaxName, true);
+            InputRules.Attach(_txtPass, InputRules.MaxPassword, false);
+
+            // eye button inside the password box
+            _eye = new EyeButton { BackColor = FieldBg };
+            _eye.Click += (s, e) => TogglePassword();
+            _passBox.Controls.Add(_eye);
+            _eye.BringToFront();
+            _tip = new ToolTip();
+            _tip.SetToolTip(_eye, "Show / hide password");
+
             _error = MakeLabel("", new Font("Segoe UI", 9.5f), Color.FromArgb(229, 80, 0));
             _error.AutoSize = false;
 
@@ -233,14 +572,18 @@ namespace MovieReserve
                 "Forgot your password? Please ask your administrator to reset it for you.",
                 "Need help?", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-            _footer = MakeLabel("Staff and admin accounts only.\r\nNeed access? Ask your administrator.",
-                                new Font("Segoe UI", 9.5f), Color.FromArgb(140, 140, 140));
-            _footer.AutoSize = false;
-
             Controls.AddRange(new Control[]
             {
-                _logo, _title, _userBox, _passBox, _error, _btnSignIn, _chkRemember, _help, _footer
+                _logo, _title, _userBox, _passBox, _error, _btnSignIn, _chkRemember, _help
             });
+        }
+
+        private void TogglePassword()
+        {
+            _eye.Revealed = !_eye.Revealed;
+            _txtPass.UseSystemPasswordChar = !_eye.Revealed;
+            _txtPass.Focus();
+            _txtPass.SelectionStart = _txtPass.TextLength;
         }
 
         private static Label MakeLabel(string text, Font font, Color color)
@@ -272,8 +615,8 @@ namespace MovieReserve
             hintLbl.Click += (s, e) => text.Focus();
             panel.Click += (s, e) => text.Focus();
             text.TextChanged += (s, e) => hintLbl.Visible = text.TextLength == 0;
-            text.Enter += (s, e) => SetFieldColor(panel, text, hintLbl, FieldBgFocus);
-            text.Leave += (s, e) => SetFieldColor(panel, text, hintLbl, FieldBg);
+            text.Enter += (s, e) => SetFieldColor(panel, FieldBgFocus);
+            text.Leave += (s, e) => SetFieldColor(panel, FieldBg);
 
             panel.Controls.Add(hintLbl);
             panel.Controls.Add(text);
@@ -282,9 +625,11 @@ namespace MovieReserve
             box = panel; tb = text; hintLabel = hintLbl;
         }
 
-        private static void SetFieldColor(Panel p, TextBox t, Label h, Color c)
+        // colors the panel and everything inside it (textbox, hint, eye button)
+        private static void SetFieldColor(Panel p, Color c)
         {
-            p.BackColor = c; t.BackColor = c; h.BackColor = c;
+            p.BackColor = c;
+            foreach (Control ch in p.Controls) ch.BackColor = c;
         }
 
         // ---------- layout ----------
@@ -292,7 +637,7 @@ namespace MovieReserve
         {
             if (_userBox == null) return;
 
-            int cw = S(460), ch = S(538);
+            int cw = S(460), ch = S(416);
             _card = new Rectangle((ClientSize.Width - cw) / 2,
                                   (ClientSize.Height - ch) / 2, cw, ch);
             int pad = S(56), x = _card.Left + pad, w = cw - pad * 2, y = _card.Top;
@@ -300,8 +645,9 @@ namespace MovieReserve
             _logo.Location = new Point(S(56), S(28));
             _title.Location = new Point(x, y + S(44));
 
-            PlaceField(_userBox, _txtUser, _hintUser, x, y + S(124), w, S(50));
-            PlaceField(_passBox, _txtPass, _hintPass, x, y + S(190), w, S(50));
+            PlaceField(_userBox, _txtUser, _hintUser, x, y + S(124), w, S(50), 0);
+            PlaceField(_passBox, _txtPass, _hintPass, x, y + S(190), w, S(50), S(44));
+            _eye.SetBounds(w - S(46), 0, S(42), S(50));
 
             _error.SetBounds(x, y + S(246), w, S(38));
             _btnSignIn.SetBounds(x, y + S(292), w, S(44));
@@ -309,16 +655,15 @@ namespace MovieReserve
 
             _chkRemember.Location = new Point(x - S(2), y + S(352));
             _help.Location = new Point(x + w - _help.Width, y + S(354));
-            _footer.SetBounds(x, y + S(424), w, S(70));
 
             Invalidate(true);
         }
 
-        private void PlaceField(Panel box, TextBox tb, Label hint, int x, int y, int w, int h)
+        private void PlaceField(Panel box, TextBox tb, Label hint, int x, int y, int w, int h, int reserveRight)
         {
             box.SetBounds(x, y, w, h);
             tb.Left = S(16);
-            tb.Width = w - S(32);
+            tb.Width = w - S(32) - reserveRight;
             tb.Top = (h - tb.Height) / 2;
             hint.Left = S(16);
             hint.Top = (h - hint.Height) / 2;
@@ -508,22 +853,47 @@ namespace MovieReserve
                 return;
             }
 
+            if (!InputRules.IsValid(login, true) || !InputRules.IsValid(pass, false))
+            {
+                ShowError("Only letters and numbers are allowed.");
+                return;
+            }
+
             SetBusy(true);
             try
             {
-                UserSession u = await Task.Run(() => AccountRepository.Authenticate(login, pass));
-                if (u == null)
+                LoginResult res = await Task.Run(() => AccountRepository.Authenticate(login, pass));
+
+                switch (res.Status)
                 {
-                    ShowError("Incorrect name or password. Please try again.");
-                    _txtPass.Clear();
-                    _txtPass.Focus();
-                }
-                else
-                {
-                    SaveRemembered(u.Name);
-                    User = u;
-                    DialogResult = DialogResult.OK;
-                    Close();   // close the login form after a successful sign-in
+                    case LoginStatus.Success:
+                        SaveRemembered(res.User.Name);
+                        User = res.User;
+                        DialogResult = DialogResult.OK;
+                        Close();   // close the login form after a successful sign-in
+                        break;
+
+                    case LoginStatus.Locked:
+                        ShowError("This account is locked after " + AccountRepository.MaxAttempts +
+                                  " failed attempts. Please ask your administrator to unlock it.");
+                        _txtPass.Clear();
+                        break;
+
+                    case LoginStatus.WrongPassword:
+                        if (res.AttemptsLeft > 0)
+                            ShowError("Incorrect name or password. " + res.AttemptsLeft +
+                                      (res.AttemptsLeft == 1 ? " attempt" : " attempts") + " left before this account is locked.");
+                        else
+                            ShowError("Incorrect name or password. Please try again.");
+                        _txtPass.Clear();
+                        _txtPass.Focus();
+                        break;
+
+                    default:   // NotFound
+                        ShowError("Incorrect name or password. Please try again.");
+                        _txtPass.Clear();
+                        _txtPass.Focus();
+                        break;
                 }
             }
             catch (Exception ex)
@@ -571,6 +941,7 @@ namespace MovieReserve
             {
                 foreach (var p in _posters) p.Dispose();
                 if (_bg != null) _bg.Dispose();
+                if (_tip != null) _tip.Dispose();
             }
             base.Dispose(disposing);
         }
