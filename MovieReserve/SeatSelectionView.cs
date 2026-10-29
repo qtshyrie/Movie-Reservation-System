@@ -297,7 +297,6 @@ namespace MovieReserve
         private Button _btnRoom;
         private RadioButton _rbRegular, _rbPwd, _rbElder;
         private CheckBox _chkEdit;
-        private ComboBox _cmbRoom;
         private TrackBar _tbAisle, _tbSide;
         private Label _lblAisle, _lblSide;
         private NumericUpDown _numRows, _numSide;
@@ -329,15 +328,6 @@ namespace MovieReserve
             _header = new Panel { Dock = DockStyle.Top, Height = 66, BackColor = Color.White };
             _header.Paint += PaintHeader;
             _header.Resize += (a, b) => _header.Invalidate();
-
-            if (!_s.IsAdmin)
-            {
-                _btnRoom = UiKit.MakeButton("Change room", false);
-                _btnRoom.Size = new Size(124, 36);
-                _btnRoom.Click += (a, b) => ShowRoomMenu();
-                _header.Controls.Add(_btnRoom);
-                _header.Resize += (a, b) => _btnRoom.Location = new Point(_header.Width - _btnRoom.Width - 18, 15);
-            }
             Controls.Add(_header);
         }
 
@@ -367,24 +357,7 @@ namespace MovieReserve
                 g.DrawLine(p, 0, _header.Height - 1, _header.Width, _header.Height - 1);
         }
 
-        private void ShowRoomMenu()
-        {
-            var menu = new ContextMenuStrip();
-            foreach (ScreenItem sc in _s.Screens)
-            {
-                ScreenItem captured = sc;
-                var item = new ToolStripMenuItem(sc.Name)
-                {
-                    Checked = _s.Room != null && _s.Room.ScreenId == sc.ScreenId
-                };
-                item.Click += (a, b) => _s.ChangeRoom(captured);
-                menu.Items.Add(item);
-            }
-            if (menu.Items.Count == 0)
-                menu.Items.Add(new ToolStripMenuItem("No rooms found") { Enabled = false });
-            menu.Closed += (a, b) => menu.Dispose();
-            menu.Show(_btnRoom, new Point(0, _btnRoom.Height));
-        }
+        
 
         // ---------- admin editor ----------
         private Label Cap(string text)
@@ -457,20 +430,7 @@ namespace MovieReserve
             };
             flow.Controls.Add(_chkEdit);
 
-            flow.Controls.Add(Cap("Room"));
-            _cmbRoom = new ComboBox
-            {
-                DropDownStyle = ComboBoxStyle.DropDownList, Width = 120, Font = UiKit.FontBody,
-                Margin = new Padding(3, 4, 3, 3)
-            };
-            _cmbRoom.SelectedIndexChanged += (a, b) =>
-            {
-                if (_syncing) return;
-                var sc = _cmbRoom.SelectedItem as ScreenItem;
-                if (sc != null) _s.ChangeRoom(sc);
-            };
-            flow.Controls.Add(_cmbRoom);
-            flow.SetFlowBreak(_cmbRoom, true);
+            flow.SetFlowBreak(_chkEdit, true);
 
             // ---- row 2: spacing ----
             flow.Controls.Add(Cap("Middle aisle"));
@@ -581,16 +541,6 @@ namespace MovieReserve
                     _lblAisle.Text = _tbAisle.Value + " px";
                     _lblSide.Text = _tbSide.Value + " px";
                 }
-
-                if (_cmbRoom.Items.Count != _s.Screens.Count)
-                {
-                    _cmbRoom.Items.Clear();
-                    foreach (ScreenItem sc in _s.Screens) _cmbRoom.Items.Add(sc);
-                }
-                int idx = -1;
-                for (int i = 0; i < _cmbRoom.Items.Count; i++)
-                    if (_s.Room != null && ((ScreenItem)_cmbRoom.Items[i]).ScreenId == _s.Room.ScreenId) idx = i;
-                _cmbRoom.SelectedIndex = idx;
             }
             finally { _syncing = false; }
         }

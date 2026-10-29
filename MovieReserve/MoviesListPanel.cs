@@ -26,13 +26,13 @@ namespace MovieReserve
         public event EventHandler<MovieItem> MovieSelected;
 
         // ---- look (change freely) ----
-        private static readonly Color PanelBg = Color.FromArgb(30, 30, 30);
+        private static readonly Color PanelBg = Color.FromArgb(24, 24, 28);
         private static readonly Color TitleColor = Color.White;
-        private static readonly Color SubColor = Color.FromArgb(160, 160, 160);
+        private static readonly Color SubColor = Color.FromArgb(150, 150, 160);
         private static readonly Color Accent = Color.FromArgb(229, 9, 20);
 
         private const int Columns = 5;
-        private const int TileHeight = 290;
+        private const int TileHeight = 336;
 
         private readonly FlowLayoutPanel _flow;
         private readonly Label _status;
@@ -64,7 +64,7 @@ namespace MovieReserve
                 WrapContents = true,
                 FlowDirection = FlowDirection.LeftToRight,
                 BackColor = PanelBg,
-                Padding = new Padding(10, 10, 0, 0),
+                Padding = new Padding(14, 4, 0, 12),
                 Margin = Padding.Empty
             };
             // mouse wheel scrolls when there are more than two rows
@@ -85,17 +85,8 @@ namespace MovieReserve
             Controls.Add(_flow);
             _status.BringToFront();
 
-            var header = new Label
-            {
-                Text = "All Showing",
-                Dock = DockStyle.Top,
-                Height = 50,
-                ForeColor = Color.White,
-                BackColor = PanelBg,
-                Font = new Font("Segoe UI Semibold", 16f),
-                TextAlign = ContentAlignment.MiddleLeft,
-                Padding = new Padding(14, 0, 0, 0)
-            };
+            var header = new SectionHeader("All Showing",
+                "Select a poster to start a reservation", PanelBg, Accent, SubColor);
             Controls.Add(header);
             header.SendToBack();
 
@@ -231,11 +222,12 @@ namespace MovieReserve
         private Image _poster;
         private bool _hover;
         private readonly Color _bg, _title, _sub, _accent;
-        private readonly Font _titleFont = new Font("Segoe UI Semibold", 9f);
-        private readonly Font _subFont = new Font("Segoe UI", 8f);
-        private const int PosterW = 150, PosterH = 225, PosterTop = 6;
+        private readonly Font _titleFont = new Font("Segoe UI Semibold", 9.5f);
+        private readonly Font _subFont = new Font("Segoe UI", 8.25f);
+        private readonly Font _pillFont = new Font("Segoe UI Semibold", 8.5f);
+        private const int CardInset = 6, CardPad = 10, PosterMaxW = 164, CardRadius = 10;
 
-    public MovieTile(MovieItem movie, int width, int height,
+        public MovieTile(MovieItem movie, int width, int height,
                          Color bg, Color title, Color sub, Color accent)
         {
             Movie = movie;
@@ -261,32 +253,61 @@ namespace MovieReserve
             g.InterpolationMode = InterpolationMode.HighQualityBicubic;
             g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
 
-            // ----- poster -----
-            var pr = new Rectangle((Width - PosterW) / 2, PosterTop, PosterW, PosterH);
-            using (var path = RoundRect(pr, 4))
+            // ----- card -----
+            var card = new Rectangle(CardInset, CardInset, Width - CardInset * 2 - 1, Height - CardInset * 2 - 1);
+            using (var path = RoundRect(card, CardRadius))
+            using (var fill = new SolidBrush(_hover ? Color.FromArgb(44, 44, 50) : Color.FromArgb(34, 34, 39)))
+            using (var pen = new Pen(_hover ? _accent : Color.FromArgb(52, 52, 58), 1f))
+            {
+                g.FillPath(fill, path);
+                g.DrawPath(pen, path);
+            }
+
+            // ----- poster (2:3) -----
+            int pw = Math.Max(40, Math.Min(PosterMaxW, card.Width - CardPad * 2));
+            int ph = pw * 3 / 2;
+            var pr = new Rectangle(card.X + (card.Width - pw) / 2, card.Y + CardPad, pw, ph);
+            using (var path = RoundRect(pr, 6))
             {
                 if (_poster != null)
                 {
-                    var old = g.Clip;
+                    var state = g.Save();
                     g.SetClip(path, CombineMode.Intersect);
                     DrawCover(g, _poster, pr);
-                    g.Clip = old;
+                    g.Restore(state);
                 }
                 else   // placeholder while loading / if the URL fails
                 {
-                    using (var b = new SolidBrush(Color.FromArgb(55, 55, 55))) g.FillPath(b, path);
+                    using (var b = new LinearGradientBrush(pr, Color.FromArgb(64, 64, 72), Color.FromArgb(42, 42, 48), 90f))
+                        g.FillPath(b, path);
                     string initial = string.IsNullOrEmpty(Movie.Title) ? "?" : Movie.Title.Substring(0, 1).ToUpper();
                     using (var f = new Font("Segoe UI", 26f, FontStyle.Bold))
+                    using (var b = new SolidBrush(Color.FromArgb(120, 120, 130)))
                     using (var sf = new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center })
-                        g.DrawString(initial, f, Brushes.Gray, pr, sf);
+                        g.DrawString(initial, f, b, pr, sf);
                 }
 
                 if (_hover)
-                    using (var pen = new Pen(_accent, 2f)) g.DrawPath(pen, path);
+                {
+                    // bottom shade + "Reserve" pill
+                    var state = g.Save();
+                    g.SetClip(path, CombineMode.Intersect);
+                    var shade = new Rectangle(pr.X, pr.Y + pr.Height / 2, pr.Width, pr.Height - pr.Height / 2 + 1);
+                    using (var b = new LinearGradientBrush(shade, Color.FromArgb(0, 0, 0, 0), Color.FromArgb(210, 0, 0, 0), 90f))
+                        g.FillRectangle(b, shade);
+                    g.Restore(state);
+
+                    var pill = new Rectangle(pr.X + (pr.Width - 92) / 2, pr.Bottom - 38, 92, 26);
+                    using (var pp = RoundRect(pill, 13))
+                    using (var b = new SolidBrush(_accent))
+                        g.FillPath(b, pp);
+                    using (var sf = new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center })
+                        g.DrawString("Reserve", _pillFont, Brushes.White, pill, sf);
+                }
             }
 
             // ----- title (max 2 lines) -----
-            var titleRect = new Rectangle(4, PosterTop + PosterH + 4, Width - 8, 30);
+            var titleRect = new Rectangle(card.X + 6, pr.Bottom + 8, card.Width - 12, 34);
             using (var b = new SolidBrush(_title))
             using (var sf = new StringFormat
             {
@@ -300,7 +321,7 @@ namespace MovieReserve
             string sub = Movie.Genre ?? "";
             if (!string.IsNullOrWhiteSpace(Movie.Duration))
                 sub += (sub.Length > 0 ? "  \u2022  " : "") + Movie.Duration + " min";
-            var subRect = new Rectangle(4, titleRect.Bottom, Width - 8, 14);
+            var subRect = new Rectangle(card.X + 6, titleRect.Bottom, card.Width - 12, 16);
             using (var b = new SolidBrush(_sub))
             using (var sf = new StringFormat { Alignment = StringAlignment.Center, Trimming = StringTrimming.EllipsisCharacter, FormatFlags = StringFormatFlags.NoWrap })
                 g.DrawString(sub, _subFont, b, subRect, sf);
@@ -325,6 +346,46 @@ namespace MovieReserve
             p.AddArc(r.X, r.Bottom - d, d, d, 90, 90);
             p.CloseFigure();
             return p;
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing) { _titleFont.Dispose(); _subFont.Dispose(); _pillFont.Dispose(); }
+            base.Dispose(disposing);
+        }
+    }
+
+    // =====================================================================
+    //  Section heading: accent bar + title + subtitle (paint only)
+    // =====================================================================
+    internal class SectionHeader : Control
+    {
+        private readonly string _title, _subtitle;
+        private readonly Color _bg, _accent, _sub;
+        private readonly Font _titleFont = new Font("Segoe UI Semibold", 17f);
+        private readonly Font _subFont = new Font("Segoe UI", 9f);
+
+        public SectionHeader(string title, string subtitle, Color bg, Color accent, Color sub)
+        {
+            _title = title; _subtitle = subtitle; _bg = bg; _accent = accent; _sub = sub;
+            Dock = DockStyle.Top;
+            Height = 64;
+            SetStyle(ControlStyles.UserPaint | ControlStyles.AllPaintingInWmPaint |
+                     ControlStyles.OptimizedDoubleBuffer | ControlStyles.ResizeRedraw, true);
+        }
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            var g = e.Graphics;
+            g.Clear(_bg);
+            g.SmoothingMode = SmoothingMode.AntiAlias;
+            g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+
+            using (var b = new SolidBrush(_accent))
+                g.FillRectangle(b, 20, 16, 4, 34);
+            g.DrawString(_title, _titleFont, Brushes.White, 32, 9);
+            using (var b = new SolidBrush(_sub))
+                g.DrawString(_subtitle, _subFont, b, 34, 39);
         }
 
         protected override void Dispose(bool disposing)

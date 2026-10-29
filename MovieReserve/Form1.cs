@@ -18,6 +18,7 @@ namespace MovieReserve
         public Form1()
         {
             InitializeComponent();
+            ApplyTheme();
 
             SettingsPanel.Controls.Clear();
             var settings = new SettingsPage { Dock = DockStyle.Fill };
@@ -30,7 +31,10 @@ namespace MovieReserve
                 Size = new Size(1164, 689)
             };
             MoviesPanel.Controls.Add(_movies);
-            _movies.MovieSelected += (s, movie) => ShowPage(1);
+            _movies.MovieSelected += (s, movie) => {
+                _res?.SelectMovie(movie);   // placeholder: use your real method
+                ShowPage(1);
+            };
 
             ShowPage(0);
             Shown += async (s, e) => await _movies.LoadMoviesAsync();
@@ -50,45 +54,145 @@ namespace MovieReserve
         private void SetupReservation()
         {
             _res = ReservationPage.Attach(ReservationPanel, SeatPanel, SelectedMoviePanel, RecieptPanel, _user);
-            _movies.MovieSelected += (s, movie) => { _res.SelectMovie(movie); ShowPage(1); };
-        } 
+        }
 
         private void ApplyRole()
         {
             if (_user == null) return;
 
-            // Common to everyone
-            btnReservation.Visible = true;
             btnMovies.Visible = true;
-
-            // Staff: only Reservation + Movies. Admin: also Overview + Settings
             btnSettings.Visible = _user.IsAdmin;
 
-            // Stack the visible buttons so there are no gaps
-            int y = btnMovies.Top;          // y of the first button slot
+            int y = btnMovies.Top;
             int gap = 6;
-            foreach (var b in new[] {btnReservation, btnMovies, btnSettings })
+
+            foreach (var b in new[] { btnMovies, btnSettings })
             {
                 if (!b.Visible) continue;
+
                 b.Top = y;
                 y += b.Height + gap;
             }
 
-            // Show the user in the sidebar (use your real label names)
-            // lblUserName.Text = _user.Name;
             roundLabel1.Text = _user.Initials;
-            roundLabel2.Text = _user.Initials;
             label4.Text = _user.Name;
             label8.Text = "Good Day, " + _user.Name;
-            // lblInitials.Text = _user.Initials;
         }
         private Panel[] _panels;
-        
-        private void ShowPage(int page) {
+
+        private void ShowPage(int page)
+        {
             for (int i = 0; i < _panels.Length; i++)
             {
                 _panels[i].Visible = (i == page);
             }
+        }
+
+        // =================================================================
+        //  Visual theme ONLY: colours, fonts, spacing. No behaviour lives here
+        //  except keeping the active nav button / page title in sync with the
+        //  panels that ShowPage() already shows and hides.
+        // =================================================================
+        private static readonly Color SideBg = Color.FromArgb(17, 17, 20);
+        private static readonly Color BandBg = Color.FromArgb(24, 24, 29);
+        private static readonly Color PageBg = Color.FromArgb(244, 243, 240);
+        private static readonly Color BrandRed = Color.FromArgb(229, 9, 20);
+
+        private void ApplyTheme()
+        {
+            // ---- sidebar surfaces ----
+            foreach (Control c in new Control[] { panel1, panel2, tableLayoutPanel1, panel4, panel5, panel6, panel7 })
+                c.BackColor = SideBg;
+
+            // brand
+            label2.Font = new Font("Segoe UI Semibold", 15f);
+            label2.TextAlign = ContentAlignment.MiddleLeft;
+            label2.Location = new Point(76, 24);
+            label2.Size = new Size(171, 30);
+
+            // signed-in user
+            roundLabel1.BackColor = Color.FromArgb(52, 52, 60);
+            roundLabel1.ForeColor = Color.White;
+            label3.Font = new Font("Segoe UI", 8f);
+            label3.ForeColor = Color.FromArgb(140, 140, 150);
+            label3.Location = new Point(78, 9);
+            label4.Font = new Font("Segoe UI Semibold", 11.5f);
+            label4.ForeColor = Color.White;
+            label4.Location = new Point(78, 24);
+            label4.Size = new Size(170, 24);
+            label4.AutoEllipsis = true;
+
+            // nav section
+            label10.Text = "COUNTER WORKSPACE";
+            label10.Font = new Font("Segoe UI", 7.5f, FontStyle.Bold);
+            label10.ForeColor = Color.FromArgb(110, 110, 120);
+            label10.Location = new Point(22, 16);
+
+            // footer: cinema name + status dot
+            label11.BackColor = Color.Transparent;
+            label11.Font = new Font("Segoe UI Semibold", 9.5f);
+            label11.ForeColor = Color.FromArgb(225, 225, 230);
+            label12.BackColor = Color.Transparent;
+            label12.ForeColor = Color.FromArgb(34, 197, 94);
+
+            StyleNav(roundButton5, false);   // LogOut (never "active")
+            StyleNav(btnMovies, false);
+            StyleNav(btnSettings, false);
+
+            // ---- top bar ----
+            panel3.BackColor = Color.White;
+            label5.AutoSize = false;
+            label5.Font = new Font("Segoe UI", 9f);
+            label5.ForeColor = Color.FromArgb(130, 130, 138);
+            label5.Location = new Point(48, 20);
+            label5.Size = new Size(300, 18);
+            label5.Text = DateTime.Now.ToString("dddd, MMMM d");
+            label6.AutoSize = true;
+            label6.Font = new Font("Segoe UI Semibold", 18f);
+            label6.ForeColor = Color.FromArgb(24, 24, 24);
+            label6.Location = new Point(46, 38);
+
+            // ---- greeting band ----
+            panel8.BackColor = BandBg;
+            label8.Font = new Font("Segoe UI Semibold", 20f);
+            label8.ForeColor = Color.White;
+            label8.Location = new Point(48, 16);
+            label8.Size = new Size(640, 40);
+            label9.Font = new Font("Segoe UI", 9f);
+            label9.ForeColor = Color.FromArgb(150, 150, 160);
+            label9.Location = new Point(52, 58);
+
+            // "+ New Reserve" is redundant (reservations start from a poster on the Movies page)
+            New_Reserve.Visible = false;
+
+            // ---- page area ----
+            RightMotherPanel.BackColor = PageBg;
+
+            // keep the highlighted nav button + page title matching the visible page
+            MoviesPanel.VisibleChanged += (s, e) => { if (MoviesPanel.Visible) SetNav(0); };
+            ReservationPanel.VisibleChanged += (s, e) => { if (ReservationPanel.Visible) SetNav(1); };
+            SettingsPanel.VisibleChanged += (s, e) => { if (SettingsPanel.Visible) SetNav(2); };
+            SetNav(0);
+        }
+
+        private void StyleNav(RoundButton b, bool active)
+        {
+            b.Font = new Font("Segoe UI Semibold", 10f);
+            b.CornerRadius = 8;
+            b.BorderSize = 1;
+            b.ForeColor = active ? Color.White : Color.FromArgb(205, 205, 212);
+            b.BackColor = active ? Color.FromArgb(48, 24, 27) : SideBg;
+            b.BorderColor = active ? BrandRed : Color.FromArgb(58, 58, 66);
+            b.HoverBackColor = active ? Color.FromArgb(62, 28, 32) : Color.FromArgb(34, 34, 40);
+            b.PressedBackColor = Color.FromArgb(70, 30, 35);
+            b.Invalidate();
+        }
+
+        private void SetNav(int page)
+        {
+            label6.Text = page == 0 ? "Movies" : "Settings";
+            StyleNav(btnMovies, page == 0);
+            StyleNav(btnSettings, page == 2);
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -146,7 +250,6 @@ namespace MovieReserve
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.roundLabel2 = new RoundLabel();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.panel8 = new System.Windows.Forms.Panel();
@@ -242,7 +345,6 @@ namespace MovieReserve
             this.panel6 = new System.Windows.Forms.Panel();
             this.btnSettings = new RoundButton();
             this.btnMovies = new RoundButton();
-            this.btnReservation = new RoundButton();
             this.label10 = new System.Windows.Forms.Label();
             this.panel7 = new System.Windows.Forms.Panel();
             this.roundButton5 = new RoundButton();
@@ -292,7 +394,6 @@ namespace MovieReserve
             // panel3
             // 
             this.panel3.BackColor = System.Drawing.Color.White;
-            this.panel3.Controls.Add(this.roundLabel2);
             this.panel3.Controls.Add(this.label6);
             this.panel3.Controls.Add(this.label5);
             this.panel3.Controls.Add(this.panel8);
@@ -301,16 +402,6 @@ namespace MovieReserve
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(1170, 899);
             this.panel3.TabIndex = 1;
-            // 
-            // roundLabel2
-            // 
-            this.roundLabel2.BackColor = System.Drawing.SystemColors.ButtonShadow;
-            this.roundLabel2.Font = new System.Drawing.Font("Microsoft YaHei UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.roundLabel2.Location = new System.Drawing.Point(1071, 31);
-            this.roundLabel2.Name = "roundLabel2";
-            this.roundLabel2.Size = new System.Drawing.Size(51, 44);
-            this.roundLabel2.TabIndex = 6;
-            this.roundLabel2.Text = "RC";
             // 
             // label6
             // 
@@ -1862,7 +1953,6 @@ namespace MovieReserve
             this.panel6.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.panel6.Controls.Add(this.btnSettings);
             this.panel6.Controls.Add(this.btnMovies);
-            this.panel6.Controls.Add(this.btnReservation);
             this.panel6.Controls.Add(this.label10);
             this.panel6.Location = new System.Drawing.Point(3, 225);
             this.panel6.Name = "panel6";
@@ -1881,7 +1971,7 @@ namespace MovieReserve
             this.btnSettings.Font = new System.Drawing.Font("Microsoft YaHei UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSettings.ForeColor = System.Drawing.Color.White;
             this.btnSettings.HoverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.btnSettings.Location = new System.Drawing.Point(20, 144);
+            this.btnSettings.Location = new System.Drawing.Point(20, 97);
             this.btnSettings.Name = "btnSettings";
             this.btnSettings.PressedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.btnSettings.Size = new System.Drawing.Size(216, 41);
@@ -1910,27 +2000,6 @@ namespace MovieReserve
             this.btnMovies.Text = "Movies";
             this.btnMovies.UseVisualStyleBackColor = false;
             this.btnMovies.Click += new System.EventHandler(this.roundButton3_Click);
-            // 
-            // btnReservation
-            // 
-            this.btnReservation.BackColor = System.Drawing.Color.Black;
-            this.btnReservation.BorderColor = System.Drawing.Color.Gray;
-            this.btnReservation.BorderSize = 1;
-            this.btnReservation.CornerRadius = 10;
-            this.btnReservation.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnReservation.FlatAppearance.BorderSize = 0;
-            this.btnReservation.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnReservation.Font = new System.Drawing.Font("Microsoft YaHei UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnReservation.ForeColor = System.Drawing.Color.White;
-            this.btnReservation.HoverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.btnReservation.Location = new System.Drawing.Point(20, 97);
-            this.btnReservation.Name = "btnReservation";
-            this.btnReservation.PressedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.btnReservation.Size = new System.Drawing.Size(216, 41);
-            this.btnReservation.TabIndex = 9;
-            this.btnReservation.Text = "Reservation";
-            this.btnReservation.UseVisualStyleBackColor = false;
-            this.btnReservation.Click += new System.EventHandler(this.roundButton2_Click);
             // 
             // label10
             // 
@@ -2233,23 +2302,23 @@ namespace MovieReserve
 
         private void btnManageMovies_Click(object sender, EventArgs e)
         {
-            
+
         }
 
         private void btnSystemInfo_Click(object sender, EventArgs e)
         {
-                                                                  
+
         }
 
         private void btnDocumentation_Click(object sender, EventArgs e)
         {
-            
+
 
         }
 
         private void btnDevelopers_Click(object sender, EventArgs e)
         {
-            
+
         }
 
         private void label4_Click(object sender, EventArgs e)

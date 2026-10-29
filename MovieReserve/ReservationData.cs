@@ -415,16 +415,7 @@ namespace MovieReserve
         }
 
         // Staff "Change room" / Admin room selector
-        public void ChangeRoom(ScreenItem room)
-        {
-            if (room == null) return;
-            Room = room;
-            Layout = SeatLayout.Load(room.ScreenId);
-            SelectedSeats.Clear();
-            Raise(SessionChange.Rooms);
-            Raise(SessionChange.Layout);
-            Raise(SessionChange.Seats);
-        }
+        
 
         public void ToggleSeat(string code)
         {
@@ -659,8 +650,8 @@ namespace MovieReserve
         public static readonly Color Ink = Color.FromArgb(24, 24, 24);
         public static readonly Color Muted = Color.FromArgb(125, 125, 120);
         public static readonly Color Line = Color.FromArgb(230, 229, 225);
-        public static readonly Color Red = Color.FromArgb(185, 49, 49);
-        public static readonly Color RedHover = Color.FromArgb(160, 38, 38);
+        public static readonly Color Red = Color.FromArgb(214, 40, 40);
+        public static readonly Color RedHover = Color.FromArgb(185, 28, 28);
 
         public static readonly Color SeatFreeBorder = Color.FromArgb(206, 206, 200);
         public static readonly Color SeatTaken = Color.FromArgb(221, 217, 211);
@@ -752,7 +743,9 @@ namespace MovieReserve
 
             Fill(seatPanel, new SeatSelectionView(session));
             Fill(selectedMoviePanel, new MovieInfoView(session));
-            Fill(receiptPanel, new ReceiptView(session));
+            Fill(receiptPanel, session.IsAdmin
+                ? (Control)new PosterSlideshowView()
+                : new ReceiptView(session));
 
             seatPanel.BackColor = Color.White;
             selectedMoviePanel.BackColor = Color.White;

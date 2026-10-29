@@ -30,13 +30,11 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label10;
-        private RoundLabel roundLabel2;
         private RoundLabel roundLabel1;
         private System.Windows.Forms.Panel MoviesPanel;
         private RoundButton New_Reserve;
         private RoundButton btnSettings;
         private RoundButton btnMovies;
-        private RoundButton btnReservation;
         private RoundButton roundButton5;
         private RoundPanel roundPanel5;
         private CornerPanel cornerPanel1;
