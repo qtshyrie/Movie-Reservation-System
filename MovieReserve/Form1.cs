@@ -9,37 +9,84 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySqlConnector;
 using System.IO;
+using System.Globalization;
 
 namespace MovieReserve
 {
     public partial class Form1 : Form
     {
         private MoviesListPanel _movies;
+        private BookingsListPanel _bookings;
+        private RoundButton btnBookings;
+        private Panel _bookingsPage;
+        
         public Form1()
         {
             InitializeComponent();
+            BuildBookingsPage();          // new: must come before ApplyTheme()
             ApplyTheme();
 
             SettingsPanel.Controls.Clear();
             var settings = new SettingsPage { Dock = DockStyle.Fill };
             SettingsPanel.Controls.Add(settings);
 
-            _panels = new Panel[] { MoviesPanel, ReservationPanel, SettingsPanel };
-            _movies = new MoviesListPanel
-            {
-                Location = new Point(0, 0),
-                Size = new Size(1164, 689)
-            };
+            // page order: 0 Movies, 1 Reservation, 2 Settings, 3 Bookings
+            _panels = new Panel[] { MoviesPanel, ReservationPanel, SettingsPanel, _bookingsPage };
+
+            _movies = new MoviesListPanel { Dock = DockStyle.Fill };
             MoviesPanel.Controls.Add(_movies);
+
             _movies.MovieSelected += (s, movie) => {
-                _res?.SelectMovie(movie);   // placeholder: use your real method
+                _res?.SelectMovie(movie);
                 ShowPage(1);
             };
 
             ShowPage(0);
             Shown += async (s, e) => await _movies.LoadMoviesAsync();
         }
+        private void SetNav(int page)
+        {
+            label6.Text = page == 0 ? "Movies"
+                        : page == 1 ? "Reservation"
+                        : page == 2 ? "Settings"
+                        : "Bookings";
+            StyleNav(btnMovies, page == 0);
+            StyleNav(btnBookings, page == 3);
+            StyleNav(btnSettings, page == 2);
+        }
+        private void BuildBookingsPage()
+        {
+            // sidebar button, same size and position as the Movies button
+            btnBookings = new RoundButton
+            {
+                Text = "Bookings",
+                Size = btnMovies.Size,
+                Left = btnMovies.Left,
+                Top = btnMovies.Bottom + 6,   // ApplyRole() re-stacks it anyway
+                Anchor = btnMovies.Anchor
+            };
+            btnMovies.Parent.Controls.Add(btnBookings);
+            btnBookings.Click += (s, e) => ShowPage(3);
 
+            // the page itself: hidden until the button is clicked
+            _bookingsPage = new Panel
+            {
+                Visible = false,
+                Dock = DockStyle.Fill,
+                BackColor = BandBg,
+                Padding = new Padding(20, 16, 20, 20)
+            };
+            MoviesPanel.Parent.Controls.Add(_bookingsPage);
+
+            _bookings = new BookingsListPanel { Dock = DockStyle.Fill };
+            _bookingsPage.Controls.Add(_bookings);
+
+            // reload from the database every time the page is opened
+            _bookingsPage.VisibleChanged += async (s, e) =>
+            {
+                if (_bookingsPage.Visible) await _bookings.LoadAsync();
+            };
+        }
         private readonly UserSession _user;
         private ReservationSession _res;
 
@@ -61,12 +108,14 @@ namespace MovieReserve
             if (_user == null) return;
 
             btnMovies.Visible = true;
+            btnBookings.Visible = true;            // staff and admin
             btnSettings.Visible = _user.IsAdmin;
 
             int y = btnMovies.Top;
             int gap = 6;
 
-            foreach (var b in new[] { btnMovies, btnSettings })
+
+            foreach (var b in new[] { btnMovies, btnBookings, btnSettings })
             {
                 if (!b.Visible) continue;
 
@@ -137,6 +186,7 @@ namespace MovieReserve
 
             StyleNav(roundButton5, false);   // LogOut (never "active")
             StyleNav(btnMovies, false);
+            StyleNav(btnBookings, false);
             StyleNav(btnSettings, false);
 
             // ---- top bar ----
@@ -172,6 +222,7 @@ namespace MovieReserve
             MoviesPanel.VisibleChanged += (s, e) => { if (MoviesPanel.Visible) SetNav(0); };
             ReservationPanel.VisibleChanged += (s, e) => { if (ReservationPanel.Visible) SetNav(1); };
             SettingsPanel.VisibleChanged += (s, e) => { if (SettingsPanel.Visible) SetNav(2); };
+            _bookingsPage.VisibleChanged += (s, e) => { if (_bookingsPage.Visible) SetNav(3); };
             SetNav(0);
         }
 
@@ -188,18 +239,103 @@ namespace MovieReserve
             b.Invalidate();
         }
 
-        private void SetNav(int page)
+
+        private void AlignSidebarHeader()
         {
-            label6.Text = page == 0 ? "Movies" : "Settings";
-            StyleNav(btnMovies, page == 0);
-            StyleNav(btnSettings, page == 2);
+            int gap = Math.Max(10, pictureBox1.Width / 4);
+
+            // Brand: place the title to the right of the logo, vertically centered
+            label2.AutoSize = false;
+            label2.Height = (int)(label2.Font.GetHeight() + 8);
+            label2.Left = pictureBox1.Right + gap;
+            label2.Width = panel4.ClientSize.Width - label2.Left - gap;
+            label2.Top = pictureBox1.Top + (pictureBox1.Height - label2.Height) / 2;
+
+            // Signed-in user: place the text to the right of the AD badge
+            int textLeft = roundLabel1.Right + gap;
+            int textWidth = panel5.ClientSize.Width - textLeft - gap;
+
+            label3.AutoSize = false;
+            label3.SetBounds(textLeft, roundLabel1.Top + 2, textWidth, (int)(label3.Font.GetHeight() + 4));
+
+            label4.AutoSize = false;
+            label4.SetBounds(textLeft, label3.Bottom, textWidth, (int)(label4.Font.GetHeight() + 6));
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            ApplyResponsiveLayout();
+            AlignSidebarHeader();
+        }
+        private void ApplyResponsiveLayout()
+        {
+            SuspendLayout();
 
+            // Remember the (DPI-scaled) design positions so nothing is hard-coded
+            int sidebarWidth = panel3.Left;     // 273 at 100% scaling
+            int bandTop = panel8.Top;      // greeting band offset inside panel3
+            int pagesTop = RightMotherPanel.Top;
+
+            // --- root + sidebar + main area ---
+            panel1.Dock = DockStyle.Fill;
+
+            panel2.Dock = DockStyle.Left;
+            panel2.Width = sidebarWidth;
+            panel22.Visible = false;            // empty leftover panel
+            tableLayoutPanel1.Margin = Padding.Empty;
+            tableLayoutPanel1.Dock = DockStyle.Fill;
+
+            // panel3 must be docked last (Fill goes at the front of the z-order)
+            panel3.Margin = Padding.Empty;
+            panel3.Dock = DockStyle.Fill;
+            panel3.BringToFront();
+
+            // --- stretch the nested panels with their parents ---
+            panel3.Resize += (s, e) =>
+                panel8.SetBounds(0, bandTop, panel3.ClientSize.Width,
+                                 Math.Max(0, panel3.ClientSize.Height - bandTop));
+
+            panel8.Resize += (s, e) =>
+                RightMotherPanel.SetBounds(0, pagesTop, panel8.ClientSize.Width,
+                                           Math.Max(0, panel8.ClientSize.Height - pagesTop));
+
+            // --- the three pages fill the content area ---
+            MoviesPanel.Dock = DockStyle.Fill;
+            SettingsPanel.Dock = DockStyle.Fill;
+            ReservationPanel.Dock = DockStyle.Fill;
+            ReservationPanel.AutoScroll = true;     // scrolls instead of clipping on small screens
+
+            // Center the seat map + movie card + receipt group on big screens
+            ReservationPanel.Resize += (s, e) => CenterReservationContent();
+
+            ResumeLayout(true);
+
+            // run once now
+            panel3.PerformLayout();
+            panel8.SetBounds(0, bandTop, panel3.ClientSize.Width, Math.Max(0, panel3.ClientSize.Height - bandTop));
+            RightMotherPanel.SetBounds(0, pagesTop, panel8.ClientSize.Width, Math.Max(0, panel8.ClientSize.Height - pagesTop));
+            CenterReservationContent();
         }
 
+        private void CenterReservationContent()
+        {
+            if (SeatPanel == null || RecieptPanel == null) return;
+
+            int groupLeft = SeatPanel.Left;
+            int groupTop = Math.Min(SeatPanel.Top, SelectedMoviePanel.Top);
+            int groupWidth = RecieptPanel.Right - SeatPanel.Left;
+            int groupHeight = Math.Max(SeatPanel.Bottom, RecieptPanel.Bottom) - groupTop;
+
+            int newLeft = Math.Max(0, (ReservationPanel.ClientSize.Width - groupWidth) / 2);
+            int newTop = Math.Max(0, (ReservationPanel.ClientSize.Height - groupHeight) / 2);
+
+            int dx = newLeft - groupLeft;
+            int dy = newTop - groupTop;
+            if (dx == 0 && dy == 0) return;
+
+            foreach (var p in new Control[] { SeatPanel, SelectedMoviePanel, RecieptPanel })
+                p.Location = new Point(p.Left + dx, p.Top + dy);
+        }
         private void panel1_Paint_1(object sender, PaintEventArgs e)
         {
 
