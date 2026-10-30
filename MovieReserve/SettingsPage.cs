@@ -1109,8 +1109,8 @@ namespace MovieReserve
             g.DefaultCellStyle.Padding = new Padding(8, 0, 0, 0);
 
             g.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "ID", DataPropertyName = "Id", FillWeight = 8 });
-            g.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "First name", DataPropertyName = "FirstName", FillWeight = 24 });
-            g.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Username", DataPropertyName = "Username", FillWeight = 24 });
+            g.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "UserName", DataPropertyName = "FirstName", FillWeight = 24 });
+            g.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "FirstName", DataPropertyName = "UserName", FillWeight = 24 });
             g.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Role", DataPropertyName = "Role", FillWeight = 12 });
             g.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Failed", DataPropertyName = "FailedAttempts", FillWeight = 10 });
             g.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Status", DataPropertyName = "Status", FillWeight = 14 });

@@ -1,3 +1,4 @@
+using MySqlConnector;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -9,7 +10,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MySqlConnector;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Rebar;
 
 namespace MovieReserve
 {
@@ -151,19 +152,20 @@ namespace MovieReserve
         // Same columns your original code used:
         //   ColName = the column the typed "Name" is matched against
         //   ColType = the column that holds "admin" / "staff"
-        private const string ColName = "role";
-        private const string ColType = "username";
-        private const string ColPass = "password";
 
+        private const string ColName = "firstname";
+        private const string ColLogin = "username";    // or "firstname", see above
+        private const string ColType = "role";
+        private const string ColPass = "password";
         public const int MaxAttempts = 3;
 
         public static LoginResult Authenticate(string login, string password)
         {
             string sql =
-                $"SELECT id, `{ColName}`, `{ColType}`, " +
-                $"IFNULL(BINARY `{ColPass}` = @p, 0) AS pass_ok, " +
+                $"SELECT id, `{ColType}`, `{ColName}`, " +
+                $"IFNULL(BINARY TRIM(`{ColPass}`) = BINARY @p, 0) AS pass_ok, " +
                 $"IFNULL(failed_attempts, 0) AS fails, IFNULL(is_locked, 0) AS locked " +
-                $"FROM accounts WHERE `{ColName}` = @u " +
+                $"FROM accounts WHERE `{ColLogin}` = @u OR `{ColName}` = @u " +
                 $"ORDER BY pass_ok DESC LIMIT 1";
 
             using (var con = new MySqlConnection(MovieRepository.ConnectionString))
@@ -248,7 +250,7 @@ namespace MovieReserve
                 con.Open();
 
                 string chk =
-                    $"SELECT COUNT(*) FROM accounts WHERE `{ColName}` = @a AND BINARY `{ColPass}` = @p " +
+                    $"SELECT COUNT(*) FROM accounts WHERE `{ColLogin}` = @a AND BINARY `{ColPass}` = @p " +
                     $"AND `{ColType}` = 'admin'";
                 using (var cmd = new MySqlCommand(chk, con))
                 {
@@ -263,7 +265,7 @@ namespace MovieReserve
 
                 string upd =
                     $"UPDATE accounts SET failed_attempts = 0, is_locked = 0 " +
-                    $"WHERE `{ColName}` = @s AND `{ColType}` <> 'admin'";
+                    $"WHERE `{ColLogin}` = @s AND `{ColType}` <> 'admin'";
                 using (var cmd = new MySqlCommand(upd, con))
                 {
                     cmd.Parameters.AddWithValue("@s", staffName);
@@ -292,7 +294,21 @@ namespace MovieReserve
                 cmd.ExecuteNonQuery();
             }
         }
+
+        public static void ChangePassword(int accountId, string newPassword)
+        {
+            using (var con = new MySqlConnection(MovieRepository.ConnectionString))
+            using (var cmd = new MySqlCommand(
+                $"UPDATE accounts SET `{ColPass}` = @p WHERE id = @id", con))
+            {
+                cmd.Parameters.AddWithValue("@p", newPassword);
+                cmd.Parameters.AddWithValue("@id", accountId);
+                con.Open();
+                cmd.ExecuteNonQuery();
+            }
+        }
     }
+
 
     // ===================== Eye button (show / hide password) =====================
     public class EyeButton : Control
@@ -892,7 +908,7 @@ namespace MovieReserve
                 {
                     case LoginStatus.Success:
                         _unknownFails = 0;
-                        SaveRemembered(res.User.Name);
+                        SaveRemembered(login);
                         User = res.User;
                         DialogResult = DialogResult.OK;
                         Close();   // close the login form after a successful sign-in

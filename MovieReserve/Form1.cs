@@ -75,7 +75,7 @@ namespace MovieReserve
             }
 
             roundLabel1.Text = _user.Initials;
-            label4.Text = _user.Name;
+            label4.Text = _user.Role;
             label8.Text = "Good Day, " + _user.Name;
         }
         private Panel[] _panels;
@@ -1922,6 +1922,7 @@ namespace MovieReserve
             this.roundLabel1.Size = new System.Drawing.Size(51, 44);
             this.roundLabel1.TabIndex = 5;
             this.roundLabel1.Text = "RC";
+            this.roundLabel1.Click += new System.EventHandler(this.roundLabel1_Click);
             // 
             // label4
             // 
@@ -2324,6 +2325,13 @@ namespace MovieReserve
         private void label4_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void roundLabel1_Click(object sender, EventArgs e)
+        {
+            if (_user == null) return;
+            using (var f = new ProfileForm(_user))
+                f.ShowDialog(this);
         }
     }
 }
